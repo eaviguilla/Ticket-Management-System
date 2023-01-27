@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-img src="~assets/RAMbg.png" fit="contain">
+    <q-img src="~assets/RAMbg.png" fit="cover">
       <div class="absolute-full text-subtitle2 flex flex-center">
         <q-card style="max-width: 500px; width: 100%">
           <q-input class="q-pa-md" outlined v-model="text" label="Email" />
