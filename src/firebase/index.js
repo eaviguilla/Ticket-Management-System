@@ -1,0 +1,14 @@
+import { initializeApp } from "firebase/app";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC4_3enVs7DJ_x4D0GSV-pYl5Nym8oEmgw",
+  authDomain: "ramaintenance-lm42.firebaseapp.com",
+  projectId: "ramaintenance-lm42",
+  storageBucket: "ramaintenance-lm42.appspot.com",
+  messagingSenderId: "1041550414736",
+  appId: "1:1041550414736:web:f7ff9620c311f60ab25915",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
