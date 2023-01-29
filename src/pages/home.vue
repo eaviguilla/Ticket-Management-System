@@ -24,7 +24,7 @@
       </q-card>
     </div>
 
-    <!-- Active/Closed Tickets -->
+    <!-- Active/Read Reports -->
     <div class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white">
       <q-card
         flat
@@ -37,7 +37,7 @@
       >
         <q-item-section class="column items-center">
           <div class="text-h6 text-bold">Active Tickets</div>
-          <div class="text-h6 text-bold">{{ activeCount }}</div>
+          <div class="text-h6 text-bold">1</div>
         </q-item-section>
       </q-card>
 
@@ -51,13 +51,12 @@
         "
       >
         <q-item-section class="column items-center">
-          <div class="text-h6 text-center text-bold">Closed Tickets</div>
-          <div class="text-h6 text-center text-bold">{{ closedCount }}</div>
+          <div class="text-h6 text-center text-bold">Read Reports</div>
         </q-item-section>
       </q-card>
     </div>
 
-    <!-- Location/Categories -->
+    <!-- Read History/Assign Staff -->
     <div class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white">
       <q-card
         flat
@@ -69,7 +68,7 @@
         "
       >
         <q-item-section class="column items-center">
-          <div class="text-h6 text-bold">Location</div>
+          <div class="text-h6 text-bold">Read History</div>
         </q-item-section>
       </q-card>
 
@@ -83,7 +82,7 @@
         "
       >
         <q-item-section class="column items-center">
-          <div class="text-h6 text-center text-bold">Categories</div>
+          <div class="text-h6 text-center text-bold">Assign Staff</div>
         </q-item-section>
       </q-card>
     </div>
