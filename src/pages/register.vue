@@ -7,7 +7,7 @@
           <q-input
             class="q-pa-md"
             outlined
-            v-model="text"
+            v-model="email"
             type="email"
             suffix=".apc.edu.ph"
             label="Email"
@@ -15,14 +15,14 @@
           <q-input
             class="q-pa-md"
             outlined
-            v-model="text"
+            v-model="pass"
             type="password"
             label="Password"
           />
           <q-input
             class="q-pa-md"
             outlined
-            v-model="text"
+            v-model="pass"
             type="password"
             label="Confirm password"
           />
