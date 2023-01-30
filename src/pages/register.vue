@@ -49,7 +49,10 @@
 <script>
 import { defineComponent } from "vue";
 import { ref } from "vue";
-import { db } from "src/firebase";
+import { db } from "boot/firebase";
+import { Store } from "../stores/index";
+
+console.log(Store.auth.users);
 
 export default defineComponent({
   name: "RegisterPage",
