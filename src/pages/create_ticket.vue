@@ -3,22 +3,29 @@
     <div class="q-gutter-md">
       <q-select
         standout="bg-teal text-white"
-        v-model="model"
+        v-model="level"
         :options="floors"
         label="Select floor level"
       />
 
       <q-select
         standout="bg-teal text-white"
-        v-model="model"
+        v-model="room"
         :options="rooms"
-        label="Select room"
+        label="Select room/area"
       />
 
       <q-select
         standout="bg-teal text-white"
-        v-model="model"
-        :options="categ"
+        v-model="equipment"
+        :options="equipments"
+        label="Select equipment type"
+      />
+
+      <q-select
+        standout="bg-teal text-white"
+        v-model="categories"
+        :options="category"
         label="Select concern"
       />
 
@@ -55,7 +62,16 @@ export default {
         "Tweleveth  floor",
       ],
       rooms: ["101", "102", "103"],
-      categ: [
+      equipments: [
+        "computer",
+        "lighting",
+        "furniture",
+        "toilet",
+        "sink",
+        "pipe",
+        "aircondition",
+      ],
+      category: [
         "Computer not working",
         "Broken aircondition",
         "Door is broken",
