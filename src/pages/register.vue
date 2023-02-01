@@ -20,21 +20,20 @@
             class="q-pa-md"
             outlined
             v-model="regData.email"
-            type="email"
             suffix=".apc.edu.ph"
             label="Email"
           />
           <q-input
             class="q-pa-md"
             outlined
-            v-model="regData.passwd"
+            v-model="regData.password"
             type="password"
             label="Password"
           />
           <div class="q-pa-md">
             <q-btn
               class="full-width"
-              @click="register()"
+              @click="this.users.registerUser(this.regData)"
               unelevated
               color="primary"
               label="Register Account"
@@ -50,11 +49,15 @@
 import { defineComponent } from "vue";
 import { ref } from "vue";
 import { db } from "boot/firebase";
-import { Store } from "../stores/index";
-
-console.log(Store.auth.users);
+import { mapActions } from "pinia";
+import { authStore } from "../stores/store_Auth";
 
 export default defineComponent({
+  setup() {
+    const users = authStore();
+    return { users };
+  },
+
   name: "RegisterPage",
   data() {
     return {
@@ -62,13 +65,13 @@ export default defineComponent({
         fName: ref(""),
         lName: ref(""),
         email: ref(""),
-        passwd: ref(""),
+        password: ref(""),
       },
     };
   },
   methods: {
     register() {
-      console.log(this.regData);
+      this.users.registerUser(this.regData.email, this.regData.password);
     },
   },
 });
