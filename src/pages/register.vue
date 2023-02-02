@@ -33,7 +33,7 @@
           <div class="q-pa-md">
             <q-btn
               class="full-width"
-              @click="this.users.registerUser(this.regData)"
+              @click="register"
               unelevated
               color="primary"
               label="Register Account"
@@ -71,7 +71,7 @@ export default defineComponent({
   },
   methods: {
     register() {
-      this.users.registerUser(this.regData.email, this.regData.password);
+      this.users.registerUser(this.regData);
     },
   },
 });
