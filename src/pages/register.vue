@@ -54,8 +54,8 @@ import { authStore } from "../stores/store_Auth";
 
 export default defineComponent({
   setup() {
-    const users = authStore();
-    return { users };
+    const auth = authStore();
+    return { auth };
   },
 
   name: "RegisterPage",
@@ -71,7 +71,7 @@ export default defineComponent({
   },
   methods: {
     register() {
-      this.users.registerUser(this.regData);
+      this.auth.registerUser(this.regData);
     },
   },
 });
