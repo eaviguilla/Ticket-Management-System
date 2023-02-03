@@ -6,7 +6,7 @@
           <q-input
             class="q-pa-md"
             outlined
-            v-model="email"
+            v-model="logData.email"
             type="email"
             suffix=".apc.edu.ph"
             label="Email"
@@ -14,16 +14,24 @@
           <q-input
             class="q-pa-md"
             outlined
-            v-model="pass"
+            v-model="logData.password"
             type="password"
             label="Password"
           />
           <div class="q-pa-md">
             <q-btn
+              @click="login"
               class="full-width"
               unelevated
               color="primary"
               label="Login"
+            />
+            <q-btn
+              @click="logout"
+              class="full-width"
+              unelevated
+              color="primary"
+              label="Logout"
             />
             <div class="q-pa-md">
               <q-btn
@@ -41,12 +49,30 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { authStore } from "../stores/store_Auth";
 
 export default defineComponent({
+  setup() {
+    const auth = authStore();
+    return { auth };
+  },
   name: "LoginPage",
   data() {
-    return {};
+    return {
+      logData: {
+        email: ref(""),
+        password: ref(""),
+      },
+    };
+  },
+  methods: {
+    login() {
+      this.auth.loginUser(this.logData);
+    },
+    logout() {
+      this.auth.logoutUser();
+    },
   },
 });
 </script>

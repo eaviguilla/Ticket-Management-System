@@ -33,7 +33,7 @@
           <div class="q-pa-md">
             <q-btn
               class="full-width"
-              @click="this.users.registerUser(this.regData)"
+              @click="register"
               unelevated
               color="primary"
               label="Register Account"
@@ -54,8 +54,8 @@ import { authStore } from "../stores/store_Auth";
 
 export default defineComponent({
   setup() {
-    const users = authStore();
-    return { users };
+    const auth = authStore();
+    return { auth };
   },
 
   name: "RegisterPage",
@@ -71,7 +71,7 @@ export default defineComponent({
   },
   methods: {
     register() {
-      this.users.registerUser(this.regData.email, this.regData.password);
+      this.auth.registerUser(this.regData);
     },
   },
 });
