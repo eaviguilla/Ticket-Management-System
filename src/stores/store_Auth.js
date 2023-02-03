@@ -23,12 +23,6 @@ export const authStore = defineStore("authS", {
             lName: payload.lName,
             email: payload.email,
           });
-          // this.user = {
-          //   uid: userID,
-          //   fName: payload.fName,
-          //   lName: payload.lName,
-          //   email: payload.email,
-          // };
         })
         .catch((error) => {
           console.log(error.code);
@@ -39,7 +33,7 @@ export const authStore = defineStore("authS", {
       signInWithEmailAndPassword(auth, payload.email, payload.password)
         .then((response) => {
           const user = response.user;
-          console.log("signin");
+          console.log("Signed In");
           console.log(user);
         })
         .catch((error) => {
@@ -47,7 +41,7 @@ export const authStore = defineStore("authS", {
         });
     },
     logoutUser() {
-      console.log("signedout");
+      console.log("Logged out");
       auth.signOut();
     },
     handleAuthStateChanged() {
@@ -55,13 +49,13 @@ export const authStore = defineStore("authS", {
         if (user) {
           //user is logged in
           const userID = auth.currentUser.uid;
-          console.log("onauthchange");
           const unsub = onSnapshot(doc(db, "users", userID), (snapshot) => {
-            console.log("Current data: ", snapshot.data());
+            this.userDetails = snapshot.data();
+            console.log("userdata", this.userDetails);
           });
         } else {
           //user is signed out
-          console.log("logout");
+          this.userDetails = {};
         }
       });
     },
