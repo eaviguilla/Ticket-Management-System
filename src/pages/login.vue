@@ -26,13 +26,7 @@
               color="primary"
               label="Login"
             />
-            <q-btn
-              @click="logout"
-              class="full-width"
-              unelevated
-              color="primary"
-              label="Logout"
-            />
+
             <div class="q-pa-md">
               <q-btn
                 class="full-width"
@@ -69,9 +63,6 @@ export default defineComponent({
   methods: {
     login() {
       this.auth.loginUser(this.logData);
-    },
-    logout() {
-      this.auth.logoutUser();
     },
   },
 });
