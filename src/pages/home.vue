@@ -13,27 +13,28 @@
         <q-item>
           <q-item-section avatar class="q-pa-xs">
             <q-avatar size="125px">
-              <img src="">
+              <img src="" />
             </q-avatar>
           </q-item-section>
 
           <q-item-section class="q-pl-xl">
-            <q-item-label class="text-h3">User</q-item-label>
+            <q-item-label class="text-h3">{{
+              auth.userDetails.fName
+            }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-card>
     </div>
 
     <!-- Active/Read Reports -->
-    <div class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white">
+    <div
+      class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white"
+    >
       <q-card
         flat
         bordered
         class="q-card full-width column content-center"
-        style="
-          max-width: 380px;
-          height: 160px;
-        "
+        style="max-width: 380px; height: 160px"
       >
         <q-item-section class="column items-center">
           <div class="text-h6 text-bold">Active Tickets</div>
@@ -45,10 +46,7 @@
         flat
         bordered
         class="q-card full-width column content-center"
-        style="
-          max-width: 380px;
-          height: 160px;
-        "
+        style="max-width: 380px; height: 160px"
       >
         <q-item-section class="column items-center">
           <div class="text-h6 text-center text-bold">Read Reports</div>
@@ -57,15 +55,14 @@
     </div>
 
     <!-- Read History/Assign Staff -->
-    <div class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white">
+    <div
+      class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white"
+    >
       <q-card
         flat
         bordered
         class="q-card full-width column content-center bg-white"
-        style="
-          max-width: 380px;
-          height: 160px;
-        "
+        style="max-width: 380px; height: 160px"
       >
         <q-item-section class="column items-center">
           <div class="text-h6 text-bold">Read History</div>
@@ -76,10 +73,7 @@
         flat
         bordered
         class="q-card full-width column content-center"
-        style="
-          max-width: 380px;
-          height: 160px;
-        "
+        style="max-width: 380px; height: 160px"
       >
         <q-item-section class="column items-center">
           <div class="text-h6 text-center text-bold">Assign Staff</div>
@@ -123,8 +117,13 @@
 
 <script>
 import { defineComponent } from "vue";
+import { authStore } from "src/stores/store_Auth";
 
 export default defineComponent({
+  setup() {
+    const auth = authStore();
+    return { auth };
+  },
   name: "PageHome",
 });
 </script>
