@@ -8,12 +8,27 @@ import {
   collection,
 } from "firebase/firestore";
 import { TouchSwipe } from "quasar";
+import { FirebaseError } from "firebase/app";
 
 export const userStore = defineStore("userS", {
   state: () => ({
     users: [],
   }),
-  getters: {},
+  getters: {
+    apcComm() {
+      return this.users.filter((u) => !u.office);
+    },
+    bmoStaff() {
+      return this.users.filter(
+        (u) => (u.office == "BMO") & (u.role == "Staff")
+      );
+    },
+    bmoAdmin() {
+      return this.users.filter(
+        (u) => (u.office == "BMO") & (u.role == "Admin")
+      );
+    },
+  },
   actions: {
     getUsers() {
       this.users = [];
@@ -34,6 +49,13 @@ export const userStore = defineStore("userS", {
       updateDoc(userRef, {
         office: payload.office,
         role: payload.role,
+      });
+    },
+    deleteRole(payload) {
+      var userRef = db.collection("users").doc(payload.userID);
+      var removeRole = userRef.update({
+        office: FirebaseError.firestore.FieldValue.delete(),
+        role: FirebaseError.firestore.FieldValue.delete(),
       });
     },
   },
