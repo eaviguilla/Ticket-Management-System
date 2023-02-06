@@ -265,8 +265,7 @@ export default {
       }
       if (this.editRole.office == "None" || this.editRole.role == "None") {
         this.users.deleteRole(this.editRole);
-      }
-      this.users.userRole(this.editRole);
+      } else this.users.userRole(this.editRole);
     },
   },
   components: {

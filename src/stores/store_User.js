@@ -6,6 +6,7 @@ import {
   onSnapshot,
   getDocs,
   collection,
+  deleteField,
 } from "firebase/firestore";
 import { TouchSwipe } from "quasar";
 import { FirebaseError } from "firebase/app";
@@ -52,10 +53,10 @@ export const userStore = defineStore("userS", {
       });
     },
     deleteRole(payload) {
-      var userRef = db.collection("users").doc(payload.userID);
-      var removeRole = userRef.update({
-        office: FirebaseError.firestore.FieldValue.delete(),
-        role: FirebaseError.firestore.FieldValue.delete(),
+      const userRef = doc(db, "users", payload.userID);
+      updateDoc(userRef, {
+        office: deleteField(),
+        role: deleteField(),
       });
     },
   },
