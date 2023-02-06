@@ -51,7 +51,6 @@ export const authStore = defineStore("authS", {
           const userID = auth.currentUser.uid;
           const unsub = onSnapshot(doc(db, "users", userID), (snapshot) => {
             this.userDetails = snapshot.data();
-            console.log("userdata", this.userDetails);
           });
         } else {
           //user is signed out

@@ -1,6 +1,6 @@
 <template>
-  <q-page class="flex q-pa-md">
-    <q-card class="full-width">
+  <q-page class="flex q-pa-sm">
+    <q-card class="full-width" flat>
       <q-tabs
         v-model="tab"
         dense
@@ -18,133 +18,206 @@
       <q-separator />
 
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="apc">
-          <div style="max-width">
-            <q-list bordered separator>
-              <q-item clickable v-ripple>
-                <q-item-section>Emilio Aguinaldo</q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'BMO Staff',
-                    'BMO Admin',
-                    'ITRO Staff',
-                    'ITRO Admin',
-                  ]"
-                  label="Role"
-                />
-              </q-item>
+        <q-tab-panel name="apc" class="full-width">
+          <div class="full-width">
+            <q-list separator>
+              <q-item
+                class="rounded-borders q-my-sm q-card items-center"
+                v-for="user in users.apcComm"
+                :key="user.userID"
+                bordered
+                ><div class="full-width">
+                  <q-item-section class="justify-between">
+                    <q-item-label class="text-bold text-grey text-caption">
+                      {{ user.userID }}
+                    </q-item-label>
+                    <q-item-label class="text-weight-bolder text-body2 q-pr-sm">
+                      {{ user.fName }} {{ user.lName }}
+                    </q-item-label>
+                    <q-item-label class="text-overline">
+                      {{ user.email }}
+                    </q-item-label>
+                  </q-item-section>
+                </div>
+                <div>
+                  <q-btn flat rounded @click="editDial(user.userID)"
+                    ><q-icon name="mdi-square-edit-outline"></q-icon
+                  ></q-btn>
+                </div>
+                <q-dialog v-model="edit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Change Role</div>
+                    </q-card-section>
 
-              <q-item clickable v-ripple>
-                <q-item-section>
-                  <q-item-label>Manuel Quezon</q-item-label>
-                </q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'BMO Staff',
-                    'BMO Admin',
-                    'ITRO Staff',
-                    'ITRO Admin',
-                  ]"
-                  label="Role"
-                />
-              </q-item>
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        outlined
+                        v-model="editRole.office"
+                        :options="officeOptions"
+                        label="Office"
+                      />
+                      <q-select
+                        outlined
+                        v-model="editRole.role"
+                        :options="roleOptions"
+                        label="Role"
+                      />
+                    </q-card-section>
 
-              <q-item clickable v-ripple>
-                <q-item-section>
-                  <q-item-label>Sergio Osmeña</q-item-label>
-                </q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'BMO Staff',
-                    'BMO Admin',
-                    'ITRO Staff',
-                    'ITRO Admin',
-                  ]"
-                  label="Role"
-                />
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        flat
+                        label="Confirm"
+                        @click="updateRole"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </q-item>
             </q-list>
           </div>
         </q-tab-panel>
 
         <q-tab-panel name="staff">
-          <div style="max-width">
-            <q-list bordered separator>
-              <q-item clickable v-ripple>
-                <q-item-section>
-                  <q-item-label>Antonio Luna</q-item-label>
-                  <q-item-label caption>BMO Staff</q-item-label>
-                </q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'APC Community',
-                    'BMO Admin',
-                    'ITRO Staff',
-                    'ITRO Admin',
-                  ]"
-                  label="Role"
-                />
-              </q-item>
+          <div class="full-width">
+            <q-list separator>
+              <q-item
+                class="rounded-borders q-my-sm q-card items-center"
+                v-for="user in users.bmoStaff"
+                :key="user.userID"
+                bordered
+                ><div class="full-width">
+                  <q-item-section class="justify-between">
+                    <q-item-label class="text-bold text-grey text-caption">
+                      {{ user.userID }}
+                    </q-item-label>
+                    <q-item-label class="text-weight-bolder text-body2 q-pr-sm">
+                      {{ user.fName }} {{ user.lName }}
+                    </q-item-label>
+                    <q-item-label class="text-overline">
+                      {{ user.email }}
+                    </q-item-label>
+                    <q-item-label
+                      class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
+                      bordered
+                      style="width: 80px"
+                      items-center
+                    >
+                      BMO Staff
+                    </q-item-label>
+                  </q-item-section>
+                </div>
+                <div>
+                  <q-btn flat rounded @click="editDial(user.userID)"
+                    ><q-icon name="mdi-square-edit-outline"></q-icon
+                  ></q-btn>
+                </div>
+                <q-dialog v-model="edit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Change Role</div>
+                    </q-card-section>
 
-              <q-item clickable v-ripple>
-                <q-item-section>
-                  <q-item-label>Gregorio del Pilar</q-item-label>
-                  <q-item-label caption>ITRO Staff</q-item-label>
-                </q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'BMO Staff',
-                    'BMO Admin',
-                    'APC Community',
-                    'ITRO Admin',
-                  ]"
-                  label="Role"
-                />
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        outlined
+                        v-model="editRole.office"
+                        :options="officeOptions"
+                        label="Office"
+                      />
+                      <q-select
+                        outlined
+                        v-model="editRole.role"
+                        :options="roleOptions"
+                        label="Role"
+                      />
+                    </q-card-section>
+
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        flat
+                        label="Confirm"
+                        @click="updateRole"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </q-item>
             </q-list>
           </div>
         </q-tab-panel>
 
         <q-tab-panel name="admin">
-          <div style="max-width">
-            <q-list bordered separator>
-              <q-item clickable v-ripple>
-                <q-item-section>
-                  <q-item-label>Jose Rizal</q-item-label>
-                  <q-item-label caption>BMO Admin</q-item-label>
-                </q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'APC Community',
-                    'BMO staff',
-                    'ITRO Staff',
-                    'ITRO Admin',
-                  ]"
-                  label="Role"
-                />
-              </q-item>
+          <div class="full-width">
+            <q-list separator>
+              <q-item
+                class="rounded-borders q-my-sm q-card items-center"
+                v-for="user in users.bmoAdmin"
+                :key="user.userID"
+                bordered
+                ><div class="full-width">
+                  <q-item-section class="justify-between">
+                    <q-item-label class="text-bold text-grey text-caption">
+                      {{ user.userID }}
+                    </q-item-label>
+                    <q-item-label class="text-weight-bolder text-body2 q-pr-sm">
+                      {{ user.fName }} {{ user.lName }}
+                    </q-item-label>
+                    <q-item-label class="text-overline">
+                      {{ user.email }}
+                    </q-item-label>
+                    <q-item-label
+                      class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
+                      bordered
+                      style="width: 80px"
+                      items-center
+                    >
+                      BMO Admin
+                    </q-item-label>
+                  </q-item-section>
+                </div>
+                <div>
+                  <q-btn flat rounded @click="editDial(user.userID)"
+                    ><q-icon name="mdi-square-edit-outline"></q-icon
+                  ></q-btn>
+                </div>
+                <q-dialog v-model="edit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Change Role</div>
+                    </q-card-section>
 
-              <q-item clickable v-ripple>
-                <q-item-section>
-                  <q-item-label>Andres Bonifacio</q-item-label>
-                  <q-item-label caption>ITRO Admin</q-item-label>
-                </q-item-section>
-                <q-select
-                  v-model="role"
-                  :options="[
-                    'BMO Staff',
-                    'BMO Admin',
-                    'APC Community',
-                    'ITRO staff',
-                  ]"
-                  label="Role"
-                />
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        outlined
+                        v-model="editRole.office"
+                        :options="officeOptions"
+                        label="Office"
+                      />
+                      <q-select
+                        outlined
+                        v-model="editRole.role"
+                        :options="roleOptions"
+                        label="Role"
+                      />
+                    </q-card-section>
+
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        flat
+                        label="Confirm"
+                        @click="updateRole"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </q-item>
             </q-list>
           </div>
@@ -156,12 +229,44 @@
 
 <script>
 import { ref } from "vue";
+import { userStore } from "src/stores/store_User";
+import { authStore } from "src/stores/store_Auth";
 
 export default {
   setup() {
+    const users = userStore();
+    const auth = authStore();
+    return { users, auth };
+  },
+  data() {
     return {
+      editRole: {
+        userID: ref(""),
+        office: ref(""),
+        role: ref(""),
+      },
+      officeOptions: ["None", "BMO", "ITRO"],
+      roleOptions: ["None", "Staff", "Admin"],
+      edit: false,
       tab: ref("apc"),
     };
+  },
+  mounted() {
+    this.users.getUsers();
+  },
+  methods: {
+    editDial(id) {
+      this.edit = true;
+      this.editRole.userID = id;
+    },
+    updateRole() {
+      if (this.editRole.office == "" || this.editRole.role == "") {
+        pass;
+      }
+      if (this.editRole.office == "None" || this.editRole.role == "None") {
+        this.users.deleteRole(this.editRole);
+      } else this.users.userRole(this.editRole);
+    },
   },
   components: {
     //"apc-management": require("components/apc_manage.vue").default,
