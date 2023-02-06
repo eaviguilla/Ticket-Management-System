@@ -25,6 +25,12 @@
 
         <q-item clickable v-ripple>
           <q-item-section>
+            <q-item-label>View Notification</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section>
             <q-item-label>Manage users</q-item-label>
           </q-item-section>
         </q-item>
