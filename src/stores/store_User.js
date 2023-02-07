@@ -51,6 +51,13 @@ export const userStore = defineStore("userS", {
         office: payload.office,
         role: payload.role,
       });
+      for (let i = 0; i < this.users.length; i++) {
+        if (this.users[i].userID === payload.userID) {
+          this.users[i].office = payload.office;
+          this.users[i].role = payload.role;
+          break;
+        }
+      }
     },
     deleteRole(payload) {
       const userRef = doc(db, "users", payload.userID);
@@ -58,6 +65,13 @@ export const userStore = defineStore("userS", {
         office: deleteField(),
         role: deleteField(),
       });
+      for (let i = 0; i < this.users.length; i++) {
+        if (this.users[i].userID === payload.userID) {
+          delete this.users[i].office;
+          delete this.users[i].role;
+          break;
+        }
+      }
     },
   },
 });
