@@ -12,6 +12,15 @@ export default {
     return {
       model: ref(null),
       showcateg: false,
+      equipments: [
+        "Aircondition",
+        "wiring",
+        "pipes",
+        "chairs",
+        "door",
+        "computer",
+        "lightings",
+      ],
       floors: [
         "Basement",
         "First floor",
