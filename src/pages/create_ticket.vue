@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
-    <div class="q-gutter-md">
+  <div class="q-pa-md">
+    <div class="q-gutter-md full-width">
       <q-select
         standout="bg-teal text-white"
         v-model="level"

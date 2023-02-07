@@ -9,6 +9,18 @@ const routes = [
         path: "/manage_user",
         component: () => import("pages/user_management.vue"),
       },
+      {
+        path: "/note",
+        component: () => import("pages/notes_view.vue"),
+      },
+      {
+        path: "/notif",
+        component: () => import("pages/view_notification.vue"),
+      },
+      {
+        path: "/categ",
+        component: () => import("pages/view_categ.vue"),
+      },
     ],
   },
   {
