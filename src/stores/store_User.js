@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { authStore } from "src/stores/store_Auth";
 import { auth, db } from "boot/firebase";
 import {
   doc,
@@ -11,23 +12,39 @@ import {
 import { TouchSwipe } from "quasar";
 import { FirebaseError } from "firebase/app";
 
+const authS = authStore();
+
 export const userStore = defineStore("userS", {
   state: () => ({
     users: [],
   }),
   getters: {
-    apcComm() {
+    getComm() {
       return this.users.filter((u) => !u.office);
     },
-    bmoStaff() {
-      return this.users.filter(
-        (u) => (u.office == "BMO") & (u.role == "Staff")
-      );
+    getStaff() {
+      if (authS.userDetails.office === "BMO") {
+        return this.users.filter(
+          (u) => (u.office == "BMO") & (u.admin == false)
+        );
+      }
+      if (authS.userDetails.office === "ITRO") {
+        return this.users.filter(
+          (u) => (u.office == "ITRO") & (u.admin == false)
+        );
+      }
     },
-    bmoAdmin() {
-      return this.users.filter(
-        (u) => (u.office == "BMO") & (u.role == "Admin")
-      );
+    getAdmin() {
+      if (authS.userDetails.office === "BMO") {
+        return this.users.filter(
+          (u) => (u.office == "BMO") & (u.admin == true)
+        );
+      }
+      if (authS.userDetails.office === "ITRO") {
+        return this.users.filter(
+          (u) => (u.office == "ITRO") & (u.admin == true)
+        );
+      }
     },
   },
   actions: {
@@ -45,16 +62,16 @@ export const userStore = defineStore("userS", {
         }
       );
     },
-    userRole(payload) {
+    userRole(payload, adminOffice) {
       const userRef = doc(db, "users", payload.userID);
       updateDoc(userRef, {
-        office: payload.office,
-        role: payload.role,
+        office: adminOffice,
+        admin: payload.admin,
       });
       for (let i = 0; i < this.users.length; i++) {
         if (this.users[i].userID === payload.userID) {
-          this.users[i].office = payload.office;
-          this.users[i].role = payload.role;
+          this.users[i].office = adminOffice;
+          this.users[i].admin = payload.admin;
           break;
         }
       }
@@ -63,12 +80,12 @@ export const userStore = defineStore("userS", {
       const userRef = doc(db, "users", payload.userID);
       updateDoc(userRef, {
         office: deleteField(),
-        role: deleteField(),
+        admin: deleteField(),
       });
       for (let i = 0; i < this.users.length; i++) {
         if (this.users[i].userID === payload.userID) {
           delete this.users[i].office;
-          delete this.users[i].role;
+          delete this.users[i].admin;
           break;
         }
       }

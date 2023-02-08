@@ -23,7 +23,7 @@
             <q-list separator>
               <q-item
                 class="rounded-borders q-my-sm q-card items-center"
-                v-for="user in users.apcComm"
+                v-for="user in users.getComm"
                 :key="user.userID"
                 bordered
                 ><div class="full-width">
@@ -39,7 +39,7 @@
                     </q-item-label>
                   </q-item-section>
                 </div>
-                <div>
+                <div v-if="auth.userDetails.admin">
                   <q-btn flat rounded @click="editDial(user.userID)"
                     ><q-icon name="mdi-square-edit-outline"></q-icon
                   ></q-btn>
@@ -53,13 +53,7 @@
                     <q-card-section class="q-pt-none">
                       <q-select
                         outlined
-                        v-model="editRole.office"
-                        :options="officeOptions"
-                        label="Office"
-                      />
-                      <q-select
-                        outlined
-                        v-model="editRole.role"
+                        v-model="role"
                         :options="roleOptions"
                         label="Role"
                       />
@@ -86,7 +80,7 @@
             <q-list separator>
               <q-item
                 class="rounded-borders q-my-sm q-card items-center"
-                v-for="user in users.bmoStaff"
+                v-for="user in users.getStaff"
                 :key="user.userID"
                 bordered
                 ><div class="full-width">
@@ -110,7 +104,7 @@
                     </q-item-label>
                   </q-item-section>
                 </div>
-                <div>
+                <div v-if="auth.userDetails.admin">
                   <q-btn flat rounded @click="editDial(user.userID)"
                     ><q-icon name="mdi-square-edit-outline"></q-icon
                   ></q-btn>
@@ -124,13 +118,7 @@
                     <q-card-section class="q-pt-none">
                       <q-select
                         outlined
-                        v-model="editRole.office"
-                        :options="officeOptions"
-                        label="Office"
-                      />
-                      <q-select
-                        outlined
-                        v-model="editRole.role"
+                        v-model="role"
                         :options="roleOptions"
                         label="Role"
                       />
@@ -157,7 +145,7 @@
             <q-list separator>
               <q-item
                 class="rounded-borders q-my-sm q-card items-center"
-                v-for="user in users.bmoAdmin"
+                v-for="user in users.getAdmin"
                 :key="user.userID"
                 bordered
                 ><div class="full-width">
@@ -181,7 +169,7 @@
                     </q-item-label>
                   </q-item-section>
                 </div>
-                <div>
+                <div v-if="auth.userDetails.admin">
                   <q-btn flat rounded @click="editDial(user.userID)"
                     ><q-icon name="mdi-square-edit-outline"></q-icon
                   ></q-btn>
@@ -195,13 +183,7 @@
                     <q-card-section class="q-pt-none">
                       <q-select
                         outlined
-                        v-model="editRole.office"
-                        :options="officeOptions"
-                        label="Office"
-                      />
-                      <q-select
-                        outlined
-                        v-model="editRole.role"
+                        v-model="role"
                         :options="roleOptions"
                         label="Role"
                       />
@@ -242,10 +224,9 @@ export default {
     return {
       editRole: {
         userID: ref(""),
-        office: ref(""),
-        role: ref(""),
+        admin: false,
       },
-      officeOptions: ["None", "BMO", "ITRO"],
+      role: ref(""),
       roleOptions: ["None", "Staff", "Admin"],
       edit: false,
       tab: ref("apc"),
@@ -260,12 +241,16 @@ export default {
       this.editRole.userID = id;
     },
     updateRole() {
-      if (this.editRole.office == "" || this.editRole.role == "") {
-        pass;
+      if (this.role == "") {
+        return;
       }
-      if (this.editRole.office == "None" || this.editRole.role == "None") {
+      if (this.role == "None") {
         this.users.deleteRole(this.editRole);
-      } else this.users.userRole(this.editRole);
+      }
+      if (this.role == "Admin") {
+        this.editRole.admin = true;
+        this.users.userRole(this.editRole, this.auth.userDetails.office);
+      } else this.users.userRole(this.editRole, this.auth.userDetails.office);
     },
   },
   components: {
