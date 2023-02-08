@@ -1,21 +1,25 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-primary text-white">
+    <q-header bordered class="bg-white text-white">
       <q-toolbar>
-        <q-toolbar-title class="text-weight-bold">
-          RAMaintenance
-        </q-toolbar-title>
+        <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>
+        <q-toolbar-title class="text-primary text-weight-bold"
+          >RAMaintenance</q-toolbar-title
+        >
+        <q-btn flat rounded
+          ><q-icon color="primary" name="mdi-logout-variant"></q-icon
+        ></q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
       <router-view />
     </q-page-container>
-    <q-footer bordered class="bg-white text-primary">
+    <q-footer height-hint="30" bordered class="bg-white text-primary">
       <q-tabs v-model="tab" class="text-teal" align="justify">
-        <q-tab name="reports" icon="mail" label="Reports" />
-        <q-tab name="home" icon="alarm" label="Home" />
-        <q-tab name="notification" icon="movie" label="Notif" />
+        <q-tab name="reports" icon="mdi-abacus" label="Reports" />
+        <q-tab name="home" icon="mdi-vhs" label="Home" />
+        <q-tab name="notification" icon="mdi-bell-outline" label="Notif" />
       </q-tabs>
     </q-footer>
   </q-layout>
