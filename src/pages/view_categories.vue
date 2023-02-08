@@ -19,7 +19,7 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="itro">
-            <div class="q-pl-md text-h6">ITRO upkeeps</div>
+            <div class="q-pl-md text-h6">ITRO Ticket Categories</div>
             <div class="q-pa-md" style="max-width">
               <q-list bordered separator>
                 <template v-for="categ in ITRO_categ" :key="categ">
@@ -30,13 +30,17 @@
                 </template>
               </q-list>
               <div class="q-pt-lg">
-                <q-btn color="teal" icon="add" label="Add upkeep" />
+                <q-btn
+                  color="teal"
+                  icon="add"
+                  label="Add ITRO Ticket Category"
+                />
               </div>
             </div>
           </q-tab-panel>
 
           <q-tab-panel name="bmo">
-            <div class="q-pl-md text-h6">BMO upkeeps</div>
+            <div class="q-pl-md text-h6">BMO Ticket Categories </div>
             <div class="q-pa-md" style="max-width">
               <q-list bordered separator>
                 <template v-for="categ in BMO_categ" :key="categ">
@@ -47,7 +51,11 @@
                 </template>
               </q-list>
               <div class="q-pt-lg">
-                <q-btn color="teal" icon="add" label="Add upkeep" />
+                <q-btn
+                  color="teal"
+                  icon="add"
+                  label="Add BMO Ticket Category"
+                />
               </div>
             </div>
           </q-tab-panel>
