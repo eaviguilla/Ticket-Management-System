@@ -1,17 +1,85 @@
 <template>
-  <div class="q-pa-lg">
-    <q-input
-      standout="bg-deep-purple-3 text-white"
-      v-model="text"
-      label="Custom standout"
-    />
+  <div class="q-pa-md">
+    <div class="q-gutter-md full-width">
+      <q-select
+        standout="bg-teal text-white"
+        v-model="level"
+        :options="floors"
+        label="Select floor level"
+      />
+
+      <q-select
+        standout="bg-teal text-white"
+        v-model="room"
+        :options="rooms"
+        label="Select room/area"
+      />
+
+      <q-select
+        standout="bg-teal text-white"
+        v-model="equipment"
+        :options="equipments"
+        label="Select equipment type"
+      />
+
+      <q-select
+        standout="bg-teal text-white"
+        v-model="categories"
+        :options="category"
+        label="Select concern"
+      />
+
+      <q-input
+        autogrow
+        clearable
+        standout="bg-teal text-white"
+        v-model="details"
+        label="Enter details of concern"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { ref } from "vue";
 
-export default defineComponent({
-  name: "CreatePage",
-});
+export default {
+  setup() {
+    return {
+      model: ref(null),
+      floors: [
+        "Basement",
+        "First floor",
+        "Second floor",
+        "Third floor",
+        "Fourth floor",
+        "Sixth floor",
+        "Seventh floor",
+        "Eight floor",
+        "Nineth floor",
+        "Tenth floor",
+        "Eleventh floor",
+        "Tweleveth  floor",
+      ],
+      rooms: ["101", "102", "103"],
+      equipments: [
+        "computer",
+        "lighting",
+        "furniture",
+        "toilet",
+        "sink",
+        "pipe",
+        "aircondition",
+      ],
+      category: [
+        "Computer not working",
+        "Broken aircondition",
+        "Door is broken",
+        "Conputer has no internet access",
+        "area/room light issue",
+      ],
+      details: ref(""),
+    };
+  },
+};
 </script>
