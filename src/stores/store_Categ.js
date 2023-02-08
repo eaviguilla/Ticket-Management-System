@@ -34,6 +34,13 @@ export const categStore = defineStore("categS", {
         name: payload.name,
         description: payload.description,
       });
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[i].categID === payload.categID) {
+          this.categories[i].name = payload.name;
+          this.categories[i].description = payload.description;
+          break;
+        }
+      }
     },
     deletCateg(payload) {
       deleteDoc(doc(db, "categories", payload.categID));
