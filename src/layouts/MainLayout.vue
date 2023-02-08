@@ -15,11 +15,22 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <q-footer height-hint="30" bordered class="bg-white text-primary">
-      <q-tabs v-model="tab" class="text-teal" align="justify">
-        <q-tab name="reports" icon="mdi-abacus" label="Reports" />
-        <q-tab name="home" icon="mdi-vhs" label="Home" />
-        <q-tab name="notification" icon="mdi-bell-outline" label="Notif" />
+    <q-footer bordered class="bg-primary text-white">
+      <q-tabs v-model="tab" class="text-grey-5" align="justify">
+        <q-tab name="reports"
+          ><q-icon size="sm" name="mdi-abacus"></q-icon
+          ><span class="text-capitalize text-caption">Reports</span></q-tab
+        >
+        <q-tab name="home"
+          ><q-icon size="sm" name="mdi-view-dashboard-outline"></q-icon
+          ><span color="white" class="text-capitalize text-caption"
+            >Home</span
+          ></q-tab
+        >
+        <q-tab name="notification"
+          ><q-icon size="sm" name="mdi-bell-outline"></q-icon
+          ><span class="text-capitalize text-caption">Notif</span></q-tab
+        >
       </q-tabs>
     </q-footer>
   </q-layout>
