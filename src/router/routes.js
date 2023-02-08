@@ -18,8 +18,8 @@ const routes = [
         component: () => import("pages/view_notification.vue"),
       },
       {
-        path: "/categ",
-        component: () => import("pages/view_categ.vue"),
+        path: "/upkeeps",
+        component: () => import("pages/building_upkeeps.vue"),
       },
     ],
   },
