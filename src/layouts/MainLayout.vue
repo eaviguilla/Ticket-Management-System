@@ -16,16 +16,14 @@
       <router-view />
     </q-page-container>
     <q-footer bordered class="bg-primary text-white">
-      <q-tabs v-model="tab" class="text-grey-5" align="justify">
+      <q-tabs v-model="tab" class="text-white" align="justify">
         <q-tab name="reports"
           ><q-icon size="sm" name="mdi-abacus"></q-icon
           ><span class="text-capitalize text-caption">Reports</span></q-tab
         >
         <q-tab name="home"
           ><q-icon size="sm" name="mdi-view-dashboard-outline"></q-icon
-          ><span color="white" class="text-capitalize text-caption"
-            >Home</span
-          ></q-tab
+          ><span class="text-capitalize text-caption">Home</span></q-tab
         >
         <q-tab name="notification"
           ><q-icon size="sm" name="mdi-bell-outline"></q-icon
