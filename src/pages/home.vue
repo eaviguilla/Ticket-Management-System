@@ -30,20 +30,23 @@
     <div
       class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white"
     >
-      <q-card
-        flat
+      <q-btn
+        color="green-12"
+        rounded
         bordered
         class="q-card full-width column content-center"
         style="max-width: 380px; height: 160px"
+        to="/"
       >
         <q-item-section class="column items-center">
           <div class="text-h6 text-bold">Active Tickets</div>
           <div class="text-h6 text-bold">1</div>
         </q-item-section>
-      </q-card>
+      </q-btn>
 
-      <q-card
-        flat
+      <q-btn
+        color="light-blue-14"
+        rounded
         bordered
         class="q-card full-width column content-center"
         style="max-width: 380px; height: 160px"
@@ -51,15 +54,16 @@
         <q-item-section class="column items-center">
           <div class="text-h6 text-center text-bold">Read Reports</div>
         </q-item-section>
-      </q-card>
+      </q-btn>
     </div>
 
     <!-- Read History/Assign Staff -->
     <div
       class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white"
     >
-      <q-card
-        flat
+      <q-btn
+        color="orange-6"
+        rounded
         bordered
         class="q-card full-width column content-center bg-white"
         style="max-width: 380px; height: 160px"
@@ -67,10 +71,11 @@
         <q-item-section class="column items-center">
           <div class="text-h6 text-bold">Read History</div>
         </q-item-section>
-      </q-card>
+      </q-btn>
 
-      <q-card
-        flat
+      <q-btn
+        color="blue-grey"
+        rounded
         bordered
         class="q-card full-width column content-center"
         style="max-width: 380px; height: 160px"
@@ -78,7 +83,7 @@
         <q-item-section class="column items-center">
           <div class="text-h6 text-center text-bold">Assign Staff</div>
         </q-item-section>
-      </q-card>
+      </q-btn>
     </div>
 
     <div class="">
