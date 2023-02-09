@@ -3,27 +3,16 @@
     <!-- Profile Header -->
 
     <!-- Profile Card -->
-    <div class="q-pa-md full-width content-center" style="max-width: 1200px">
-      <div class="text-h5 text-left text-bold q-pb-lg">Profile</div>
-      <q-card
-        class="row"
-        dark
-        style="background: #5438dc; border-radius: 20px; height: 250px"
-      >
-        <q-item>
-          <q-item-section avatar class="q-pa-xs">
-            <q-avatar size="125px">
-              <img src="" />
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section class="q-pl-xl">
-            <q-item-label class="text-h3">{{
-              auth.userDetails.fName
-            }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-card>
+    <div class="q-pa-md full-width content-center" style="max-width: 700px">
+      <q-item-section class="q-pl-xl">
+        <div class="text-h4 text-center text-bold q-pb-lg">
+          Welcome to RAMaintenance
+          {{ auth.userDetails.fName }}
+        </div>
+        <div class="text-h5 text-center text-weight-light q-pb-lg">
+          Please select what you want
+        </div>
+      </q-item-section>
     </div>
 
     <!-- Active/Read Reports -->
@@ -79,9 +68,10 @@
         bordered
         class="q-card full-width column content-center"
         style="max-width: 380px; height: 160px"
+        to="/manage_user"
       >
         <q-item-section class="column items-center">
-          <div class="text-h6 text-center text-bold">Assign Staff</div>
+          <div class="text-h6 text-center text-bold">Manage User</div>
         </q-item-section>
       </q-btn>
     </div>
