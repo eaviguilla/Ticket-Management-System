@@ -4,11 +4,9 @@ import { db } from "boot/firebase";
 import {
   doc,
   updateDoc,
-  getDocs,
   collection,
   deleteField,
   onSnapshot,
-  query,
 } from "firebase/firestore";
 
 const authS = authStore();
@@ -49,28 +47,7 @@ export const userStore = defineStore("userS", {
   },
   actions: {
     getUsers() {
-      // const querySnapshot = getDocs(collection(db, "users")).then(
-      //   (querySnapshot) => {
-      //     querySnapshot.forEach((response) => {
-      //       // console.log(response.id, " => ", response.data());
-      //       const userDetails = response.data();
-      //       userDetails.userID = response.id;
-      //       this.users.push(userDetails);
-      //       console.log(userDetails);
-      //     });
-      //   }
-      // );
-
-      // onSnapshot(usersRef, (querySnapshot) => {
-      //   this.users = [];
-      //   querySnapshot.forEach((response) => {
-      //     const userDetails = response.data();
-      //     userDetails.userID = response.id;
-      //     this.users.push(userDetails);
-      //     console.log("from auto update", userDetails);
-      //   });
-      // });
-      const querySnapshot = onSnapshot(usersRef, (snapshot) => {
+      onSnapshot(usersRef, (snapshot) => {
         snapshot.docChanges().forEach((response) => {
           const userDetails = response.doc.data();
           const responseID = response.doc.id;
@@ -93,13 +70,7 @@ export const userStore = defineStore("userS", {
         office: adminOffice,
         admin: payload.admin,
       });
-      // for (let i = 0; i < this.users.length; i++) {
-      //   if (this.users[i].userID === payload.userID) {
-      //     this.users[i].office = adminOffice;
-      //     this.users[i].admin = payload.admin;
-      //     break;
-      //   }
-      // }
+
       const index = this.users.findIndex(
         (user) => user.userID === payload.userID
       );
@@ -113,13 +84,6 @@ export const userStore = defineStore("userS", {
         office: deleteField(),
         admin: deleteField(),
       });
-      // for (let i = 0; i < this.users.length; i++) {
-      //   if (this.users[i].userID === payload.userID) {
-      //     delete this.users[i].office;
-      //     delete this.users[i].admin;
-      //     break;
-      //   }
-      // }
       const index = this.users.findIndex(
         (user) => user.userID === payload.userID
       );
