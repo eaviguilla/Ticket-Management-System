@@ -1,67 +1,49 @@
 <template>
-  <div class="q-pa-md">
-    <div class="q-gutter-y-md" style="max-width">
-      <q-card>
-        <q-tabs
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="justify"
-          narrow-indicator
-        >
-          <q-tab name="itro" label="ITRO" />
-          <q-tab name="bmo" label="BMO" />
-        </q-tabs>
-
-        <q-separator />
-
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="itro">
-            <div class="q-pl-md text-h6">ITRO Ticket Categories</div>
-            <div class="q-pa-md" style="max-width">
-              <q-list bordered separator>
-                <template v-for="categ in ITRO_categ" :key="categ">
-                  <q-item clickable v-ripple>
-                    <q-item-section>{{ categ }}</q-item-section>
-                    <q-btn color="deep-orange-14" icon="fa-solid fa-xmark" />
-                  </q-item>
-                </template>
-              </q-list>
-              <div class="q-pt-lg">
-                <q-btn
-                  color="teal"
-                  icon="add"
-                  label="Add ITRO Ticket Category"
-                />
-              </div>
-            </div>
-          </q-tab-panel>
-
-          <q-tab-panel name="bmo">
-            <div class="q-pl-md text-h6">BMO Ticket Categories </div>
-            <div class="q-pa-md" style="max-width">
-              <q-list bordered separator>
-                <template v-for="categ in BMO_categ" :key="categ">
-                  <q-item clickable v-ripple>
-                    <q-item-section>{{ categ }}</q-item-section>
-                    <q-btn color="deep-orange-14" icon="fa-solid fa-xmark" />
-                  </q-item>
-                </template>
-              </q-list>
-              <div class="q-pt-lg">
-                <q-btn
-                  color="teal"
-                  icon="add"
-                  label="Add BMO Ticket Category"
-                />
-              </div>
-            </div>
-          </q-tab-panel>
-        </q-tab-panels>
-      </q-card>
-    </div>
+  <div class="full-width">
+    <q-item
+      class="rounded-borders q-my-sm q-card items-center"
+      v-for="categ in ITRO_categ"
+      :key="categ"
+      bordered
+      ><div class="full-width">
+        <q-item-section class="justify-between">
+          <q-item-label class="text-weight-bolder text-body2 q-pr-sm">{{
+            categ
+          }}</q-item-label>
+          <q-item-label class="text-overline"
+            >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+            placerat faucibus enim eget vulputate. Aliquam luctus laoreet
+            just</q-item-label
+          >
+          <div class="q-pa-md q-gutter-sm" align="right">
+            <q-btn
+              unelevated
+              round
+              color="teal"
+              icon="fa-solid fa-pen-to-square"
+              size="sm"
+            />
+            <q-btn
+              unelevated
+              round
+              color="grey-10"
+              icon="fa-solid fa-trash"
+              size="sm"
+            />
+          </div>
+        </q-item-section></div
+    ></q-item>
+  </div>
+  <div class="">
+    <q-page-sticky expand position="bottom-left" class="q-pa-lg">
+      <q-btn
+        unelevated
+        round
+        color="light-green-4"
+        icon="fa-solid fa-plus"
+        size="lg"
+      />
+    </q-page-sticky>
   </div>
 </template>
 
