@@ -13,7 +13,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <keep-alive> <router-view /> </keep-alive>
     </q-page-container>
     <q-footer bordered class="bg-primary text-white">
       <q-tabs v-model="tab" class="text-white" align="justify">
