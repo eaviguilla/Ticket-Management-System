@@ -77,7 +77,7 @@
 
         <q-tab-panel name="staff">
           <div class="full-width">
-            <q-list separator>
+            <q-list>
               <q-item
                 class="rounded-borders q-my-sm q-card items-center"
                 v-for="user in users.getStaff"
@@ -246,10 +246,12 @@ export default {
       }
       if (this.role == "None") {
         this.users.deleteRole(this.editRole);
+        return;
       }
       if (this.role == "Admin") {
         this.editRole.admin = true;
         this.users.userRole(this.editRole, this.auth.userDetails.office);
+        return;
       } else this.users.userRole(this.editRole, this.auth.userDetails.office);
     },
   },
