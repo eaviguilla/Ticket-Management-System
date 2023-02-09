@@ -31,7 +31,7 @@
       class="row justify-evenly q-pa-lg full-width q-gutter-md q-mb-xl bg-white"
     >
       <q-btn
-        color="green-12"
+        color="green-13"
         rounded
         bordered
         class="q-card full-width column content-center"
