@@ -1,7 +1,13 @@
 import { defineStore } from "pinia";
-import { auth, db } from "boot/firebase";
+import { db } from "boot/firebase";
 import { authStore } from "./store_Auth";
-import { doc, setDoc, onSnapshot, addDoc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  addDoc,
+  deleteDoc,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 
 const authS = authStore();
 
@@ -28,6 +34,19 @@ export const categStore = defineStore("categS", {
       });
       console.log("New Categ ID: ", categRef.id);
     },
+    getCategs() {
+      this.categories = [];
+      const querySnapshot = getDocs(collection(db, "categories")).then(
+        (querySnapshot) => {
+          querySnapshot.forEach((response) => {
+            const categDetails = response.data();
+            categDetails.categID = response.id;
+            this.categories.push(categDetails);
+            console.log(categDetails);
+          });
+        }
+      );
+    },
     updateCateg(payload) {
       const categRef = doc(db, "categories", payload.categID);
       updateDoc(categRef, {
@@ -42,8 +61,8 @@ export const categStore = defineStore("categS", {
         }
       }
     },
-    deletCateg(payload) {
-      deleteDoc(doc(db, "categories", payload.categID));
+    deletCateg(categID) {
+      deleteDoc(doc(db, "categories", categID));
     },
   },
 });

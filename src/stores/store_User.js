@@ -1,16 +1,13 @@
 import { defineStore } from "pinia";
 import { authStore } from "src/stores/store_Auth";
-import { auth, db } from "boot/firebase";
+import { db } from "boot/firebase";
 import {
   doc,
   updateDoc,
-  onSnapshot,
   getDocs,
   collection,
   deleteField,
 } from "firebase/firestore";
-import { TouchSwipe } from "quasar";
-import { FirebaseError } from "firebase/app";
 
 const authS = authStore();
 
