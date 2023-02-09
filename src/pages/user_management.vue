@@ -20,64 +20,62 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="apc" class="full-width">
           <div class="full-width">
-            <q-list separator>
-              <q-item
-                class="rounded-borders q-my-sm q-card items-center"
-                v-for="user in users.getComm"
-                :key="user.userID"
-                bordered
-                ><div class="full-width">
-                  <q-item-section class="justify-between">
-                    <q-item-label class="text-bold text-grey text-caption">
-                      {{ user.userID }}
-                    </q-item-label>
-                    <q-item-label class="text-weight-bolder text-body2 q-pr-sm">
-                      {{ user.fName }} {{ user.lName }}
-                    </q-item-label>
-                    <q-item-label class="text-overline">
-                      {{ user.email }}
-                    </q-item-label>
-                  </q-item-section>
-                </div>
-                <div v-if="auth.userDetails.admin">
-                  <q-btn flat rounded @click="editDial(user.userID)"
-                    ><q-icon name="mdi-square-edit-outline"></q-icon
-                  ></q-btn>
-                </div>
-                <q-dialog v-model="edit" persistent>
-                  <q-card style="min-width: 350px">
-                    <q-card-section>
-                      <div class="text-h6">Change Role</div>
-                    </q-card-section>
+            <q-item
+              class="rounded-borders q-my-sm q-card items-center"
+              v-for="user in users.getComm"
+              :key="user.userID"
+              bordered
+              ><div class="full-width">
+                <q-item-section class="justify-between">
+                  <q-item-label class="text-bold text-grey text-caption">
+                    {{ user.userID }}
+                  </q-item-label>
+                  <q-item-label class="text-weight-bolder text-body2 q-pr-sm">
+                    {{ user.fName }} {{ user.lName }}
+                  </q-item-label>
+                  <q-item-label class="text-overline">
+                    {{ user.email }}
+                  </q-item-label>
+                </q-item-section>
+              </div>
+              <div v-if="auth.userDetails.admin">
+                <q-btn flat rounded @click="editDial(user.userID)"
+                  ><q-icon name="mdi-square-edit-outline"></q-icon
+                ></q-btn>
+              </div>
+              <q-dialog v-model="edit" persistent>
+                <q-card style="min-width: 350px">
+                  <q-card-section>
+                    <div class="text-h6">Change Role</div>
+                  </q-card-section>
 
-                    <q-card-section class="q-pt-none">
-                      <q-select
-                        outlined
-                        v-model="role"
-                        :options="roleOptions"
-                        label="Role"
-                      />
-                    </q-card-section>
+                  <q-card-section class="q-pt-none">
+                    <q-select
+                      outlined
+                      v-model="role"
+                      :options="roleOptions"
+                      label="Role"
+                    />
+                  </q-card-section>
 
-                    <q-card-actions align="right" class="text-primary">
-                      <q-btn flat label="Cancel" v-close-popup />
-                      <q-btn
-                        flat
-                        label="Confirm"
-                        @click="updateRole"
-                        v-close-popup
-                      />
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
-              </q-item>
-            </q-list>
+                  <q-card-actions align="right" class="text-primary">
+                    <q-btn flat label="Cancel" v-close-popup />
+                    <q-btn
+                      flat
+                      label="Confirm"
+                      @click="updateRole"
+                      v-close-popup
+                    />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+            </q-item>
           </div>
         </q-tab-panel>
 
         <q-tab-panel name="staff">
           <div class="full-width">
-            <q-list>
+            <q-list separator>
               <q-item
                 class="rounded-borders q-my-sm q-card items-center"
                 v-for="user in users.getStaff"
@@ -242,17 +240,24 @@ export default {
     },
     updateRole() {
       if (this.role == "") {
+        this.role = "";
+        this.edit = false;
         return;
       }
       if (this.role == "None") {
         this.users.deleteRole(this.editRole);
+        this.role = "";
+        this.edit = false;
         return;
       }
       if (this.role == "Admin") {
         this.editRole.admin = true;
         this.users.userRole(this.editRole, this.auth.userDetails.office);
+        this.role = "";
+        this.edit = false;
         return;
       } else this.users.userRole(this.editRole, this.auth.userDetails.office);
+      this.edit = false;
     },
   },
   components: {
