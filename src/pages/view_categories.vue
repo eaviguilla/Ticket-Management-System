@@ -62,17 +62,6 @@ export default {
         "Laptop",
         "Boogaloo",
       ],
-      BMO_categ: [
-        "Aircondition",
-        "Lightings",
-        "Electircals",
-        "Flooring",
-        "Plummings",
-        "Elevator",
-        "Chair",
-        "Table",
-        "Locker",
-      ],
     };
   },
 };

@@ -1,6 +1,9 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md full-width">
+      <div class="text-bold text-h6 text-primary">
+        <p>Create Ticket form</p>
+      </div>
       <q-select
         standout="bg-teal text-white"
         v-model="level"
@@ -19,14 +22,7 @@
         standout="bg-teal text-white"
         v-model="equipment"
         :options="equipments"
-        label="Select equipment type"
-      />
-
-      <q-select
-        standout="bg-teal text-white"
-        v-model="categories"
-        :options="category"
-        label="Select concern"
+        label="Select category"
       />
 
       <q-input
@@ -36,6 +32,10 @@
         v-model="details"
         label="Enter details of concern"
       />
+
+      <div class="q-pa-lg" align="right">
+        <q-btn unelevated round color="teal" icon="send" size="xl" />
+      </div>
     </div>
   </div>
 </template>
@@ -70,13 +70,6 @@ export default {
         "sink",
         "pipe",
         "aircondition",
-      ],
-      category: [
-        "Computer not working",
-        "Broken aircondition",
-        "Door is broken",
-        "Conputer has no internet access",
-        "area/room light issue",
       ],
       details: ref(""),
     };
