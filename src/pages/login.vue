@@ -1,14 +1,13 @@
 <template>
   <div>
-    <q-img src="~assets/RAMbg.png" style="height: 1050px" fit="cover">
+    <q-img src="~assets/rambg2.png" style="height: 625px" fit="cover">
       <div class="absolute-full text-subtitle2 flex flex-center">
-        <q-card style="max-width: 500px; width: 100%">
+        <q-card style="max-width: 450px; width: 100%">
           <q-input
             class="q-pa-md"
             outlined
             v-model="logData.email"
             type="email"
-            suffix=".apc.edu.ph"
             label="Email"
           />
           <q-input
@@ -18,7 +17,8 @@
             type="password"
             label="Password"
           />
-          <div class="q-pa-md">
+
+          <div class="q-pa-sm">
             <q-btn
               @click="login"
               class="full-width"
@@ -26,16 +26,16 @@
               color="primary"
               label="Login"
             />
+          </div>
 
-            <div class="q-pa-md">
-              <q-btn
-                class="full-width"
-                unelevated
-                color="primary"
-                label="Register"
-                to="/register"
-              />
-            </div>
+          <div class="q-pa-sm">
+            <q-btn
+              class="full-width"
+              unelevated
+              color="grey-9"
+              label="Register"
+              to="/register"
+            />
           </div>
         </q-card>
       </div>

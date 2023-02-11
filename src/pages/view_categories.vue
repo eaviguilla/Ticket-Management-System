@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width">
+  <div class style="max-width: 950px; width: 100%; margin: 0 auto">
     <q-item
       class="rounded-borders q-my-sm q-card items-center"
       v-for="categ in ITRO_categ"
@@ -15,17 +15,18 @@
             placerat faucibus enim eget vulputate. Aliquam luctus laoreet
             just</q-item-label
           >
+
           <div class="q-pa-md q-gutter-sm" align="right">
             <q-btn
               unelevated
-              round
+              label="edit"
               color="teal"
               icon="fa-solid fa-pen-to-square"
               size="sm"
             />
             <q-btn
               unelevated
-              round
+              label="delete"
               color="grey-10"
               icon="fa-solid fa-trash"
               size="sm"
@@ -41,7 +42,7 @@
         round
         color="light-green-4"
         icon="fa-solid fa-plus"
-        size="lg"
+        size="md"
       />
     </q-page-sticky>
   </div>

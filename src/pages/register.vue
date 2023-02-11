@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-img src="~assets/RAMbg.png" style="height: 1050px" fit="cover">
+    <q-img src="~assets/rambg2.png" style="height: 625px" fit="cover">
       <div class="absolute-full text-subtitle2 flex flex-center">
         <q-card style="max-width: 500px; width: 100%">
           <q-input
@@ -30,7 +30,7 @@
             type="password"
             label="Password"
           />
-          <div class="q-pa-md">
+          <div class="q-pa-sm">
             <q-btn
               class="full-width"
               @click="register"
@@ -40,13 +40,13 @@
               to="/"
             />
           </div>
-          <div class="q-pa-xs">
+          <div class="q-pa-sm">
             <q-btn
               class="full-width"
               @click="login"
               unelevated
-              color="primary"
-              label="Login"
+              color="grey-9"
+              label="Head Back to Login Page"
               to="/login"
             />
           </div>

@@ -11,8 +11,8 @@
           <q-item-label caption>5 min ago</q-item-label>
           <q-icon
             class="q-pt-sm"
-            name="fa-solid fa-exclamation"
-            color="orange"
+            name="fa-solid fa-bell"
+            color="light-blue-6"
           />
         </q-item-section>
       </q-item>
@@ -26,7 +26,7 @@
         </q-item-section>
         <q-item-section side top>
           <q-item-label caption>15 mins ago</q-item-label>
-          <q-icon class="q-pt-sm" name="fa-solid fa-check" color="gray-4" />
+          <q-icon class="q-pt-sm" name="fa-solid fa-check" color="green" />
         </q-item-section>
       </q-item>
       <q-separator spaced inset />
