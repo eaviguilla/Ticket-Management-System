@@ -21,6 +21,18 @@ const routes = [
         path: "/categories",
         component: () => import("src/pages/view_categories.vue"),
       },
+      {
+        path: "/ticket",
+        component: () => import("src/pages/ticket_list.vue"),
+      },
+      {
+        path: "/active_ticket",
+        component: () => import("src/components/active_tickets.vue"),
+      },
+      {
+        path: "/test",
+        component: () => import("src/pages/component_test.vue"),
+      },
     ],
   },
   {
