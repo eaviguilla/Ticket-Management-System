@@ -23,8 +23,7 @@
           </q-tab-panel>
 
           <q-tab-panel name="subscribed">
-            <div class="text-h6">Alarms</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <subscribed_tickets />
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
@@ -35,8 +34,9 @@
 <script>
 import { defineComponent, ref } from "vue";
 import active_tickets from "src/components/active_tickets.vue";
+import subscribed_tickets from "src/components/subscribed_tickets.vue";
 export default defineComponent({
-  components: { active_tickets },
+  components: { active_tickets, subscribed_tickets },
   setup() {
     return {
       tab: ref("mails"),

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh lpr lFf">
     <div class="q-pl-lg">
-      <h5 class="text-weight-bolder text-primary">Active Tickets</h5>
+      <h5 class="text-weight-bolder text-primary">Subscribed Tickets</h5>
     </div>
     <div class="column items-center">
       <div class="full-width q-px-md q-pb-xl" style="max-width: 750px">
@@ -46,6 +46,13 @@
                   unelevated
                   color="teal"
                   label="View ticket"
+                  size="md"
+                  style="width: 300px"
+                />
+                <q-btn
+                  unelevated
+                  color="teal"
+                  label="Unsubscribe ticket"
                   size="md"
                   style="width: 300px"
                 />

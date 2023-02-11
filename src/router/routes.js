@@ -33,6 +33,10 @@ const routes = [
         path: "/test",
         component: () => import("src/pages/component_test.vue"),
       },
+      {
+        path: "/subscribed",
+        component: () => import("src/components/subscribed_tickets.vue"),
+      },
     ],
   },
   {

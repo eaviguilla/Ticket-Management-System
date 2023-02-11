@@ -66,11 +66,28 @@
       </div>
     </div>
   </q-layout>
+  <div class="">
+    <q-page-sticky expand position="bottom-left" class="q-pa-lg q-pl-lg">
+      <q-btn
+        unelevated
+        rounded
+        style="background: #ff6b6e; color: white"
+        icon="fa-solid fa-plus"
+        size="xl"
+        :label="$q.screen.gt.xs ? 'Create a ticket' : void 0"
+      />
+    </q-page-sticky>
+  </div>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   setup() {},
+  computed: {
+    hideLabel() {
+      return this.$q.platform.is.mobile;
+    },
+  },
 });
 </script>
