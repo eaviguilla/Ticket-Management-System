@@ -263,5 +263,8 @@ export default {
   components: {
     //"apc-management": require("components/apc_manage.vue").default,
   },
+  beforeUnmount() {
+    this.users.unsub();
+  },
 };
 </script>

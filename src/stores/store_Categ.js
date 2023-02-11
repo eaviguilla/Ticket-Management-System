@@ -13,7 +13,7 @@ const authS = authStore();
 
 export const categStore = defineStore("categS", {
   state: () => ({
-    categories: {},
+    categories: [],
   }),
   getters: {
     getCategs() {

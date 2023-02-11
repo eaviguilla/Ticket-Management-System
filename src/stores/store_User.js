@@ -15,6 +15,7 @@ const usersRef = collection(db, "users");
 export const userStore = defineStore("userS", {
   state: () => ({
     users: [],
+    unsub: null,
   }),
   getters: {
     getComm() {
@@ -47,7 +48,8 @@ export const userStore = defineStore("userS", {
   },
   actions: {
     getUsers() {
-      onSnapshot(usersRef, (snapshot) => {
+      this.unsub = onSnapshot(usersRef, (snapshot) => {
+        console.log("Has been called");
         snapshot.docChanges().forEach((response) => {
           const userDetails = response.doc.data();
           const responseID = response.doc.id;
@@ -87,6 +89,7 @@ export const userStore = defineStore("userS", {
       const index = this.users.findIndex(
         (user) => user.userID === payload.userID
       );
+
       delete this.users[index].office;
       delete this.users[index].admin;
       console.log("Modified User: ", this.users[index]);
