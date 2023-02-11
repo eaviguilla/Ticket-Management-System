@@ -19,6 +19,22 @@ const routes = [
         path: "/view_users",
         component: () => import("pages/view_users.vue"),
       },
+      {
+        path: "/ticket",
+        component: () => import("src/pages/ticket_list.vue"),
+      },
+      {
+        path: "/active_ticket",
+        component: () => import("src/components/active_tickets.vue"),
+      },
+      {
+        path: "/test",
+        component: () => import("src/pages/component_test.vue"),
+      },
+      {
+        path: "/subscribed",
+        component: () => import("src/components/subscribed_tickets.vue"),
+      },
     ],
   },
 
