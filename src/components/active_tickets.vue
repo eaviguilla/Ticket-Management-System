@@ -45,7 +45,7 @@
                 <q-btn
                   unelevated
                   color="teal"
-                  label="Assign ticket"
+                  label="Assist ticket"
                   size="md"
                   style="width: 300px"
                 />
@@ -84,10 +84,6 @@ import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   setup() {},
-  computed: {
-    hideLabel() {
-      return this.$q.platform.is.mobile;
-    },
-  },
+  computed: {},
 });
 </script>
