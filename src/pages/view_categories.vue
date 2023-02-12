@@ -2,7 +2,7 @@
   <q-layout style="margin-bottom: 65px" view="hHh lpR fFf">
     <q-header bordered class="bg-white text-white">
       <q-toolbar>
-        <q-btn flat rounded class="float-left"
+        <q-btn flat rounded class="float-left" to="/"
           ><q-icon color="primary" name="mdi-arrow-left"></q-icon
         ></q-btn>
         <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>

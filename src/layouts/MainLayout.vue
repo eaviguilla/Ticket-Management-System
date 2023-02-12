@@ -13,7 +13,17 @@
     </q-header>
 
     <q-page-container>
-      <keep-alive> <router-view /> </keep-alive>
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="reports"> Reports </q-tab-panel>
+
+        <q-tab-panel name="home">
+          <home />
+        </q-tab-panel>
+
+        <q-tab-panel name="notification">
+          <view_notifications />
+        </q-tab-panel>
+      </q-tab-panels>
     </q-page-container>
     <q-footer bordered class="bg-primary text-white">
       <q-tabs v-model="tab" class="text-white" align="justify">
@@ -25,19 +35,23 @@
           ><q-icon size="sm" name="mdi-view-dashboard-outline"></q-icon
           ><span class="text-capitalize text-caption">Home</span></q-tab
         >
-        <q-tab name="notification"
+        <q-tab name="notification" to="/view_notifications"
           ><q-icon size="sm" name="mdi-bell-outline"></q-icon
           ><span class="text-capitalize text-caption">Notif</span></q-tab
         >
       </q-tabs>
+      <q-separator />
     </q-footer>
   </q-layout>
 </template>
 
 <script>
 import { ref } from "vue";
+import home from "pages/home.vue";
+import view_notifications from "pages/view_notifications.vue";
 
 export default {
+  components: { home, view_notifications },
   data() {
     return {
       tab: ref("home"),

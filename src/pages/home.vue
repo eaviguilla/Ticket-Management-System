@@ -15,8 +15,8 @@
     </div>
 
     <!-- Active/Read Reports (Mobile Only) -->
-    <div class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg">
-      <div class="q-ma-sm" style="width: 140px; height: 140px">
+    <div class="q-pa-sm q-pl-xs row justify-evenly full-width q-mb-lg">
+      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
           color="green-13"
           rounded
@@ -38,7 +38,7 @@
         </q-btn>
       </div>
 
-      <div class="q-ma-sm" style="width: 140px; height: 140px">
+      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
           color="light-blue-14"
           rounded
@@ -55,7 +55,7 @@
         </q-btn>
       </div>
 
-      <div class="q-ma-sm" style="width: 140px; height: 140px">
+      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
           color="orange-6"
           rounded
@@ -72,7 +72,7 @@
         </q-btn>
       </div>
 
-      <div class="q-ma-sm" style="width: 140px; height: 140px">
+      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
           color="blue-grey"
           rounded
