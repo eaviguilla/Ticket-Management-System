@@ -17,8 +17,8 @@ const routes = [
     component: () => import("pages/view_users.vue"),
   },
   {
-    path: "/ticket",
-    component: () => import("src/pages/ticket_list.vue"),
+    path: "/z_ryan_dump_acc",
+    component: () => import("src/pages/z_ryan_dump_acc.vue"),
   },
 
   {
@@ -49,16 +49,16 @@ const routes = [
     component: () => import("pages/create_ticket.vue"),
   },
 
+  {
+    path: "/view_categories",
+    component: () => import("src/pages/view_categories.vue"),
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
-  },
-
-  {
-    path: "/view_categories",
-    component: () => import("src/pages/view_categories.vue"),
   },
 ];
 
