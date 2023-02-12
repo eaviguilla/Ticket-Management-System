@@ -39,7 +39,7 @@
                 </q-item-section>
               </div>
               <div v-if="auth.userDetails.admin">
-                <q-btn flat rounded @click="editDial(user.userID)"
+                <q-btn flat rounded @click="editUser(user.userID)"
                   ><q-icon name="mdi-square-edit-outline"></q-icon
                 ></q-btn>
               </div>
@@ -103,7 +103,7 @@
                   </q-item-section>
                 </div>
                 <div v-if="auth.userDetails.admin">
-                  <q-btn flat rounded @click="editDial(user.userID)"
+                  <q-btn flat rounded @click="editUser(user.userID)"
                     ><q-icon name="mdi-square-edit-outline"></q-icon
                   ></q-btn>
                 </div>
@@ -168,7 +168,7 @@
                   </q-item-section>
                 </div>
                 <div v-if="auth.userDetails.admin">
-                  <q-btn flat rounded @click="editDial(user.userID)"
+                  <q-btn flat rounded @click="editUser(user.userID)"
                     ><q-icon name="mdi-square-edit-outline"></q-icon
                   ></q-btn>
                 </div>
@@ -231,10 +231,10 @@ export default {
     };
   },
   mounted() {
-    this.users.getCategs();
+    this.users.getUsers();
   },
   methods: {
-    editDial(id) {
+    editUser(id) {
       this.edit = true;
       this.editRole.userID = id;
     },

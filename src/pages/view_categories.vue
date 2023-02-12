@@ -23,6 +23,7 @@
               <q-btn
                 flat
                 rounded
+                @click="confirm = true"
                 size="sm"
                 class="text-white bg-secondary"
                 style="
@@ -34,6 +35,30 @@
                 icon="mdi-delete-outline"
               >
               </q-btn>
+              <q-dialog v-model="confirm" persistent>
+                <q-card>
+                  <q-card-section class="row items-center">
+                    <q-avatar
+                      icon="signal_wifi_off"
+                      color="primary"
+                      text-color="white"
+                    />
+                    <span class="q-ml-sm"
+                      >Are you sure you want to delete this Category?
+                    </span>
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="Cancel" color="primary" v-close-popup />
+                    <q-btn
+                      flat
+                      label="Turn on Wifi"
+                      color="primary"
+                      v-close-popup
+                    />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
               <q-btn
                 flat
                 rounded
@@ -107,6 +132,7 @@ export default {
   },
   data() {
     return {
+      confirm: false,
       addCateg: ref(false),
       address: ref(""),
       tab: ref("mails"),

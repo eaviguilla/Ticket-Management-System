@@ -98,7 +98,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [require("@volar-plugins/vetur")()],
     },
 
     // animations: 'all', // --- includes all animations
