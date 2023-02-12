@@ -62,6 +62,7 @@
           bordered
           class="q-card full-width column content-center"
           style="max-width: 140px; height: 140px"
+          to="/view_categories"
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-label-multiple-outline" size="lg" class="q-pa-xs">
