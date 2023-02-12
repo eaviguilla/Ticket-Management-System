@@ -9,30 +9,30 @@ const routes = [
         path: "/view_notifications",
         component: () => import("pages/view_notifications.vue"),
       },
-
-      {
-        path: "/view_ticket",
-        component: () => import("pages/view_ticket.vue"),
-      },
-
-      {
-        path: "/view_users",
-        component: () => import("pages/view_users.vue"),
-      },
-      {
-        path: "/ticket",
-        component: () => import("src/pages/ticket_list.vue"),
-      },
-
-      {
-        path: "/view_tickets",
-        component: () => import("src/pages/view_tickets.vue"),
-      },
-      {
-        path: "/subscribed",
-        component: () => import("src/components/subscribed_tickets.vue"),
-      },
     ],
+  },
+
+  {
+    path: "/view_users",
+    component: () => import("pages/view_users.vue"),
+  },
+  {
+    path: "/ticket",
+    component: () => import("src/pages/ticket_list.vue"),
+  },
+
+  {
+    path: "/view_tickets",
+    component: () => import("src/pages/view_tickets.vue"),
+  },
+  {
+    path: "/subscribed",
+    component: () => import("src/components/subscribed_tickets.vue"),
+  },
+
+  {
+    path: "/view_ticket",
+    component: () => import("pages/view_ticket.vue"),
   },
 
   {
