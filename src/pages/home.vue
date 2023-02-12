@@ -15,9 +15,7 @@
     </div>
 
     <!-- Active/Read Reports (Mobile Only) -->
-    <div
-      class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg mobile-only"
-    >
+    <div class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg">
       <div class="q-ma-sm" style="width: 140px; height: 140px">
         <q-btn
           color="green-13"
