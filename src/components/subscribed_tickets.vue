@@ -1,10 +1,8 @@
 <template>
   <q-layout view="lHh lpr lFf">
-    <div class="q-pl-lg">
-      <h5 class="text-weight-bolder text-primary">Subscribed Tickets</h5>
-    </div>
     <div class="column items-center">
       <div class="full-width q-px-md q-pb-xl" style="max-width: 750px">
+        <h5 class="text-weight-bolder text-primary">Subscribed Tickets</h5>
         <q-list class="">
           <q-item
             class="rounded-borders q-my-md q-card column"
@@ -41,21 +39,17 @@
                   ID: 11181561561564
                 </div>
               </q-item-label>
-              <div class="q-pa-md q-gutter-sm" align="center">
+              <div flat class="q-mt-md row justify-betweem" style="width: 100%">
                 <q-btn
-                  unelevated
-                  color="teal"
-                  label="View ticket"
-                  size="md"
-                  style="width: 300px"
-                />
-                <q-btn
-                  unelevated
-                  color="teal"
-                  label="Unsubscribe ticket"
-                  size="md"
-                  style="width: 300px"
-                />
+                  flat
+                  rounded
+                  size="sm"
+                  class="text-white bg-secondary"
+                  style="width: 100%"
+                  label="Unsubscribe Ticket"
+                  icon="mdi-bell-off-outline"
+                >
+                </q-btn>
               </div>
             </q-item-section>
           </q-item>

@@ -11,8 +11,8 @@ const routes = [
       },
 
       {
-        path: "/view_tickets",
-        component: () => import("pages/view_tickets.vue"),
+        path: "/view_ticket",
+        component: () => import("pages/view_ticket.vue"),
       },
 
       {
@@ -23,13 +23,10 @@ const routes = [
         path: "/ticket",
         component: () => import("src/pages/ticket_list.vue"),
       },
+
       {
-        path: "/active_ticket",
-        component: () => import("src/components/active_tickets.vue"),
-      },
-      {
-        path: "/test",
-        component: () => import("src/pages/component_test.vue"),
+        path: "/view_tickets",
+        component: () => import("src/pages/view_tickets.vue"),
       },
       {
         path: "/subscribed",

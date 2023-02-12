@@ -15,115 +15,14 @@
     </div>
 
     <!-- Active/Read Reports (Mobile Only) -->
-    <div
-      class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg mobile-only"
-    >
-      <q-btn
-        color="green-13"
-        rounded
-        bordered
-        class="q-card full-width column"
-        style="max-width: 140px; height: 140px"
-        to="/view_tickets"
-      >
-        <q-item-section class="column items-center">
-          <q-icon
-            name="mdi-ticket-confirmation-outline"
-            size="lg"
-            class="q-pa-xs"
-          >
-          </q-icon>
-          <div class="text-h5 text-bold">Active</div>
-          <div class="text-caption text-bold">15 Tickets</div>
-        </q-item-section>
-      </q-btn>
-
-      <q-btn
-        color="light-blue-14"
-        rounded
-        bordered
-        class="q-card full-width column content-center"
-        style="max-width: 140px; height: 140px"
-      >
-        <q-item-section class="column items-center">
-          <q-icon name="mdi-file-chart-outline" size="lg" class="q-pa-xs">
-          </q-icon>
-          <div class="text-h6 text-center text-bold">Read Reports</div>
-        </q-item-section>
-      </q-btn>
-    </div>
-
-    <!-- Resolved Tickets/Assign Staff (Mobile Only) -->
-
-    <div
-      class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg mobile-only"
-    >
-      <q-btn
-        color="orange-6"
-        rounded
-        bordered
-        class="q-card full-width column content-center"
-        style="max-width: 140px; height: 140px"
-      >
-        <q-item-section class="column items-center">
-          <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs"> </q-icon>
-          <div class="text-h6 text-bold">Resolved Tickets</div>
-        </q-item-section>
-      </q-btn>
-
-      <q-btn
-        color="blue-grey"
-        rounded
-        bordered
-        class="q-card full-width column content-center"
-        style="max-width: 140px; height: 140px"
-        to="/view_users"
-      >
-        <q-item-section class="column items-center">
-          <q-icon name="mdi-account-circle" size="md" class="q-pa-xs"> </q-icon>
-          <div class="text-h6 text-center text-bold">Manage User</div>
-        </q-item-section>
-      </q-btn>
-    </div>
-
-    <!-- Templates (Mobile Only) -->
-
-    <div
-      class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg mobile-only"
-    >
-      <q-btn
-        color="pink"
-        rounded
-        bordered
-        class="q-card full-width column content-center"
-        style="max-width: 140px; height: 140px"
-      >
-        <q-item-section class="column items-center">
-          <div class="text-h6 text-bold">Untitled</div>
-        </q-item-section>
-      </q-btn>
-
-      <q-btn
-        color="purple"
-        rounded
-        bordered
-        class="q-card full-width column content-center"
-        style="max-width: 140px; height: 140px"
-      >
-        <q-item-section class="column items-center">
-          <div class="text-h6 text-center text-bold">Untitled</div>
-        </q-item-section>
-      </q-btn>
-      <!-- Active/Read Reports (Desktop Only) -->
-      <div
-        class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg desktop-only"
-      >
+    <div class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg">
+      <div class="q-ma-sm" style="width: 140px; height: 140px">
         <q-btn
           color="green-13"
           rounded
           bordered
           class="q-card full-width column"
-          style="max-width: 250px; height: 250px"
+          style="width: 140px; height: 140px"
           to="/view_tickets"
         >
           <q-item-section class="column items-center">
@@ -137,90 +36,63 @@
             <div class="text-caption text-bold">15 Tickets</div>
           </q-item-section>
         </q-btn>
+      </div>
 
+      <div class="q-ma-sm" style="width: 140px; height: 140px">
         <q-btn
           color="light-blue-14"
           rounded
           bordered
           class="q-card full-width column content-center"
-          style="max-width: 250px; height: 250px"
+          style="width: 140px; height: 140px"
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-file-chart-outline" size="lg" class="q-pa-xs">
             </q-icon>
-            <div class="text-h6 text-center text-bold">Read Reports</div>
+            <div class="text-h6 text-center text-bold">Reports</div>
+            <div class="text-caption text-bold">15 Tickets</div>
           </q-item-section>
         </q-btn>
       </div>
 
-      <!-- Resolved Tickets/Assign Staff (Desktop Only) -->
-
-      <div
-        class="q-pa-md q-pl-xs row justify-evenly full-width q-mb-lg desktop-only"
-      >
+      <div class="q-ma-sm" style="width: 140px; height: 140px">
         <q-btn
           color="orange-6"
           rounded
           bordered
           class="q-card full-width column content-center"
-          style="max-width: 250px; height: 250px"
+          style="max-width: 140px; height: 140px"
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
             </q-icon>
-            <div class="text-h6 text-bold">Resolved Tickets</div>
+            <div class="text-h6 text-center text-bold">Resolved</div>
+            <div class="text-caption text-bold">15 Tickets</div>
           </q-item-section>
         </q-btn>
+      </div>
 
+      <div class="q-ma-sm" style="width: 140px; height: 140px">
         <q-btn
           color="blue-grey"
           rounded
           bordered
           class="q-card full-width column content-center"
-          style="max-width: 250px; height: 250px"
+          style="max-width: 140px; height: 140px"
           to="/view_users"
         >
           <q-item-section class="column items-center">
-            <q-icon name="mdi-account-circle" size="md" class="q-pa-xs">
+            <q-icon name="mdi-account-circle" size="lg" class="q-pa-xs">
             </q-icon>
-            <div class="text-h6 text-center text-bold">Manage User</div>
-          </q-item-section>
-        </q-btn>
-      </div>
-
-      <!-- Templates (Desktop Only) -->
-
-      <div
-        class="q-pl-xs q-pl-xs row justify-evenly full-width q-mt-md desktop-only"
-      >
-        <q-btn
-          color="pink"
-          rounded
-          bordered
-          class="q-card full-width column content-center"
-          style="max-width: 250px; height: 250px"
-        >
-          <q-item-section class="column items-center">
-            <div class="text-h6 text-bold">Untitled</div>
-          </q-item-section>
-        </q-btn>
-
-        <q-btn
-          color="purple"
-          rounded
-          bordered
-          class="q-card full-width column content-center"
-          style="max-width: 250px; height: 250px"
-        >
-          <q-item-section class="column items-center">
-            <div class="text-h6 text-center text-bold">Untitled</div>
+            <div class="text-h6 text-center text-bold">Users</div>
+            <div class="text-caption text-bold">15 Tickets</div>
           </q-item-section>
         </q-btn>
       </div>
     </div>
 
     <div class="">
-      <q-page-sticky expand position="bottom" class="q-pa-md">
+      <q-page-sticky expand position="bottom" class="q-pa-sm">
         <q-btn
           elevated
           no-caps
@@ -266,11 +138,3 @@ export default defineComponent({
   name: "PageHome",
 });
 </script>
-
-<style lang="sass">
-.q-item-section
-  position: absolute
-  bottom: 0
-  left: 50%
-  transform:translateX(50%)
-</style>
