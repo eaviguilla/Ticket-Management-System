@@ -54,6 +54,7 @@
                       flat
                       label="Turn on Wifi"
                       color="primary"
+                      @click="categs.deletCateg(this.editCateg.categID)"
                       v-close-popup
                     />
                   </q-card-actions>
@@ -135,6 +136,11 @@ export default {
       confirm: false,
       addCateg: ref(false),
       address: ref(""),
+      editCateg: {
+        categID: ref(""),
+        categName: ref(""),
+        categDesc: ref(""),
+      },
       tab: ref("mails"),
       ITRO_categ: [
         "Computer",
@@ -148,6 +154,16 @@ export default {
   },
   mounted() {
     this.categs.getCategs();
+  },
+  methods: {
+    delDialog(id) {
+      this.confirm = true;
+      this.editCateg.categID = id;
+    },
+    editDialog() {},
+    deleteCateg(id) {
+      // this.categs.deleteCateg(this.categID)
+    },
   },
 };
 </script>
