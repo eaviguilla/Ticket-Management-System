@@ -16,7 +16,7 @@ export const categStore = defineStore("categS", {
     categories: [],
   }),
   getters: {
-    getCategs() {
+    filterCategs() {
       if (authS.userDetails.office === "BMO") {
         return this.categories.filter((c) => c.office == "BMO");
       }

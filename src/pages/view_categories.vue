@@ -1,59 +1,114 @@
 <template>
-  <div class style="max-width: 950px; width: 100%; margin: 0 auto">
-    <q-item
-      class="rounded-borders q-my-sm q-card items-center"
-      v-for="categ in ITRO_categ"
-      :key="categ"
-      bordered
-      ><div class="full-width">
-        <q-item-section class="justify-between">
-          <q-item-label class="text-weight-bolder text-body2 q-pr-sm">{{
-            categ
-          }}</q-item-label>
-          <q-item-label class="text-overline"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-            placerat faucibus enim eget vulputate. Aliquam luctus laoreet
-            just</q-item-label
-          >
+  <q-layout style="margin-bottom: 65px">
+    <div class="q-pa-md" style="max-width: 950px; width: 100%; margin: 0 auto">
+      <div class="text-h6 text-bold text-primary">BMO Categories</div>
+      <q-item
+        class="rounded-borders q-my-sm q-card items-center"
+        v-for="categ in categs.filterCategs"
+        :key="categ.categID"
+        bordered
+        ><div class="full-width">
+          <q-item-section class="justify-between">
+            <q-item-label class="text-caption text-grey">{{
+              categ.categID
+            }}</q-item-label>
+            <q-item-label class="text-bold text-body2">{{
+              categ.name
+            }}</q-item-label>
+            <q-item-label class="text-caption text-justify">{{
+              categ.description
+            }}</q-item-label>
 
-          <div class="q-pa-md q-gutter-sm" align="right">
-            <q-btn
-              unelevated
-              label="edit"
-              color="teal"
-              icon="fa-solid fa-pen-to-square"
-              size="sm"
+            <div flat class="q-mt-md row justify-betweem" style="width: 100%">
+              <q-btn
+                flat
+                rounded
+                size="sm"
+                class="text-white bg-secondary"
+                style="
+                  width: 50%;
+                  border-bottom-right-radius: 0;
+                  border-top-right-radius: 0;
+                "
+                label="delete"
+                icon="mdi-delete-outline"
+              >
+              </q-btn>
+              <q-btn
+                flat
+                rounded
+                size="sm"
+                class="text-white bg-primary"
+                style="
+                  width: 50%;
+                  border-bottom-left-radius: 0;
+                  border-top-left-radius: 0;
+                "
+                label="edit"
+                icon="mdi-pencil-outline"
+              >
+              </q-btn>
+            </div>
+          </q-item-section></div
+      ></q-item>
+    </div>
+    <div>
+      <q-page-sticky expand position="bottom" class="q-pa-md">
+        <q-btn
+          elevated
+          no-caps
+          class="full-width q-pa-md"
+          style="
+            background: #ff6b6e;
+            color: white;
+            max-width: 1400px;
+            border-radius: 20px;
+          "
+          size="md"
+          label="Add Category"
+          @click="addCateg = true"
+        />
+      </q-page-sticky>
+      <q-dialog v-model="addCateg" persistent>
+        <q-card style="min-width: 350px">
+          <q-card-section>
+            <div class="text-h6">Your address</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input
+              dense
+              v-model="address"
+              autofocus
+              @keyup.enter="addCateg = false"
             />
-            <q-btn
-              unelevated
-              label="delete"
-              color="grey-10"
-              icon="fa-solid fa-trash"
-              size="sm"
-            />
-          </div>
-        </q-item-section></div
-    ></q-item>
-  </div>
-  <div class="">
-    <q-page-sticky expand position="bottom-left" class="q-pa-lg">
-      <q-btn
-        unelevated
-        round
-        color="light-green-4"
-        icon="fa-solid fa-plus"
-        size="md"
-      />
-    </q-page-sticky>
-  </div>
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="Cancel" v-close-popup />
+            <q-btn flat label="Add address" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
+  </q-layout>
 </template>
 
 <script>
 import { ref } from "vue";
+import { categStore } from "src/stores/store_Categ";
+import { authStore } from "src/stores/store_Auth";
 
 export default {
   setup() {
+    const categs = categStore();
+    const auth = authStore();
+    return { categs, auth };
+  },
+  data() {
     return {
+      addCateg: ref(false),
+      address: ref(""),
       tab: ref("mails"),
       ITRO_categ: [
         "Computer",
@@ -64,6 +119,9 @@ export default {
         "Boogaloo",
       ],
     };
+  },
+  mounted() {
+    this.categs.getCategs();
   },
 };
 </script>

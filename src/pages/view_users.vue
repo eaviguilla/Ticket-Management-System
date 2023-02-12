@@ -231,7 +231,7 @@ export default {
     };
   },
   mounted() {
-    this.users.getUsers();
+    this.users.getCategs();
   },
   methods: {
     editDial(id) {
