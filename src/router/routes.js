@@ -53,6 +53,10 @@ const routes = [
     path: "/view_categories",
     component: () => import("src/pages/view_categories.vue"),
   },
+  {
+    path: "/view_locations",
+    component: () => import("src/pages/view_locations.vue"),
+  },
 
   // Always leave this as last one,
   // but you can also remove it
