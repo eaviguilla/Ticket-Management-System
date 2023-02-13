@@ -31,11 +31,11 @@
           ><q-icon size="sm" name="mdi-abacus"></q-icon
           ><span class="text-capitalize text-caption">Reports</span></q-tab
         >
-        <q-tab name="home" to="/"
+        <q-tab name="home"
           ><q-icon size="sm" name="mdi-view-dashboard-outline"></q-icon
           ><span class="text-capitalize text-caption">Home</span></q-tab
         >
-        <q-tab name="notification" to="/view_notifications"
+        <q-tab name="notification"
           ><q-icon size="sm" name="mdi-bell-outline"></q-icon
           ><span class="text-capitalize text-caption">Notif</span></q-tab
         >
