@@ -14,7 +14,7 @@
 
     <q-page-container>
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="reports"> Reports </q-tab-panel>
+        <q-tab-panel name="reports"> <view_reports /> </q-tab-panel>
 
         <q-tab-panel name="home">
           <home />
@@ -49,9 +49,9 @@
 import { ref } from "vue";
 import home from "pages/home.vue";
 import view_notifications from "pages/view_notifications.vue";
-
+import view_reports from "src/components/view_reports.vue";
 export default {
-  components: { home, view_notifications },
+  components: { home, view_notifications, view_reports },
   data() {
     return {
       tab: ref("home"),
