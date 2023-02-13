@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@quasar/cli": "^2.0.0",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.15.11",
     "firebase": "^9.16.0",
     "pinia": "^2.0.30",
     "quasar": "^2.6.0",
