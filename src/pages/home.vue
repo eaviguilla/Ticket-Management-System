@@ -128,11 +128,11 @@
           "
           size="lg"
           label="Create Ticket"
-          @click="dialog = true"
+          @click="createBtn = true"
           to="/create_ticket"
         />
       </q-page-sticky>
-      <q-dialog v-model="dialog" persistent full-height full-width>
+      <q-dialog v-model="createBtn" persistent full-height full-width>
         <q-card class="text-black">
           <q-bar>
             <q-space />

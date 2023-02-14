@@ -14,7 +14,7 @@
 
     <q-page-container>
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="reports"> Reports </q-tab-panel>
+        <q-tab-panel name="reports"> <view_reports /> </q-tab-panel>
 
         <q-tab-panel name="home">
           <home />
@@ -31,11 +31,11 @@
           ><q-icon size="sm" name="mdi-abacus"></q-icon
           ><span class="text-capitalize text-caption">Reports</span></q-tab
         >
-        <q-tab name="home" to="/"
+        <q-tab name="home"
           ><q-icon size="sm" name="mdi-view-dashboard-outline"></q-icon
           ><span class="text-capitalize text-caption">Home</span></q-tab
         >
-        <q-tab name="notification" to="/view_notifications"
+        <q-tab name="notification"
           ><q-icon size="sm" name="mdi-bell-outline"></q-icon
           ><span class="text-capitalize text-caption">Notif</span></q-tab
         >
@@ -49,9 +49,9 @@
 import { ref } from "vue";
 import home from "pages/home.vue";
 import view_notifications from "pages/view_notifications.vue";
-
+import view_reports from "src/components/view_reports.vue";
 export default {
-  components: { home, view_notifications },
+  components: { home, view_notifications, view_reports },
   data() {
     return {
       tab: ref("home"),
