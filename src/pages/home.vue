@@ -9,7 +9,7 @@
           Welcome to RAMaintenance
         </div>
         <div class="text-h6 text-center text-weight-light q-pb-xs text-grey-7">
-          Good day {{ auth.userDetails.fName }}!
+          Good Day {{ auth.userDetails.fName }}!
         </div>
       </q-item-section>
     </div>
@@ -68,6 +68,28 @@
             <q-icon name="mdi-label-multiple-outline" size="lg" class="q-pa-xs">
             </q-icon>
             <div class="text-h6 text-center text-bold">Categories</div>
+            <div class="text-caption text-bold">15 Tickets</div>
+          </q-item-section>
+        </q-btn>
+      </div>
+
+      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
+        <q-btn
+          color="light-blue-7"
+          rounded
+          bordered
+          class="q-card full-width column content-center"
+          style="max-width: 140px; height: 140px"
+          to="/"
+        >
+          <q-item-section class="column items-center">
+            <q-icon
+              name="mdi-file-document-multiple-outline"
+              size="lg"
+              class="q-pa-xs"
+            >
+            </q-icon>
+            <div class="text-h6 text-center text-bold">Reports</div>
             <div class="text-caption text-bold">15 Tickets</div>
           </q-item-section>
         </q-btn>
