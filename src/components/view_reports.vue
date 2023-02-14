@@ -23,8 +23,7 @@
           </q-tab-panel>
 
           <q-tab-panel name="itro_staff_report">
-            <div class="text-h6">Tickets Accomplshed By BMO Staffs</div>
-            graph here
+            <chart_itro></chart_itro>
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
@@ -39,9 +38,13 @@ const chart_bmo = defineAsyncComponent(() =>
   import("components/charts/accomplished_tickets_BMO.vue")
 );
 
+const chart_itro = defineAsyncComponent(() =>
+  import("components/charts/accomplished_tickets_ITRO.vue")
+);
+
 export default defineComponent({
   name: "ViewReports",
-  components: { chart_bmo },
+  components: { chart_bmo, chart_itro },
   setup() {
     return {
       tab: ref("mails"),

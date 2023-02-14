@@ -14,7 +14,7 @@ export default {
     return {
       series: [
         {
-          data: [60, 40, 42, 50, 45, 20],
+          data: [45, 55, 49, 52, 49, 47],
         },
       ],
       chartOptions: {
@@ -22,7 +22,7 @@ export default {
           type: "bar",
           height: 350,
         },
-        colors: ["#034f84"],
+        colors: ["#c94c4c"],
         plotOptions: {
           bar: {
             borderRadius: 4,
@@ -34,12 +34,12 @@ export default {
         },
         xaxis: {
           categories: [
-            "James Poco",
-            "Jan Lorenzo",
-            "Elias Viguilla",
-            "Kleine Martin",
-            "Ryan Manoguid",
-            "Felix Perdo",
+            "Crisostomo Ibarra",
+            "Maria Clara",
+            "Capitan Tiago",
+            "Pilosopo Tasyo",
+            "Dona Victorina",
+            "Sisa",
           ],
         },
       },
