@@ -35,8 +35,8 @@
 <script>
 import { defineComponent, defineAsyncComponent, ref } from "vue";
 
-const chart_bmo = defineComponent(() =>
-  import("components/charts/accomplished_tickets.vue")
+const chart_bmo = defineAsyncComponent(() =>
+  import("components/charts/accomplished_tickets_BMO.vue")
 );
 
 export default defineComponent({
