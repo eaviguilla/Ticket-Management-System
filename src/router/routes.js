@@ -16,10 +16,6 @@ const routes = [
     path: "/view_users",
     component: () => import("pages/view_users.vue"),
   },
-  {
-    path: "/z_ryan_dump_acc",
-    component: () => import("src/pages/z_ryan_dump_acc.vue"),
-  },
 
   {
     path: "/view_tickets",
@@ -62,8 +58,13 @@ const routes = [
     component: () => import("src/pages/view_locations2.vue"),
   },
   {
-    path: "/reports",
+    path: "/view_reports",
     component: () => import("src/components/view_reports.vue"),
+  },
+
+  {
+    path: "/view_rooms",
+    component: () => import("src/pages/view_rooms.vue"),
   },
 
   // Always leave this as last one,
