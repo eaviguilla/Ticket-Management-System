@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 
 const authS = authStore();
+const categsRef = collection(db, "categories");
 
 export const categStore = defineStore("categS", {
   state: () => ({
@@ -26,26 +27,28 @@ export const categStore = defineStore("categS", {
     },
   },
   actions: {
-    registerCateg(payload) {
-      const categRef = addDoc(collection(db, "categories"), {
+    addCateg(payload) {
+      const categRef = addDoc(categsRef, {
         name: payload.name,
         office: payload.office,
         description: payload.description,
       });
-      console.log("New Categ ID: ", categRef.id);
+      const categDetails = payload;
+      console.log("this is the new id", categRef);
+
+      categDetails.categID = categRef.id;
+      this.categories.push(categDetails);
     },
     getCategs() {
       this.categories = [];
-      const querySnapshot = getDocs(collection(db, "categories")).then(
-        (querySnapshot) => {
-          querySnapshot.forEach((response) => {
-            const categDetails = response.data();
-            categDetails.categID = response.id;
-            this.categories.push(categDetails);
-            console.log(categDetails);
-          });
-        }
-      );
+      const querySnapshot = getDocs(categsRef).then((querySnapshot) => {
+        querySnapshot.forEach((response) => {
+          const categDetails = response.data();
+          categDetails.categID = response.id;
+          this.categories.push(categDetails);
+          console.log(categDetails);
+        });
+      });
     },
     updateCateg(payload) {
       const categRef = doc(db, "categories", payload.categID);
@@ -61,8 +64,14 @@ export const categStore = defineStore("categS", {
         }
       }
     },
-    deletCateg(categID) {
-      deleteDoc(doc(db, "categories", categID));
+    deleteCateg(categID) {
+      deleteDoc(doc(categsRef, categID));
+      const index = this.categories.findIndex(
+        (categ) => categ.categID === categID
+      );
+      if (index !== -1) {
+        this.categories.splice(index, 1);
+      }
     },
   },
 });

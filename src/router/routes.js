@@ -58,6 +58,10 @@ const routes = [
     component: () => import("src/pages/view_locations.vue"),
   },
   {
+    path: "/view_locations2",
+    component: () => import("src/pages/view_locations2.vue"),
+  },
+  {
     path: "/reports",
     component: () => import("src/components/view_reports.vue"),
   },

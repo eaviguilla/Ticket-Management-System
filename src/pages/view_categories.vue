@@ -38,7 +38,7 @@
                 <q-btn
                   flat
                   rounded
-                  @click="confirm = true"
+                  @click="delDialog(categ.categID)"
                   size="sm"
                   class="text-white bg-secondary"
                   style="
@@ -50,16 +50,13 @@
                   icon="mdi-delete-outline"
                 >
                 </q-btn>
-                <q-dialog v-model="confirm" persistent>
+                <q-dialog v-model="confirmDel" persistent>
                   <q-card>
                     <q-card-section class="row items-center">
-                      <q-avatar
-                        icon="signal_wifi_off"
-                        color="primary"
-                        text-color="white"
-                      />
                       <span class="q-ml-sm"
-                        >Are you sure you want to delete this Category?
+                        >Are you sure you want to delete this Category? It
+                        cannot be reversed and may affect Tickets that have this
+                        category.
                       </span>
                     </q-card-section>
 
@@ -72,9 +69,9 @@
                       />
                       <q-btn
                         flat
-                        label="Turn on Wifi"
-                        color="primary"
-                        @click="categs.deletCateg(this.editCateg.categID)"
+                        label="Delete Category"
+                        color="secondary"
+                        @click="deleteCateg()"
                         v-close-popup
                       />
                     </q-card-actions>
@@ -112,27 +109,44 @@
             "
             size="md"
             label="Add Category"
-            @click="addCateg = true"
+            @click="categAdd = true"
           />
         </q-page-sticky>
-        <q-dialog v-model="addCateg" persistent>
+        <q-dialog v-model="categAdd" persistent>
           <q-card style="min-width: 350px">
             <q-card-section>
-              <div class="text-h6">Your address</div>
+              <div class="text-h6">Add Category</div>
             </q-card-section>
 
             <q-card-section class="q-pt-none">
               <q-input
+                outlined
                 dense
-                v-model="address"
+                label="Category Name"
+                v-model="addCategForm.name"
                 autofocus
-                @keyup.enter="addCateg = false"
+                @keyup.enter="categAdd = false"
               />
             </q-card-section>
-
+            <q-card-section class="q-pt-none">
+              <q-input
+                outlined
+                dense
+                autogrow
+                label="Category Description"
+                v-model="addCategForm.description"
+                autofocus
+                @keyup.enter="categAdd = false"
+              />
+            </q-card-section>
             <q-card-actions align="right" class="text-primary">
               <q-btn flat label="Cancel" v-close-popup />
-              <q-btn flat label="Add address" v-close-popup />
+              <q-btn
+                flat
+                @click="addCateg"
+                label="Add Category"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -154,23 +168,18 @@ export default {
   },
   data() {
     return {
-      confirm: false,
-      addCateg: ref(false),
+      confirmDel: false,
+      categAdd: ref(false),
       address: ref(""),
-      editCateg: {
+      addCategForm: {
+        name: ref(""),
+        description: ref(""),
+      },
+      editCategForm: {
         categID: ref(""),
         categName: ref(""),
         categDesc: ref(""),
       },
-      tab: ref("mails"),
-      ITRO_categ: [
-        "Computer",
-        "Internet",
-        " Chords",
-        "Osbot",
-        "Laptop",
-        "Boogaloo",
-      ],
     };
   },
   mounted() {
@@ -178,13 +187,20 @@ export default {
   },
   methods: {
     delDialog(id) {
-      this.confirm = true;
-      this.editCateg.categID = id;
       console.log(id);
+      this.confirmDel = true;
+      this.editCategForm.categID = id;
+    },
+    addCateg() {
+      const payload = this.addCategForm;
+      payload.office = this.auth.userDetails.office;
+      console.log(payload);
+      this.categs.addCateg(payload);
     },
     editDialog() {},
-    deleteCateg(id) {
-      // this.categs.deleteCateg(this.categID)
+    deleteCateg() {
+      this.categs.deleteCateg(this.editCategForm.categID);
+      this.confirmDel = false;
     },
   },
 };
