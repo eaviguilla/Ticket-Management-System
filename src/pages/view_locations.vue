@@ -21,6 +21,7 @@
           style="max-width: 450px"
           v-for="floor in floors"
           :key="floor.id"
+          to="/view_rooms"
         >
           <div class="full-width">
             <q-item-section class="full-width" clickable v-ripple>
