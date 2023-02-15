@@ -1,256 +1,176 @@
 <template>
-  <div class="q-pa-md" style="max-width: 350px">
-    <q-toolbar class="bg-primary text-white shadow-2">
-      <q-toolbar-title>Locations</q-toolbar-title>
-    </q-toolbar>
-
-    <q-list bordered separator>
-      <q-item
-        v-for="first in firstfloor"
-        :key="first.id"
-        class="q-my-sm"
-        clickable
-        v-ripple
-        :inset-level="first.insetLevel"
+  <q-layout style="margin-bottom: 65px" view="hHh lpR fFf">
+    <q-header bordered class="bg-white text-white">
+      <q-toolbar>
+        <q-btn flat rounded class="float-left" to="/"
+          ><q-icon color="primary" name="mdi-arrow-left"></q-icon
+        ></q-btn>
+        <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>
+        <q-toolbar-title class="text-primary text-weight-bold"
+          >RAMaintenance</q-toolbar-title
+        >
+      </q-toolbar>
+    </q-header>
+    <q-page-container>
+      <div
+        class="q-pa-xs items-start q-gutter-md"
+        style="max-width: 550px; width: 100%; margin: 0 auto"
       >
-        <q-item-section avatar>
-          <q-avatar color="grey"> </q-avatar>
-        </q-item-section>
+        <q-item
+          class="q-card"
+          style="max-width: 450px"
+          v-for="floor in floors"
+          :key="floor.id"
+          to="/view_rooms"
+        >
+          <div class="full-width">
+            <q-item-section class="full-width" clickable v-ripple>
+              <div class="text-h6">{{ floor.name }}</div>
+            </q-item-section>
+          </div>
+          <div>
+            <q-btn
+              flat
+              round
+              icon="mdi-square-edit-outline"
+              @click="confirm = true"
+            />
+          </div>
+          <q-dialog v-model="confirm" persistent>
+            <q-card>
+              <q-card-section class="row items-center">
+                <q-avatar
+                  icon="mdi-cog-outline"
+                  color="grey"
+                  text-color="white"
+                />
+                <span class="q-ml-sm">Please select what you want.</span>
+              </q-card-section>
 
-        <q-item-section>
-          <q-item-label>{{ first.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ first.email }}</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="chat_bubble" color="green" />
-        </q-item-section>
-      </q-item>
-
-      <q-separator />
-
-      <q-item
-        v-for="room1 in rooms1"
-        :key="room1.id"
-        class="q-mb-sm"
-        clickable
-        v-ripple
-        :inset-level="room1.insetLevel"
-      >
-        <q-item-section>
-          <q-item-label>{{ room1.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ room1.email }}</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="chat_bubble" color="grey" />
-        </q-item-section>
-      </q-item>
-    </q-list>
-
-    <!--           -->
-    <!-- 2nd Floor -->
-    <!-- 2nd Floor -->
-    <!-- 2nd Floor -->
-    <!--           -->
-
-    <q-list bordered separator>
-      <q-item
-        v-for="second in secondfloor"
-        :key="second.id"
-        class="q-my-sm"
-        clickable
-        v-ripple
-        :inset-level="second.insetLevel"
-      >
-        <q-item-section avatar>
-          <q-avatar color="green"> </q-avatar>
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label>{{ second.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ second.email }}</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="chat_bubble" color="green" />
-        </q-item-section>
-      </q-item>
-
-      <q-separator />
-
-      <q-item
-        v-for="room2 in rooms2"
-        :key="room2.id"
-        class="q-mb-sm"
-        clickable
-        v-ripple
-        :inset-level="room2.insetLevel"
-      >
-        <q-item-section>
-          <q-item-label>{{ room2.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ room2.email }}</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="chat_bubble" color="grey" />
-        </q-item-section>
-      </q-item>
-    </q-list>
-
-    <!--           -->
-    <!-- 3rd Floor -->
-    <!-- 3rd Floor -->
-    <!-- 3rd Floor -->
-    <!--           -->
-
-    <q-list bordered separator>
-      <q-item
-        v-for="third in thirdfloor"
-        :key="third.id"
-        class="q-my-sm"
-        clickable
-        v-ripple
-        :inset-level="third.insetLevel"
-      >
-        <q-item-section avatar>
-          <q-avatar color="light-green"> </q-avatar>
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label>{{ third.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ third.email }}</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="chat_bubble" color="green" />
-        </q-item-section>
-      </q-item>
-
-      <q-separator />
-
-      <q-item
-        v-for="room3 in rooms3"
-        :key="room3.id"
-        class="q-mb-sm"
-        clickable
-        v-ripple
-        :inset-level="room3.insetLevel"
-      >
-        <q-item-section>
-          <q-item-label>{{ room3.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ room3.email }}</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-icon name="chat_bubble" color="grey" />
-        </q-item-section>
-      </q-item>
-    </q-list>
-  </div>
+              <q-card-actions align="right">
+                <q-btn
+                  flat
+                  class="q-pa-xl"
+                  label="Delete Floor"
+                  color="primary"
+                  v-close-popup
+                />
+                <q-btn
+                  flat
+                  class="q-pa-xl"
+                  label="Cancel"
+                  color="primary"
+                  v-close-popup
+                />
+                <q-btn
+                  flat
+                  class="q-pa-xl"
+                  label="Save"
+                  color="primary"
+                  v-close-popup
+                />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+        </q-item>
+      </div>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
-const firstfloor = [
+import { ref } from "vue";
+const floors = [
   {
     id: 1,
+    name: "Basement 1",
+  },
+  {
+    id: 2,
+    name: "Basement 2",
+  },
+  {
+    id: 3,
+    name: "Basement 3",
+  },
+  {
+    id: 4,
     name: "1st Floor",
-    email: "Rooms 101-117",
-    insetLevel: 0,
-  },
-];
-
-const rooms1 = [
-  {
-    id: 1,
-    name: "Room 101",
-    email: "<blank>",
-    insetLevel: 1,
   },
   {
-    id: 2,
-    name: "Room 102",
-    email: "<blank>",
-    insetLevel: 1,
-  },
-  {
-    id: 3,
-    name: "Room 102",
-    email: "<blank>",
-    insetLevel: 1,
-  },
-];
-
-const secondfloor = [
-  {
-    id: 1,
+    id: 5,
     name: "2nd Floor",
-    email: "Rooms 201-217",
-    insetLevel: 0,
-  },
-];
-
-const rooms2 = [
-  {
-    id: 1,
-    name: "Room 201",
-    email: "<blank>",
-    insetLevel: 1,
   },
   {
-    id: 2,
-    name: "Room 202",
-    email: "<blank>",
-    insetLevel: 1,
-  },
-  {
-    id: 3,
-    name: "Room 202",
-    email: "<blank>",
-    insetLevel: 1,
-  },
-];
-
-const thirdfloor = [
-  {
-    id: 1,
+    id: 6,
     name: "3rd Floor",
-    email: "Rooms 301-317",
-    insetLevel: 0,
+  },
+  {
+    id: 7,
+    name: "4th Floor",
+  },
+  {
+    id: 8,
+    name: "5th Floor",
+  },
+  {
+    id: 9,
+    name: "6th Floor",
+  },
+  {
+    id: 10,
+    name: "7th Floor",
+  },
+  {
+    id: 11,
+    name: "8th Floor",
+  },
+  {
+    id: 12,
+    name: "9th Floor",
+  },
+  {
+    id: 13,
+    name: "10th Floor",
+  },
+  {
+    id: 14,
+    name: "11th Floor",
+  },
+  {
+    id: 15,
+    name: "12th Floor",
   },
 ];
 
-const rooms3 = [
+const offline = [
   {
-    id: 1,
-    name: "Room 301",
-    email: "<blank>",
-    insetLevel: 1,
+    id: 5,
+    name: "Brunhilde Panswick",
+    email: "bpanswick4@csmonitor.com",
+    avatar: "avatar2.jpg",
   },
   {
-    id: 2,
-    name: "Room 302",
-    email: "<blank>",
-    insetLevel: 1,
-  },
-  {
-    id: 3,
-    name: "Room 302",
-    email: "<blank>",
-    insetLevel: 1,
+    id: 6,
+    name: "Winfield Stapforth",
+    email: "wstapforth5@pcworld.com",
+    avatar: "avatar6.jpg",
   },
 ];
 
 export default {
   setup() {
     return {
-      firstfloor,
-      rooms1,
-      secondfloor,
-      rooms2,
-      thirdfloor,
-      rooms3,
+      floors,
+      offline,
+      confirm: ref(false),
     };
   },
 };
 </script>
+
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 250px
+</style>

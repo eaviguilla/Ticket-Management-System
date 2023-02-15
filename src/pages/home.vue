@@ -75,21 +75,17 @@
 
       <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
-          color="light-blue-7"
+          color="cyan-6"
           rounded
           bordered
           class="q-card full-width column content-center"
           style="max-width: 140px; height: 140px"
-          to="/"
+          to="/view_locations"
         >
           <q-item-section class="column items-center">
-            <q-icon
-              name="mdi-file-document-multiple-outline"
-              size="lg"
-              class="q-pa-xs"
-            >
+            <q-icon name="mdi-map-marker-outline" size="lg" class="q-pa-xs">
             </q-icon>
-            <div class="text-h6 text-center text-bold">Reports</div>
+            <div class="text-h6 text-center text-bold">Locations</div>
             <div class="text-caption text-bold">15 Tickets</div>
           </q-item-section>
         </q-btn>
