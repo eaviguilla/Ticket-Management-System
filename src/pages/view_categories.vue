@@ -35,6 +35,7 @@
               }}</q-item-label>
 
               <div flat class="q-mt-md row justify-betweem" style="width: 100%">
+                <!-- Category deletion button -->
                 <q-btn
                   flat
                   rounded
@@ -50,6 +51,7 @@
                   icon="mdi-delete-outline"
                 >
                 </q-btn>
+                <!-- Category deletion dialog -->
                 <q-dialog v-model="confirmDel" persistent>
                   <q-card>
                     <q-card-section class="row items-center">
@@ -77,9 +79,11 @@
                     </q-card-actions>
                   </q-card>
                 </q-dialog>
+                <!-- Category edit button -->
                 <q-btn
                   flat
                   rounded
+                  @click="editDialog(categ)"
                   size="sm"
                   class="text-white bg-primary"
                   style="
@@ -91,11 +95,51 @@
                   icon="mdi-pencil-outline"
                 >
                 </q-btn>
+                <!-- Category edit dialog -->
+                <q-dialog v-model="categEdit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Edit Category</div>
+                    </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                      <q-input
+                        outlined
+                        dense
+                        label="Category Name"
+                        v-model="editCategForm.name"
+                        autofocus
+                        @keyup.enter="categEdit = false"
+                      />
+                    </q-card-section>
+                    <q-card-section class="q-pt-none">
+                      <q-input
+                        outlined
+                        dense
+                        autogrow
+                        label="Category Description"
+                        v-model="editCategForm.description"
+                        autofocus
+                        @keyup.enter="categEdit = false"
+                      />
+                    </q-card-section>
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        flat
+                        @click="editCateg"
+                        label="Save"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </div>
             </q-item-section></div
         ></q-item>
       </div>
       <div>
+        <!-- Add category button -->
         <q-page-sticky expand position="bottom" class="q-pa-md">
           <q-btn
             elevated
@@ -112,6 +156,7 @@
             @click="categAdd = true"
           />
         </q-page-sticky>
+        <!-- Add category dialog -->
         <q-dialog v-model="categAdd" persistent>
           <q-card style="min-width: 350px">
             <q-card-section>
@@ -122,6 +167,7 @@
               <q-input
                 outlined
                 dense
+                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
                 label="Category Name"
                 v-model="addCategForm.name"
                 autofocus
@@ -132,6 +178,7 @@
               <q-input
                 outlined
                 dense
+                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
                 autogrow
                 label="Category Description"
                 v-model="addCategForm.description"
@@ -144,7 +191,7 @@
               <q-btn
                 flat
                 @click="addCateg"
-                label="Add Category"
+                label="Save Category"
                 v-close-popup
               />
             </q-card-actions>
@@ -170,6 +217,7 @@ export default {
     return {
       confirmDel: false,
       categAdd: ref(false),
+      categEdit: ref(false),
       address: ref(""),
       addCategForm: {
         name: ref(""),
@@ -177,8 +225,8 @@ export default {
       },
       editCategForm: {
         categID: ref(""),
-        categName: ref(""),
-        categDesc: ref(""),
+        name: ref(""),
+        description: ref(""),
       },
     };
   },
@@ -187,20 +235,35 @@ export default {
   },
   methods: {
     delDialog(id) {
-      console.log(id);
       this.confirmDel = true;
       this.editCategForm.categID = id;
     },
-    addCateg() {
-      const payload = this.addCategForm;
-      payload.office = this.auth.userDetails.office;
-      console.log(payload);
-      this.categs.addCateg(payload);
+    editDialog(toEdit) {
+      this.editCategForm.categID = toEdit.categID;
+      this.editCategForm.name = toEdit.name;
+      this.editCategForm.description = toEdit.description;
+      this.categEdit = true;
     },
-    editDialog() {},
+
+    addCateg() {
+      const payload = {
+        name: this.addCategForm.name,
+        description: this.addCategForm.description,
+        office: this.auth.userDetails.office,
+      };
+      this.categs.addCateg(payload);
+      this.addCategForm.name = "";
+      this.addCategForm.description = "";
+    },
     deleteCateg() {
       this.categs.deleteCateg(this.editCategForm.categID);
       this.confirmDel = false;
+    },
+    editCateg() {
+      const payload = this.editCategForm;
+      payload.office = this.auth.userDetails.office;
+      this.categs.updateCateg(payload);
+      this.categEdit = false;
     },
   },
 };

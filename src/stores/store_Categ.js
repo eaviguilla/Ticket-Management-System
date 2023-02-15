@@ -7,6 +7,7 @@ import {
   deleteDoc,
   getDocs,
   collection,
+  updateDoc,
 } from "firebase/firestore";
 
 const authS = authStore();
@@ -28,16 +29,16 @@ export const categStore = defineStore("categS", {
   },
   actions: {
     addCateg(payload) {
-      const categRef = addDoc(categsRef, {
+      addDoc(categsRef, {
         name: payload.name,
         office: payload.office,
         description: payload.description,
+      }).then((docRef) => {
+        // updating state
+        const categDetails = payload;
+        categDetails.categID = docRef.id;
+        this.categories.push(categDetails);
       });
-      const categDetails = payload;
-      console.log("this is the new id", categRef);
-
-      categDetails.categID = categRef.id;
-      this.categories.push(categDetails);
     },
     getCategs() {
       this.categories = [];
@@ -46,26 +47,25 @@ export const categStore = defineStore("categS", {
           const categDetails = response.data();
           categDetails.categID = response.id;
           this.categories.push(categDetails);
-          console.log(categDetails);
         });
       });
     },
     updateCateg(payload) {
-      const categRef = doc(db, "categories", payload.categID);
+      const categRef = doc(categsRef, payload.categID);
       updateDoc(categRef, {
         name: payload.name,
         description: payload.description,
       });
-      for (let i = 0; i < this.categories.length; i++) {
-        if (this.categories[i].categID === payload.categID) {
-          this.categories[i].name = payload.name;
-          this.categories[i].description = payload.description;
-          break;
-        }
-      }
+      // updating state
+      const index = this.categories.findIndex(
+        (categ) => categ.categID === payload.categID
+      );
+      this.categories[index].name = payload.name;
+      this.categories[index].description = payload.description;
     },
     deleteCateg(categID) {
       deleteDoc(doc(categsRef, categID));
+      // updating state
       const index = this.categories.findIndex(
         (categ) => categ.categID === categID
       );
