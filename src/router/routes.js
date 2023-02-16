@@ -3,10 +3,11 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/home.vue") },
+      { path: "", name: "Home", component: () => import("pages/home.vue") },
 
       {
         path: "/view_notifications",
+        name: "Notifications",
         component: () => import("pages/view_notifications.vue"),
       },
     ],
@@ -14,11 +15,13 @@ const routes = [
 
   {
     path: "/view_users",
+    name: "View users",
     component: () => import("pages/view_users.vue"),
   },
 
   {
     path: "/view_tickets",
+    name: "View tickets",
     component: () => import("src/pages/view_tickets.vue"),
   },
   {
@@ -28,29 +31,35 @@ const routes = [
 
   {
     path: "/view_ticket",
+    name: "View ticket",
     component: () => import("pages/view_ticket.vue"),
   },
 
   {
     path: "/login",
+    name: "Login",
     component: () => import("pages/login.vue"),
   },
 
   {
     path: "/register",
+    name: "Register",
     component: () => import("pages/register.vue"),
   },
   {
     path: "/create_ticket",
+    name: "Create ticket",
     component: () => import("pages/create_ticket.vue"),
   },
 
   {
     path: "/view_categories",
+    name: "View categories",
     component: () => import("src/pages/view_categories.vue"),
   },
   {
     path: "/view_locations",
+    name: "View locations",
     component: () => import("src/pages/view_locations.vue"),
   },
   {
@@ -59,6 +68,7 @@ const routes = [
   },
   {
     path: "/view_reports",
+    name: "View reports",
     component: () => import("src/components/view_reports.vue"),
   },
 

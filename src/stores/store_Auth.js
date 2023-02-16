@@ -34,7 +34,6 @@ export const authStore = defineStore("authS", {
         .then((response) => {
           const user = response.user;
           console.log("Signed In");
-          console.log(user);
         })
         .catch((error) => {
           console.log(error);

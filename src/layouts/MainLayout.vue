@@ -7,7 +7,11 @@
           >RAMaintenance</q-toolbar-title
         >
         <q-btn flat rounded
-          ><q-icon color="primary" name="mdi-logout-variant"></q-icon
+          ><q-icon
+            @click="auth.logoutUser"
+            color="primary"
+            name="mdi-logout-variant"
+          ></q-icon
         ></q-btn>
       </q-toolbar>
     </q-header>
@@ -50,7 +54,12 @@ import { ref } from "vue";
 import home from "pages/home.vue";
 import view_notifications from "pages/view_notifications.vue";
 import view_reports from "src/components/view_reports.vue";
+import { authStore } from "src/stores/store_Auth";
 export default {
+  setup() {
+    const auth = authStore();
+    return { auth };
+  },
   components: { home, view_notifications, view_reports },
   data() {
     return {
