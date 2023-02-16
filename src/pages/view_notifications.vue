@@ -1,36 +1,45 @@
 <template>
-  <div class="q-pa-md" style="max-width">
-    <q-list>
-      <!--template for unviewed notification-->
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>Aircondition: Floor:5, Room:508</q-item-label>
-          <q-item-label caption lines="2">{{ updates[1] }}</q-item-label>
-        </q-item-section>
-        <q-item-section side top>
-          <q-item-label caption>5 min ago</q-item-label>
-          <q-icon
-            class="q-pt-sm"
-            name="fa-solid fa-bell"
-            color="light-blue-6"
-          />
-        </q-item-section>
-      </q-item>
-      <q-separator spaced inset />
+  <div class="column items-center">
+    <div class="q-pa-md full-width" style="max-width: 750px">
+      <h5 class="text-weight-bolder text-primary">Notification</h5>
+      <q-list>
+        <!--template for unviewed notification-->
+        <q-item clickable v-ripple class="rounded-borders q-my-sm q-card">
+          <q-item-section>
+            <q-item-label class="q-pa-sm text-bold text-body1"
+              >Aircondition: Floor:5, Room:508</q-item-label
+            >
+            <q-item-label class="q-pa-sm">{{ updates[1] }}</q-item-label>
+          </q-item-section>
+          <q-item-section side top>
+            <q-item-label caption class="q-pa-sm">5 min ago</q-item-label>
+            <q-icon
+              class="q-pa-sm q-pt-sm"
+              name="fa-solid fa-bell"
+              color="light-blue-6"
+            />
+          </q-item-section>
+        </q-item>
 
-      <!--template for viewed notification-->
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>Aircondition: Floor:5, Room:508</q-item-label>
-          <q-item-label caption lines="2">{{ updates[2] }}</q-item-label>
-        </q-item-section>
-        <q-item-section side top>
-          <q-item-label caption>15 mins ago</q-item-label>
-          <q-icon class="q-pt-sm" name="fa-solid fa-check" color="green" />
-        </q-item-section>
-      </q-item>
-      <q-separator spaced inset />
-    </q-list>
+        <!--template for viewed notification-->
+        <q-item clickable v-ripple class="rounded-borders q-my-sm q-card">
+          <q-item-section>
+            <q-item-label class="q-pa-sm text-bold text-body1"
+              >Aircondition: Floor:5, Room:508</q-item-label
+            >
+            <q-item-label class="q-pa-sm">{{ updates[2] }}</q-item-label>
+          </q-item-section>
+          <q-item-section side top>
+            <q-item-label caption class="q-pa-sm">15 mins ago</q-item-label>
+            <q-icon
+              class="q-pa-sm q-pt-sm"
+              name="fa-solid fa-check"
+              color="green"
+            />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </div>
   </div>
 </template>
 
@@ -46,6 +55,7 @@ export default {
         "New note has been posted",
         "Ticket status has been updated",
         "Ticket has been resolved",
+        "Ticket priority level has been set",
       ],
     };
   },

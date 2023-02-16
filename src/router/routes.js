@@ -67,6 +67,10 @@ const routes = [
     path: "/create_ticket_2",
     component: () => import("src/pages/create_ticket_2.vue"),
   },
+  {
+    path: "/resolved",
+    component: () => import("src/components/resolved_tickets.vue"),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

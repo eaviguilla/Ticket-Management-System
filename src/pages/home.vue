@@ -45,6 +45,7 @@
           bordered
           class="q-card full-width column content-center"
           style="max-width: 140px; height: 140px"
+          to="/resolved"
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
