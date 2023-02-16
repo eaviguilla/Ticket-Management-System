@@ -60,7 +60,6 @@ export const userStore = defineStore("userS", {
             );
             if (index === -1) {
               this.users.push(userDetails);
-              console.log("Retrieved User: ", userDetails);
             }
           }
         });
@@ -89,10 +88,8 @@ export const userStore = defineStore("userS", {
       const index = this.users.findIndex(
         (user) => user.userID === payload.userID
       );
-
       delete this.users[index].office;
       delete this.users[index].admin;
-      console.log("Modified User: ", this.users[index]);
     },
   },
 });

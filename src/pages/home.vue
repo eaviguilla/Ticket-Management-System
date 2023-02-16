@@ -146,13 +146,18 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { authStore } from "src/stores/store_Auth";
 
 export default defineComponent({
   setup() {
     const auth = authStore();
     return { auth };
+  },
+  data() {
+    return {
+      createBtn: ref(false),
+    };
   },
   name: "PageHome",
 });
