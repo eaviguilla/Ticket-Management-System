@@ -7,18 +7,27 @@
       <div class="text-bold text-h6 text-primary">
         <p>Create Ticket Form</p>
       </div>
+
       <q-select
         standout="bg-teal text-white"
         v-model="model"
-        :options="floors"
-        label="Select Floor Level"
+        :options="offices"
+        label="Select Office of Concern"
       />
 
       <q-select
         standout="bg-teal text-white"
         v-model="model2"
-        :options="rooms"
-        label="Select Room/Area"
+        :options="equipments"
+        label="Select Category"
+      />
+
+      <q-input
+        autogrow
+        clearable
+        standout="bg-teal text-white"
+        v-model="model3"
+        label="Enter Details of Concern"
       />
 
       <div align="right">
@@ -28,6 +37,8 @@
           color="teal"
           icon="send"
           size="md"
+          clickable
+          v-ripple
           to="/create_ticket_2"
         />
       </div>
@@ -43,21 +54,18 @@ export default {
     return {
       model: ref(null),
       model2: ref(null),
-      floors: [
-        "Basement",
-        "First floor",
-        "Second floor",
-        "Third floor",
-        "Fourth floor",
-        "Sixth floor",
-        "Seventh floor",
-        "Eight floor",
-        "Nineth floor",
-        "Tenth floor",
-        "Eleventh floor",
-        "Tweleveth  floor",
+      model3: ref(null),
+      offices: ["BMO", "ITRO"],
+      equipments: [
+        "computer",
+        "lighting",
+        "furniture",
+        "toilet",
+        "sink",
+        "pipe",
+        "aircondition",
       ],
-      rooms: ["101", "102", "103"],
+      details: ref(""),
     };
   },
 };

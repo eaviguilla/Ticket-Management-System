@@ -57,7 +57,7 @@ export default defineComponent({
   components: { chart_bmo, chart_itro, average_bmo, average_itro },
   setup() {
     return {
-      tab: ref("mails"),
+      tab: ref("bmo_staff_report"),
     };
   },
 });
