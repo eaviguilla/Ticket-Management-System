@@ -3,17 +3,30 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, onBeforeMount } from "vue";
 import { authStore } from "./stores/store_Auth";
+import { useRouter, useRoute } from "vue-router";
+import { auth } from "boot/firebase";
 
 export default defineComponent({
   setup() {
-    const auth = authStore();
-    return { auth };
+    const router = useRouter();
+    const route = useRoute();
+    const authS = authStore();
+    onBeforeMount(() => {
+      auth.onAuthStateChanged((user) => {
+        if (!user) {
+          router.replace("/login");
+        } else if (route.path == "/login" || route.path == "/register") {
+          router.replace("/");
+        }
+      });
+    });
+    return { authS };
   },
   name: "App",
   mounted() {
-    this.auth.handleAuthStateChanged();
+    this.authS.handleAuthStateChanged();
   },
 });
 </script>

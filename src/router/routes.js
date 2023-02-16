@@ -3,22 +3,18 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", name: "Home", component: () => import("pages/home.vue") },
-
       {
-        path: "/view_notifications",
-        name: "Notifications",
-        component: () => import("pages/view_notifications.vue"),
+        path: "/",
+        name: "Home",
+        component: () => import("pages/home.vue"),
       },
     ],
   },
-
   {
     path: "/view_users",
     name: "View users",
     component: () => import("pages/view_users.vue"),
   },
-
   {
     path: "/view_tickets",
     name: "View tickets",
@@ -28,19 +24,16 @@ const routes = [
     path: "/subscribed",
     component: () => import("src/components/subscribed_tickets.vue"),
   },
-
   {
     path: "/view_ticket",
     name: "View ticket",
     component: () => import("pages/view_ticket.vue"),
   },
-
   {
     path: "/login",
     name: "Login",
     component: () => import("pages/login.vue"),
   },
-
   {
     path: "/register",
     name: "Register",
@@ -51,7 +44,6 @@ const routes = [
     name: "Create ticket",
     component: () => import("pages/create_ticket.vue"),
   },
-
   {
     path: "/view_categories",
     name: "View categories",
@@ -66,11 +58,6 @@ const routes = [
     path: "/view_locations2",
     component: () => import("src/pages/view_locations2.vue"),
   },
-  {
-    path: "/view_reports",
-    name: "View reports",
-    component: () => import("src/components/view_reports.vue"),
-  },
 
   {
     path: "/view_rooms",
@@ -80,7 +67,6 @@ const routes = [
     path: "/create_ticket_2",
     component: () => import("src/pages/create_ticket_2.vue"),
   },
-
   // Always leave this as last one,
   // but you can also remove it
   {

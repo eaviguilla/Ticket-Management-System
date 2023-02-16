@@ -25,8 +25,7 @@ export const authStore = defineStore("authS", {
           });
         })
         .catch((error) => {
-          console.log(error.code);
-          console.log(error);
+          alert(error.message);
         });
     },
     loginUser(payload) {
@@ -36,7 +35,7 @@ export const authStore = defineStore("authS", {
           console.log("Signed In");
         })
         .catch((error) => {
-          console.log(error);
+          alert(error.message);
         });
     },
     logoutUser() {
@@ -50,10 +49,12 @@ export const authStore = defineStore("authS", {
           const userID = auth.currentUser.uid;
           const unsub = onSnapshot(doc(db, "users", userID), (snapshot) => {
             this.userDetails = snapshot.data();
+            this.userDetails.userID = userID;
             console.log("from onauthstate", this.userDetails);
           });
         } else {
           //user is signed out
+          console.log("user not signed in");
           this.userDetails = {};
         }
       });
