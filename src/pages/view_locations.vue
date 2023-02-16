@@ -14,16 +14,15 @@
     <q-page-container>
       <div
         class="q-pa-xs items-start q-gutter-md"
-        style="max-width: 550px; width: 100%; margin: 0 auto"
+        style="max-width: 550px; width: 50%; margin: 0 auto"
       >
         <q-item
           class="q-card"
           style="max-width: 450px"
           v-for="floor in floors"
           :key="floor.id"
-          to="/view_rooms"
         >
-          <div class="full-width">
+          <div class="full-width" to="/view_rooms">
             <q-item-section class="full-width" clickable v-ripple>
               <div class="text-h6">{{ floor.name }}</div>
             </q-item-section>
@@ -34,6 +33,7 @@
               round
               icon="mdi-square-edit-outline"
               @click="confirm = true"
+              size="md"
             />
           </div>
           <q-dialog v-model="confirm" persistent>

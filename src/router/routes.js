@@ -66,6 +66,10 @@ const routes = [
     path: "/view_rooms",
     component: () => import("src/pages/view_rooms.vue"),
   },
+  {
+    path: "/create_ticket_2",
+    component: () => import("src/pages/create_ticket_2.vue"),
+  },
 
   // Always leave this as last one,
   // but you can also remove it

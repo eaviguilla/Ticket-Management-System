@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-img src="~assets/rambg2.png" style="height: 625px" fit="cover">
+    <q-img src="~assets/rambg2.png" style="height: 784px" fit="cover">
       <div class="absolute-full text-subtitle2 flex flex-center">
         <q-card style="max-width: 450px; width: 100%">
           <q-input
