@@ -110,15 +110,18 @@
                         <q-item-label class="text-overline">
                           {{ user.email }}
                         </q-item-label>
-                        <q-item-label
-                          class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
-                          bordered
-                          style="width: 80px"
-                          items-center
-                        >
-                          BMO Staff
-                        </q-item-label>
                       </q-item-section>
+                      <q-item-section class="q-pa-xs">
+                        <q-btn
+                          flat
+                          rounded
+                          size="sm"
+                          class="text-white bg-primary"
+                          label="Specializations"
+                          icon="mdi-star-cog-outline"
+                        >
+                        </q-btn
+                      ></q-item-section>
                     </div>
                     <div v-if="auth.userDetails.admin">
                       <q-btn flat rounded @click="editUser(user.userID)"
