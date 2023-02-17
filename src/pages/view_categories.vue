@@ -18,9 +18,9 @@
       >
         <div class="text-h6 text-bold text-primary">BMO Categories</div>
         <q-item
-          class="rounded-borders q-my-sm q-card items-center"
           v-for="categ in categs.filterCategs"
           :key="categ.categID"
+          class="rounded-borders q-my-sm q-card items-center"
           bordered
           ><div class="full-width">
             <q-item-section class="justify-between">
@@ -34,7 +34,7 @@
                 categ.description
               }}</q-item-label>
 
-              <div flat class="q-mt-md row justify-betweem" style="width: 100%">
+              <div class="q-mt-md row justify-betweem" style="width: 100%" flat>
                 <!-- Category deletion button -->
                 <q-btn
                   flat
@@ -51,34 +51,7 @@
                   icon="mdi-delete-outline"
                 >
                 </q-btn>
-                <!-- Category deletion dialog -->
-                <q-dialog v-model="confirmDel" persistent>
-                  <q-card>
-                    <q-card-section class="row items-center">
-                      <span class="q-ml-sm"
-                        >Are you sure you want to delete this Category? It
-                        cannot be reversed and may affect Tickets that have this
-                        category.
-                      </span>
-                    </q-card-section>
 
-                    <q-card-actions align="right">
-                      <q-btn
-                        flat
-                        label="Cancel"
-                        color="primary"
-                        v-close-popup
-                      />
-                      <q-btn
-                        flat
-                        label="Delete Category"
-                        color="secondary"
-                        @click="deleteCateg()"
-                        v-close-popup
-                      />
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
                 <!-- Category edit button -->
                 <q-btn
                   flat
@@ -95,65 +68,48 @@
                   icon="mdi-pencil-outline"
                 >
                 </q-btn>
-                <!-- Category edit dialog -->
-                <q-dialog v-model="categEdit" persistent>
-                  <q-card style="min-width: 350px">
-                    <q-card-section>
-                      <div class="text-h6">Edit Category</div>
-                    </q-card-section>
-
-                    <q-card-section class="q-pt-none">
-                      <q-input
-                        outlined
-                        dense
-                        label="Category Name"
-                        v-model="editCategForm.name"
-                        autofocus
-                        @keyup.enter="categEdit = false"
-                      />
-                    </q-card-section>
-                    <q-card-section class="q-pt-none">
-                      <q-input
-                        outlined
-                        dense
-                        autogrow
-                        label="Category Description"
-                        v-model="editCategForm.description"
-                        autofocus
-                        @keyup.enter="categEdit = false"
-                      />
-                    </q-card-section>
-                    <q-card-actions align="right" class="text-primary">
-                      <q-btn flat label="Cancel" v-close-popup />
-                      <q-btn
-                        flat
-                        @click="editCateg"
-                        label="Save"
-                        v-close-popup
-                      />
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
               </div>
             </q-item-section></div
         ></q-item>
+        <!-- Category deletion dialog -->
+        <q-dialog v-model="confirmDel" persistent>
+          <q-card>
+            <q-card-section class="row items-center">
+              <span class="q-ml-sm"
+                >Are you sure you want to delete this Category? It cannot be
+                reversed and may affect Tickets that have this category.
+              </span>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="Cancel" color="primary" v-close-popup />
+              <q-btn
+                v-close-popup
+                @click="deleteCateg()"
+                color="secondary"
+                label="Delete Category"
+                flat
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
       <div>
         <!-- Add category button -->
         <q-page-sticky expand position="bottom" class="q-pa-md">
           <q-btn
-            elevated
-            no-caps
+            @click="categAdd = true"
             class="full-width q-pa-md"
+            label="Add Category"
+            size="md"
             style="
               background: #ff6b6e;
               color: white;
               max-width: 1400px;
               border-radius: 20px;
             "
-            size="md"
-            label="Add Category"
-            @click="categAdd = true"
+            elevated
+            no-caps
           />
         </q-page-sticky>
         <!-- Add category dialog -->
@@ -165,35 +121,70 @@
 
             <q-card-section class="q-pt-none">
               <q-input
-                outlined
-                dense
-                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
-                label="Category Name"
                 v-model="addCategForm.name"
-                autofocus
+                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
                 @keyup.enter="categAdd = false"
+                label="Category Name"
+                autofocus
+                dense
+                outlined
               />
             </q-card-section>
             <q-card-section class="q-pt-none">
               <q-input
-                outlined
-                dense
-                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
-                autogrow
-                label="Category Description"
                 v-model="addCategForm.description"
-                autofocus
+                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
                 @keyup.enter="categAdd = false"
+                label="Category Description"
+                autofocus
+                autogrow
+                dense
+                outlined
               />
             </q-card-section>
             <q-card-actions align="right" class="text-primary">
               <q-btn flat label="Cancel" v-close-popup />
               <q-btn
-                flat
+                v-close-popup
                 @click="addCateg"
                 label="Save Category"
-                v-close-popup
+                flat
               />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <!-- Category edit dialog -->
+        <q-dialog v-model="categEdit" persistent>
+          <q-card style="min-width: 350px">
+            <q-card-section>
+              <div class="text-h6">Edit Category</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              <q-input
+                v-model="editCategForm.name"
+                @keyup.enter="categEdit = false"
+                label="Category Name"
+                autofocus
+                dense
+                outlined
+              />
+            </q-card-section>
+            <q-card-section class="q-pt-none">
+              <q-input
+                v-model="editCategForm.description"
+                @keyup.enter="categEdit = false"
+                label="Category Description"
+                autofocus
+                autogrow
+                dense
+                outlined
+              />
+            </q-card-section>
+            <q-card-actions align="right" class="text-primary">
+              <q-btn flat label="Cancel" v-close-popup />
+              <q-btn flat @click="editCateg" label="Save" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
