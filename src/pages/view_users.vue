@@ -17,11 +17,11 @@
         <q-card class="full-width" flat>
           <q-tabs
             v-model="tab"
-            dense
             class="text-grey"
             active-color="primary"
-            indicator-color="primary"
             align="justify"
+            indicator-color="primary"
+            dense
             narrow-indicator
           >
             <q-tab name="apc" label="APC Community" />
@@ -35,9 +35,9 @@
             <q-tab-panel name="apc" class="full-width">
               <div class="full-width">
                 <q-item
-                  class="rounded-borders q-my-sm q-card items-center"
                   v-for="user in users.getComm"
                   :key="user.userID"
+                  class="rounded-borders q-my-sm q-card items-center"
                   bordered
                   ><div class="full-width">
                     <q-item-section class="justify-between">
@@ -58,171 +58,235 @@
                     <q-btn flat rounded @click="editUser(user.userID)"
                       ><q-icon name="mdi-square-edit-outline"></q-icon
                     ></q-btn>
-                  </div>
-                  <q-dialog v-model="edit" persistent>
-                    <q-card style="min-width: 350px">
-                      <q-card-section>
-                        <div class="text-h6">Change Role</div>
-                      </q-card-section>
+                  </div> </q-item
+                ><q-dialog v-model="edit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Change Role</div>
+                    </q-card-section>
 
-                      <q-card-section class="q-pt-none">
-                        <q-select
-                          outlined
-                          v-model="role"
-                          :options="roleOptions"
-                          label="Role"
-                        />
-                      </q-card-section>
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        v-model="role"
+                        :options="roleOptions"
+                        label="Role"
+                        outlined
+                      />
+                    </q-card-section>
 
-                      <q-card-actions align="right" class="text-primary">
-                        <q-btn flat label="Cancel" v-close-popup />
-                        <q-btn
-                          flat
-                          label="Confirm"
-                          @click="updateRole"
-                          v-close-popup
-                        />
-                      </q-card-actions>
-                    </q-card>
-                  </q-dialog>
-                </q-item>
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        v-close-popup
+                        @click="updateRole"
+                        label="Confirm"
+                        flat
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </div>
             </q-tab-panel>
 
             <q-tab-panel name="staff">
               <div class="full-width">
-                <q-list separator>
-                  <q-item
-                    class="rounded-borders q-my-sm q-card items-center"
-                    v-for="user in users.getStaff"
-                    :key="user.userID"
-                    bordered
-                    ><div class="full-width">
-                      <q-item-section class="justify-between">
-                        <q-item-label class="text-bold text-grey text-caption">
-                          {{ user.userID }}
-                        </q-item-label>
-                        <q-item-label
-                          class="text-weight-bolder text-body2 q-pr-sm"
-                        >
-                          {{ user.fName }} {{ user.lName }}
-                        </q-item-label>
-                        <q-item-label class="text-overline">
-                          {{ user.email }}
-                        </q-item-label>
-                      </q-item-section>
-                      <q-item-section class="q-pa-xs">
-                        <q-btn
-                          flat
-                          rounded
-                          size="sm"
-                          class="text-white bg-primary"
-                          label="Specializations"
-                          icon="mdi-star-cog-outline"
-                        >
-                        </q-btn
-                      ></q-item-section>
-                    </div>
-                    <div v-if="auth.userDetails.admin">
-                      <q-btn flat rounded @click="editUser(user.userID)"
-                        ><q-icon name="mdi-square-edit-outline"></q-icon
+                <q-item
+                  v-for="user in users.getStaff"
+                  :key="user.userID"
+                  class="rounded-borders q-my-sm q-card items-center"
+                  bordered
+                  ><div class="full-width">
+                    <q-item-section class="justify-between">
+                      <q-item-label class="text-bold text-grey text-caption">
+                        {{ user.userID }}
+                      </q-item-label>
+                      <q-item-label
+                        class="text-weight-bolder text-body2 q-pr-sm"
+                      >
+                        {{ user.fName }} {{ user.lName }}
+                      </q-item-label>
+                      <q-item-label class="text-overline">
+                        {{ user.email }}
+                      </q-item-label>
+                    </q-item-section>
+                    <!-- specializations button -->
+                    <q-item-section class="q-pa-xs">
+                      <q-btn
+                        @click="viewSpec(user)"
+                        class="text-white bg-primary"
+                        icon="mdi-star-cog-outline"
+                        label="Specializations"
+                        size="sm"
+                        flat
+                        rounded
+                      >
+                      </q-btn
+                    ></q-item-section>
+                  </div>
+                  <!-- edit staff role button -->
+                  <div v-if="auth.userDetails.admin">
+                    <q-btn flat rounded @click="editUser(user.userID)"
+                      ><q-icon name="mdi-square-edit-outline"></q-icon
+                    ></q-btn>
+                  </div>
+                </q-item>
+
+                <!-- edit staff role dialog -->
+                <q-dialog v-model="edit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Change Role</div>
+                    </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        v-model="role"
+                        :options="roleOptions"
+                        label="Role"
+                        outlined
+                      />
+                    </q-card-section>
+
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        v-close-popup
+                        @click="updateRole"
+                        label="Confirm"
+                        flat
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
+
+                <!-- specializations dialog -->
+                <q-dialog v-model="specDial">
+                  <q-card style="width: 100%; mad-width: 700px">
+                    <q-card-section class="row items-center q-pb-md">
+                      <div class="text-bold text-body1">
+                        {{ this.userSpec.fName }}'s Specializations
+                      </div>
+                      <q-space />
+                      <q-btn icon="close" flat round dense v-close-popup />
+                    </q-card-section>
+                    <q-card-section
+                      v-for="specs in this.userSpec.spec"
+                      :key="specs"
+                      class="row justify-between q-pa-sm items-center"
+                    >
+                      <span class="text-overline q-px-sm">
+                        {{ categs.displayCateg(specs) }}</span
+                      >
+                      <q-btn
+                        v-if="auth.userDetails.admin"
+                        class="bg-secondary"
+                        color="white"
+                        icon="mdi-trash-can-outline"
+                        flat
                       ></q-btn>
-                    </div>
-                    <q-dialog v-model="edit" persistent>
-                      <q-card style="min-width: 350px">
-                        <q-card-section>
-                          <div class="text-h6">Change Role</div>
-                        </q-card-section>
+                    </q-card-section>
+                    <q-card-section class="text-center"
+                      ><q-btn
+                        v-if="auth.userDetails.admin"
+                        @click="addSpecDial = true"
+                        class="bg-primary text-white"
+                        icon="mdi-star-plus-outline"
+                        label="add a specialization"
+                        size="md"
+                      ></q-btn>
+                    </q-card-section>
+                  </q-card>
+                </q-dialog>
 
-                        <q-card-section class="q-pt-none">
-                          <q-select
-                            outlined
-                            v-model="role"
-                            :options="roleOptions"
-                            label="Role"
-                          />
-                        </q-card-section>
+                <!-- add specialization dialog -->
+                <q-dialog v-model="addSpecDial" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Your address</div>
+                    </q-card-section>
 
-                        <q-card-actions align="right" class="text-primary">
-                          <q-btn flat label="Cancel" v-close-popup />
-                          <q-btn
-                            flat
-                            label="Confirm"
-                            @click="updateRole"
-                            v-close-popup
-                          />
-                        </q-card-actions>
-                      </q-card>
-                    </q-dialog>
-                  </q-item>
-                </q-list>
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        v-model="model"
+                        :options="categs.filterCategs"
+                        label="Standout"
+                        standout
+                      />
+                    </q-card-section>
+
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn flat label="Add" v-close-popup />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </div>
             </q-tab-panel>
 
             <q-tab-panel name="admin">
               <div class="full-width">
-                <q-list separator>
-                  <q-item
-                    class="rounded-borders q-my-sm q-card items-center"
-                    v-for="user in users.getAdmin"
-                    :key="user.userID"
-                    bordered
-                    ><div class="full-width">
-                      <q-item-section class="justify-between">
-                        <q-item-label class="text-bold text-grey text-caption">
-                          {{ user.userID }}
-                        </q-item-label>
-                        <q-item-label
-                          class="text-weight-bolder text-body2 q-pr-sm"
-                        >
-                          {{ user.fName }} {{ user.lName }}
-                        </q-item-label>
-                        <q-item-label class="text-overline">
-                          {{ user.email }}
-                        </q-item-label>
-                        <q-item-label
-                          class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
-                          bordered
-                          style="width: 80px"
-                          items-center
-                        >
-                          BMO Admin
-                        </q-item-label>
-                      </q-item-section>
-                    </div>
-                    <div v-if="auth.userDetails.admin">
-                      <q-btn flat rounded @click="editUser(user.userID)"
-                        ><q-icon name="mdi-square-edit-outline"></q-icon
-                      ></q-btn>
-                    </div>
-                    <q-dialog v-model="edit" persistent>
-                      <q-card style="min-width: 350px">
-                        <q-card-section>
-                          <div class="text-h6">Change Role</div>
-                        </q-card-section>
+                <q-item
+                  v-for="user in users.getAdmin"
+                  :key="user.userID"
+                  class="rounded-borders q-my-sm q-card items-center"
+                  bordered
+                  ><div class="full-width">
+                    <q-item-section class="justify-between">
+                      <q-item-label class="text-bold text-grey text-caption">
+                        {{ user.userID }}
+                      </q-item-label>
+                      <q-item-label
+                        class="text-weight-bolder text-body2 q-pr-sm"
+                      >
+                        {{ user.fName }} {{ user.lName }}
+                      </q-item-label>
+                      <q-item-label class="text-overline">
+                        {{ user.email }}
+                      </q-item-label>
+                      <q-item-label
+                        class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
+                        style="width: 80px"
+                        bordered
+                        items-center
+                      >
+                        BMO Admin
+                      </q-item-label>
+                    </q-item-section>
+                  </div>
+                  <!-- edit role button -->
+                  <div v-if="auth.userDetails.admin">
+                    <q-btn flat rounded @click="editUser(user.userID)"
+                      ><q-icon name="mdi-square-edit-outline"></q-icon
+                    ></q-btn>
+                  </div>
+                </q-item>
+                <!-- edit role dialog -->
+                <q-dialog v-model="edit" persistent>
+                  <q-card style="min-width: 350px">
+                    <q-card-section>
+                      <div class="text-h6">Change Role</div>
+                    </q-card-section>
 
-                        <q-card-section class="q-pt-none">
-                          <q-select
-                            outlined
-                            v-model="role"
-                            :options="roleOptions"
-                            label="Role"
-                          />
-                        </q-card-section>
+                    <q-card-section class="q-pt-none">
+                      <q-select
+                        v-model="role"
+                        :options="roleOptions"
+                        label="Role"
+                        outlined
+                      />
+                    </q-card-section>
 
-                        <q-card-actions align="right" class="text-primary">
-                          <q-btn flat label="Cancel" v-close-popup />
-                          <q-btn
-                            flat
-                            label="Confirm"
-                            @click="updateRole"
-                            v-close-popup
-                          />
-                        </q-card-actions>
-                      </q-card>
-                    </q-dialog>
-                  </q-item>
-                </q-list>
+                    <q-card-actions align="right" class="text-primary">
+                      <q-btn flat label="Cancel" v-close-popup />
+                      <q-btn
+                        v-close-popup
+                        @click="updateRole"
+                        label="Confirm"
+                        flat
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
               </div>
             </q-tab-panel>
           </q-tab-panels>
@@ -236,12 +300,15 @@
 import { ref } from "vue";
 import { userStore } from "src/stores/store_User";
 import { authStore } from "src/stores/store_Auth";
+import { categStore } from "src/stores/store_Categ";
 
 export default {
   setup() {
     const users = userStore();
     const auth = authStore();
-    return { users, auth };
+    const categs = categStore();
+
+    return { users, auth, categs };
   },
   data() {
     return {
@@ -253,15 +320,27 @@ export default {
       roleOptions: ["None", "Staff", "Admin"],
       edit: false,
       tab: ref("apc"),
+      specDial: false,
+      userSpec: {
+        fName: ref(""),
+        spec: [],
+      },
+      addSpecDial: false,
     };
   },
   mounted() {
     this.users.getUsers();
+    this.categs.getCategs();
   },
   methods: {
     editUser(id) {
       this.edit = true;
       this.editRole.userID = id;
+    },
+    viewSpec(specs) {
+      this.specDial = true;
+      this.userSpec.fName = specs.fName;
+      this.userSpec.spec = specs.specializations;
     },
     updateRole() {
       if (this.role == "") {
@@ -283,6 +362,9 @@ export default {
         return;
       } else this.users.userRole(this.editRole, this.auth.userDetails.office);
       this.edit = false;
+    },
+    test() {
+      return "test";
     },
   },
   components: {

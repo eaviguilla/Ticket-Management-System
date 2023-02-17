@@ -73,5 +73,13 @@ export const categStore = defineStore("categS", {
         this.categories.splice(index, 1);
       }
     },
+    displayCateg(id) {
+      const categ = this.categories.find((categ) => categ.categID === id);
+      if (categ) {
+        return categ.name;
+      } else {
+        return "None";
+      }
+    },
   },
 });
