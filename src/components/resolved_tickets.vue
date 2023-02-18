@@ -20,7 +20,6 @@
             bordered
             clickable
             v-ripple
-            style="background-color: #f0efef"
           >
             <q-item-section class="col">
               <!-- details, category, and status -->

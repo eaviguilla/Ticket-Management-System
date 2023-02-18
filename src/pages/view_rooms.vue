@@ -28,7 +28,8 @@
           >
             <q-card>
               <q-card-section class="text-subtitle2 text-bold text-center"
-                >{{ floor.room }}
+                ><q-separator />{{ floor.room }}
+                <q-separator />
               </q-card-section>
             </q-card>
           </q-expansion-item>

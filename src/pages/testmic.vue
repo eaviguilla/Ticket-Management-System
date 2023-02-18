@@ -15,7 +15,6 @@
       <div
         class="q-pa-xs items-start q-gutter-md"
         style="max-width: 550px; width: 50%; margin: 0 auto"
-        to="/"
       >
         <q-item
           class="q-card"
@@ -37,16 +36,6 @@
               size="md"
             />
           </div>
-          <div>
-            <q-btn
-              flat
-              round
-              icon="mdi-arrow-right-bold-outline"
-              size="md"
-              to="/view_rooms"
-            />
-          </div>
-
           <q-dialog v-model="confirm" persistent>
             <q-card>
               <q-card-section class="row items-center">
@@ -154,10 +143,26 @@ const floors = [
   },
 ];
 
+const offline = [
+  {
+    id: 5,
+    name: "Brunhilde Panswick",
+    email: "bpanswick4@csmonitor.com",
+    avatar: "avatar2.jpg",
+  },
+  {
+    id: 6,
+    name: "Winfield Stapforth",
+    email: "wstapforth5@pcworld.com",
+    avatar: "avatar6.jpg",
+  },
+];
+
 export default {
   setup() {
     return {
       floors,
+      offline,
       confirm: ref(false),
     };
   },

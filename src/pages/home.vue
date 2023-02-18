@@ -69,7 +69,7 @@
             <q-icon name="mdi-label-multiple-outline" size="lg" class="q-pa-xs">
             </q-icon>
             <div class="text-h6 text-center text-bold">Categories</div>
-            <div class="text-caption text-bold">15 Tickets</div>
+            <div class="text-caption text-bold"></div>
           </q-item-section>
         </q-btn>
       </div>
@@ -87,7 +87,7 @@
             <q-icon name="mdi-map-marker-outline" size="lg" class="q-pa-xs">
             </q-icon>
             <div class="text-h6 text-center text-bold">Locations</div>
-            <div class="text-caption text-bold">15 Tickets</div>
+            <div class="text-caption text-bold"></div>
           </q-item-section>
         </q-btn>
       </div>
@@ -105,7 +105,7 @@
             <q-icon name="mdi-account-circle" size="lg" class="q-pa-xs">
             </q-icon>
             <div class="text-h6 text-center text-bold">Users</div>
-            <div class="text-caption text-bold">15 Tickets</div>
+            <div class="text-caption text-bold"></div>
           </q-item-section>
         </q-btn>
       </div>
