@@ -20,6 +20,7 @@
             class="q-pa-md"
             outlined
             v-model="regData.email"
+            type="email"
             suffix=".apc.edu.ph"
             label="Email"
           />

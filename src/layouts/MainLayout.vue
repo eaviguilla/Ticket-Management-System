@@ -40,7 +40,10 @@
           ><span class="text-capitalize text-caption">Home</span></q-tab
         >
         <q-tab name="notification"
-          ><q-icon size="sm" name="mdi-bell-outline"></q-icon
+          ><q-icon size="sm" name="mdi-bell-outline">
+            <q-badge color="orange" floating transparent>{{
+              notif_counter
+            }}</q-badge></q-icon
           ><span class="text-capitalize text-caption">Notif</span></q-tab
         >
       </q-tabs>
@@ -64,6 +67,7 @@ export default {
   data() {
     return {
       tab: ref("home"),
+      notif_counter: 1,
     };
   },
 };
