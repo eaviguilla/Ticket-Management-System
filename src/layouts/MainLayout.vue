@@ -41,7 +41,7 @@
         >
         <q-tab name="notification"
           ><q-icon size="sm" name="mdi-bell-outline">
-            <q-badge color="orange" floating transparent>{{
+            <q-badge v-show="show" color="orange" floating transparent>{{
               notif_counter
             }}</q-badge></q-icon
           ><span class="text-capitalize text-caption">Notif</span></q-tab
@@ -68,7 +68,16 @@ export default {
     return {
       tab: ref("home"),
       notif_counter: 1,
+      show: true,
     };
+  },
+  methods: {
+    // below is testing for hiding the badge of notification if there are no new notification
+    // badgeHider(show) {
+    //   if (this.notif_counter == 0) {
+    //     this.show = false;
+    //   }
+    // },
   },
 };
 </script>
