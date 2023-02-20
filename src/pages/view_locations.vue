@@ -46,44 +46,43 @@
               to="/view_rooms"
             />
           </div>
-
-          <q-dialog v-model="confirm" persistent>
-            <q-card>
-              <q-card-section class="row items-center">
-                <q-avatar
-                  icon="mdi-cog-outline"
-                  color="grey"
-                  text-color="white"
-                />
-                <span class="q-ml-sm">Please select what you want.</span>
-              </q-card-section>
-
-              <q-card-actions align="right">
-                <q-btn
-                  flat
-                  class="q-pa-xl"
-                  label="Delete Floor"
-                  color="primary"
-                  v-close-popup
-                />
-                <q-btn
-                  flat
-                  class="q-pa-xl"
-                  label="Cancel"
-                  color="primary"
-                  v-close-popup
-                />
-                <q-btn
-                  flat
-                  class="q-pa-xl"
-                  label="Save"
-                  color="primary"
-                  v-close-popup
-                />
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
         </q-item>
+        <q-dialog v-model="confirm" persistent>
+          <q-card>
+            <q-card-section class="row items-center">
+              <q-avatar
+                icon="mdi-cog-outline"
+                color="grey"
+                text-color="white"
+              />
+              <span class="q-ml-sm">Please select what you want.</span>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn
+                flat
+                class="q-pa-xl"
+                label="Delete Floor"
+                color="primary"
+                v-close-popup
+              />
+              <q-btn
+                flat
+                class="q-pa-xl"
+                label="Cancel"
+                color="primary"
+                v-close-popup
+              />
+              <q-btn
+                flat
+                class="q-pa-xl"
+                label="Save"
+                color="primary"
+                v-close-popup
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
     </q-page-container>
   </q-layout>

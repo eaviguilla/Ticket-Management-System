@@ -17,7 +17,8 @@
         style="max-width: 550px; width: 100%; margin: 0 auto"
         to="/"
       >
-        {{ locs.locations }}
+        {{ locs.floors }}
+        {{ locs.rooms }}
       </div>
     </q-page-container>
   </q-layout>
@@ -25,16 +26,19 @@
 
 <script>
 import { ref } from "vue";
+import { authStore } from "src/stores/store_Auth";
 import { locsStore } from "src/stores/store_Loc";
 
 export default {
   setup() {
     const locs = locsStore();
+    const auth = authStore();
 
-    return { locs };
+    return { auth, locs };
   },
   mounted() {
     this.locs.getLocs();
   },
+  methods: {},
 };
 </script>

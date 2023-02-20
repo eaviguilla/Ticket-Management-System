@@ -11,37 +11,65 @@ import {
   getDoc,
 } from "firebase/firestore";
 
-const locsRef = collection(db, "locations");
+const floorsRef = collection(db, "floors");
+const roomsRef = collection(db, "rooms");
 
 export const locsStore = defineStore("locS", {
   state: () => ({
-    locations: [],
+    floors: [],
+    rooms: [],
   }),
   getters: {},
   actions: {
     getLocs() {
-      getDocs(locsRef).then((querySnapshot) => {
+      this.floors = [];
+      getDocs(floorsRef).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
-          const locationDetails = response.data();
-          locationDetails.locID = response.id;
-          this.locations.push(locationDetails);
+          const floorDetails = response.data();
+          floorDetails.floorID = response.id;
+          this.floors.push(floorDetails);
+        });
+      });
+      this.rooms = [];
+      getDocs(roomsRef).then((querySnapshot) => {
+        querySnapshot.forEach((response) => {
+          const roomDetails = response.data();
+          roomDetails.roomID = response.id;
+          this.rooms.push(roomDetails);
         });
       });
     },
-    // from chat gpt on writing a ticket using subcollection rooms
-
-    // // Get a reference to the "Room 201" document in the "locations" collection
-    // const locationRef = db.collection("locations").doc("Floor 2").collection("rooms").doc("Room 201");
-    // // Create a new ticket document in the "tickets" collection and set its location field to the reference
-    // db.collection("tickets").add({
-    //   // other fields for the ticket document...
-    //   location: locationRef
-    // })
-    // .then((docRef) => {
-    //   console.log("Ticket created with ID: ", docRef.id);
-    // })
-    // .catch((error) => {
-    //   console.error("Error adding ticket: ", error);
-    // });
+    addFloor(payload) {
+      const newFloor = { floor: payload.floor, active: true };
+      const docRef = addDoc(floorsRef, { newFloor });
+      newFloor.floorID = docRef.id;
+      this.floors.push(newFloor);
+    },
+    addRoom(payload) {
+      const newRoom = {
+        room: payload.room,
+        floorID: payload.floorID,
+        active: true,
+      };
+      const docRef = addDoc(roomsRef, { newRoom });
+      newRoom.roomID = docRef.id;
+      this.rooms.push(newRoom);
+    },
+    updateFloor(payload) {
+      const updatedFloor = { floor: payload.floor, active: payload.active };
+      const docRef = updateDoc(collection(db, "floors", payload.floorID), {
+        updatedFloor,
+      });
+      // updatedFloor.floorID = docRef.id;
+      // this.floors.push(updatedFloor);
+    },
+    updateRoom(payload) {
+      const updatedRoom = { room: payload.room, active: payload.active };
+      const docRef = updateDoc(collection(db, "rooms", payload.roomID), {
+        updatedRoom,
+      });
+      // updatedRoom.roomID = docRef.id;
+      // this.rooms.push(updatedRoom);
+    },
   },
 });
