@@ -177,14 +177,17 @@
                       <span class="text-overline q-px-sm">
                         {{ categs.displayCateg(specs) }}</span
                       >
+                      <!-- delete spec button -->
                       <q-btn
                         v-if="auth.userDetails.admin"
                         class="bg-secondary"
                         color="white"
                         icon="mdi-trash-can-outline"
                         flat
+                        @click="delSpecConfirm(specs)"
                       ></q-btn>
                     </q-card-section>
+                    <!-- add spec button -->
                     <q-card-section class="text-center"
                       ><q-btn
                         v-if="auth.userDetails.admin"
@@ -198,6 +201,36 @@
                   </q-card>
                 </q-dialog>
 
+                <!-- confirm delete specialization dialog -->
+                <q-dialog v-model="delSpecDial" persistent>
+                  <q-card>
+                    <q-card-section class="row items-center">
+                      <span class="q-ml-sm"
+                        >Are you sure you want to delete this specialization?
+                        This may affect the tickets this staff may
+                        receive.</span
+                      >
+                    </q-card-section>
+
+                    <q-card-actions align="right">
+                      <q-btn
+                        v-close-popup
+                        @click="delSpecDial = false"
+                        color="primary"
+                        label="Cancel"
+                        flat
+                      />
+                      <q-btn
+                        flat
+                        @click="delSpec()"
+                        label="Delete"
+                        color="secondary"
+                        v-close-popup
+                      />
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
+
                 <!-- add specialization dialog -->
                 <q-dialog v-model="addSpecDial" persistent>
                   <q-card style="min-width: 350px">
@@ -207,16 +240,28 @@
 
                     <q-card-section class="q-pt-none">
                       <q-select
-                        v-model="model"
-                        :options="categs.filterCategs"
-                        label="Standout"
-                        standout
+                        v-model="specSelected"
+                        :options="filteredCategs"
+                        option-value="categID"
+                        option-label="name"
+                        label="Categories"
+                        outlined
                       />
                     </q-card-section>
 
                     <q-card-actions align="right" class="text-primary">
-                      <q-btn flat label="Cancel" v-close-popup />
-                      <q-btn flat label="Add" v-close-popup />
+                      <q-btn
+                        flat
+                        @click="addSpecDial = false"
+                        label="Cancel"
+                        v-close-popup
+                      />
+                      <q-btn
+                        flat
+                        @click="addSpecConfirm()"
+                        label="Add"
+                        v-close-popup
+                      />
                     </q-card-actions>
                   </q-card>
                 </q-dialog>
@@ -322,10 +367,16 @@ export default {
       tab: ref("apc"),
       specDial: false,
       userSpec: {
+        userID: ref(""),
         fName: ref(""),
         spec: [],
       },
       addSpecDial: false,
+      delSpecDial: false,
+
+      specSelected: ref(null),
+      model: ref(null),
+      filteredCategs: [],
     };
   },
   mounted() {
@@ -333,15 +384,46 @@ export default {
     this.categs.getCategs();
   },
   methods: {
+    // editing user role dialog
     editUser(id) {
       this.edit = true;
       this.editRole.userID = id;
     },
+    // viewing specialization of staff
     viewSpec(specs) {
       this.specDial = true;
+      this.userSpec.userID = specs.userID;
       this.userSpec.fName = specs.fName;
       this.userSpec.spec = specs.specializations;
+      this.addSpecFilter();
     },
+    // deleting specialization confirmation dialog
+    delSpecConfirm(id) {
+      this.delSpecDial = true;
+      this.specSelected = id;
+    },
+    delSpec() {
+      this.users.deleteSpec(this.userSpec.userID, this.specSelected);
+      const specIndex = this.userSpec.spec.indexOf(this.specSelected);
+      if (specIndex > -1) {
+        this.userSpec.spec.splice(specIndex, 1);
+      }
+      this.specSelected = null;
+      this.addSpecFilter();
+      this.delSpecDial = false;
+    },
+    // adding specialization confirmation click
+    addSpecConfirm() {
+      this.users.addSpec(this.userSpec.userID, this.specSelected.categID);
+      if (this.userSpec.spec.includes(this.specSelected.categID)) {
+      } else {
+        this.userSpec.spec.push(this.specSelected.categID);
+      }
+      this.specSelected = null;
+      this.addSpecFilter();
+      this.addSpecDial = false;
+    },
+    // updating user role
     updateRole() {
       if (this.role == "") {
         this.role = "";
@@ -363,12 +445,12 @@ export default {
       } else this.users.userRole(this.editRole, this.auth.userDetails.office);
       this.edit = false;
     },
-    test() {
-      return "test";
+    // filtering categories so it only shows categories that are not already in the users specializations array
+    addSpecFilter() {
+      this.filteredCategs = this.categs.filterCategs.filter((c) => {
+        return !this.userSpec.spec.some((categID) => categID === c.categID);
+      });
     },
-  },
-  components: {
-    //"apc-management": require("components/apc_manage.vue").default,
   },
   beforeUnmount() {
     this.users.unsub();

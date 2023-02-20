@@ -7,6 +7,8 @@ import {
   collection,
   deleteField,
   onSnapshot,
+  arrayRemove,
+  arrayUnion,
 } from "firebase/firestore";
 
 const authS = authStore();
@@ -91,6 +93,28 @@ export const userStore = defineStore("userS", {
       delete this.users[index].office;
       delete this.users[index].admin;
     },
-    userSpec() {},
+    deleteSpec(uID, sID) {
+      updateDoc(doc(db, "users", uID), {
+        specializations: arrayRemove(sID),
+      });
+      const userIndex = this.users.findIndex((u) => u.userID === uID);
+      if (userIndex !== -1) {
+        const updatedSpecs = this.users[userIndex].specializations.filter(
+          (s) => s !== sID
+        );
+        this.users[userIndex].specializations = updatedSpecs;
+      }
+    },
+    addSpec(uID, sID) {
+      updateDoc(doc(db, "users", uID), {
+        specializations: arrayUnion(sID),
+      });
+      const user = this.users.find((user) => user.userID === uID);
+      if (user) {
+        user.specializations.push(sID);
+      } else {
+        console.log("User not found");
+      }
+    },
   },
 });
