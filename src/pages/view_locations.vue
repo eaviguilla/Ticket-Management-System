@@ -14,7 +14,7 @@
     <q-page-container>
       <div
         class="q-pa-xs items-start q-gutter-md"
-        style="max-width: 550px; width: 50%; margin: 0 auto"
+        style="max-width: 550px; width: 100%; margin: 0 auto"
         to="/"
       >
         <q-item
