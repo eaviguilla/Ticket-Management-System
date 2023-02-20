@@ -51,7 +51,6 @@ export const userStore = defineStore("userS", {
   actions: {
     getUsers() {
       this.unsub = onSnapshot(usersRef, (snapshot) => {
-        console.log("Has been called");
         snapshot.docChanges().forEach((response) => {
           const userDetails = response.doc.data();
           const responseID = response.doc.id;
@@ -62,7 +61,6 @@ export const userStore = defineStore("userS", {
             );
             if (index === -1) {
               this.users.push(userDetails);
-              console.log(userDetails);
             }
           }
         });

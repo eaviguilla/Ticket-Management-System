@@ -81,5 +81,6 @@ export const categStore = defineStore("categS", {
         return "None";
       }
     },
+    addSpec(user) {},
   },
 });
