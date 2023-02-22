@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf">
     <q-header bordered class="bg-white text-white">
       <q-toolbar>
-        <q-btn flat rounded class="float-left" to="/view_tickets"
+        <q-btn flat rounded class="float-left" to="/"
           ><q-icon color="primary" name="mdi-arrow-left"></q-icon
         ></q-btn>
         <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>
@@ -136,8 +136,6 @@
 
 <script>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "SelectedTicket",

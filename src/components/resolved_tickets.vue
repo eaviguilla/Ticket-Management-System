@@ -44,6 +44,19 @@
                   ID: 11181561561564
                 </div>
               </q-item-label>
+              <div flat class="q-mt-md row justify-betweem" style="width: 100%">
+                <q-btn
+                  flat
+                  rounded
+                  size="sm"
+                  class="text-white bg-primary"
+                  style="width: 100%"
+                  label="View Ticket"
+                  icon="mdi-file-search-outline"
+                  to="/view_ticket"
+                >
+                </q-btn>
+              </div>
             </q-item-section>
           </q-item>
         </q-list>

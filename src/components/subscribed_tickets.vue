@@ -45,9 +45,28 @@
                   rounded
                   size="sm"
                   class="text-white bg-secondary"
-                  style="width: 100%"
+                  style="
+                    width: 50%;
+                    border-bottom-right-radius: 0;
+                    border-top-right-radius: 0;
+                  "
                   label="Unsubscribe Ticket"
                   icon="mdi-bell-off-outline"
+                >
+                </q-btn>
+                <q-btn
+                  flat
+                  rounded
+                  size="sm"
+                  class="text-white bg-primary"
+                  style="
+                    width: 50%;
+                    border-bottom-left-radius: 0;
+                    border-top-left-radius: 0;
+                  "
+                  label="View Ticket"
+                  icon="mdi-file-search-outline"
+                  to="/view_ticket"
                 >
                 </q-btn>
               </div>
