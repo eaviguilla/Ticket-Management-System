@@ -45,7 +45,7 @@
           bordered
           class="q-card full-width column content-center"
           style="max-width: 140px; height: 140px"
-          to="/resolved"
+          to="/resolved_tickets"
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
@@ -116,14 +116,9 @@
         <q-btn
           elevated
           no-caps
-          class="full-width q-pa-md"
-          style="
-            background: #ff6b6e;
-            color: white;
-            max-width: 1400px;
-            border-radius: 20px;
-          "
-          size="lg"
+          class="full-width q-pa-md bg-secondary text-white"
+          style="max-width: 1400px; border-radius: 20px"
+          size="md"
           label="Create Ticket"
           @click="createBtn = true"
           to="/create_ticket"
