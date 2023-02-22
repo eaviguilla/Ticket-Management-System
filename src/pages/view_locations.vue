@@ -25,7 +25,9 @@
         >
           <div style="width: 50%">
             <q-item-section>
-              <div class="text-bold">Floor/Location: {{ floor.floor }}</div>
+              <div>
+                <span class="text-bold">Floor/Location: </span>{{ floor.floor }}
+              </div>
               <div v-if="floor.enabled" class="text-overline text-green">
                 Enabled
               </div>
@@ -66,7 +68,7 @@
             />
           </div>
         </q-item>
-        <!-- edit dialog -->
+        <!-- edit floor/location dialog -->
         <q-dialog v-model="editFloor" persistent>
           <q-card style="max-width: 500px; width: 100%">
             <q-card-section class="row items-center">
@@ -149,7 +151,6 @@
               label="Floor/Location"
               v-model="floor"
               autofocus
-              @keyup.enter="prompt = false"
             />
           </q-card-section>
           <q-card-actions align="right">

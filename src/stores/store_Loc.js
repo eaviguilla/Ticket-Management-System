@@ -50,7 +50,10 @@ export const locsStore = defineStore("locS", {
           this.floors.push(floorDetails);
         });
       });
-      console.log("got the floors");
+    },
+    getFloor(payload) {
+      const foundFloor = this.floors.find((floor) => floor.floorID === payload);
+      return foundFloor ? foundFloor.floor : null;
     },
     getRooms() {
       this.rooms = [];
@@ -61,7 +64,6 @@ export const locsStore = defineStore("locS", {
           this.rooms.push(roomDetails);
         });
       });
-      console.log("got the rooms");
     },
     addFloor(payload) {
       const newFloor = { floor: payload, enabled: true };
@@ -72,12 +74,12 @@ export const locsStore = defineStore("locS", {
     },
     addRoom(payload) {
       const newRoom = {
-        room: payload.room,
+        area_room: payload.area_room,
         floorID: payload.floorID,
         enabled: true,
       };
       addDoc(roomsRef, {
-        room: payload.room,
+        area_room: payload.area_room,
         floorID: payload.floorID,
         enabled: true,
       }).then((docRef) => {
@@ -99,13 +101,40 @@ export const locsStore = defineStore("locS", {
       this.floors[index].enabled = payload.enabled;
     },
     updateRoom(payload) {
-      const updatedRoom = { room: payload.room, enabled: payload.enabled };
-      const docRef = updateDoc(doc(db, "rooms", payload.roomID), {
-        room: payload.room,
+      // update firebase
+      updateDoc(doc(db, "rooms", payload.roomID), {
+        area_room: payload.area_room,
         enabled: payload.enabled,
       });
-      // updatedRoom.roomID = docRef.id;
-      // this.rooms.push(updatedRoom);
+      // update state
+      const index = this.rooms.findIndex(
+        (room) => room.roomID === payload.roomID
+      );
+      this.rooms[index].area_room = payload.area_room;
+      this.rooms[index].enabled = payload.enabled;
+    },
+    filterRooms(payload) {
+      const filteredRooms = this.rooms.filter(
+        (room) => room.floorID === payload
+      );
+
+      return filteredRooms.sort((a, b) => {
+        // First compare the enabled property
+        if (a.enabled && !b.enabled) {
+          return -1;
+        } else if (!a.enabled && b.enabled) {
+          return 1;
+        }
+
+        // Then compare the floor property
+        if (a.area_room < b.area_room) {
+          return -1;
+        } else if (a.area_room > b.area_room) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     },
   },
 });
