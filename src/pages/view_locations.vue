@@ -11,42 +11,59 @@
         >
       </q-toolbar>
     </q-header>
+
     <q-page-container>
       <div
         class="q-pa-xs items-start q-gutter-md"
         style="max-width: 550px; width: 100%; margin: 0 auto"
-        to="/"
       >
+        <div class="text-h6 text-bold text-primary">Floors/Locations</div>
         <q-item
-          class="q-card"
+          class="q-card items-center"
           style="max-width: 450px"
           v-for="floor in floors"
           :key="floor.id"
         >
-          <div class="full-width" to="/view_rooms">
-            <q-item-section class="full-width" clickable v-ripple>
-              <div class="text-h6">{{ floor.name }}</div>
+          <div style="width: 50%">
+            <q-item-section>
+              <div class="text-bold">{{ floor.name }}</div>
+              <div class="text-overline">Active</div>
             </q-item-section>
           </div>
-          <div>
+          <div style="width: 50%" class="row justify-around">
+            <!-- edit floor button -->
             <q-btn
-              flat
-              round
-              icon="mdi-square-edit-outline"
               @click="confirm = true"
+              class="bg-secondary text-lowercase"
+              style="
+                width: 50%;
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+              "
+              color="white"
               size="md"
-            />
-          </div>
-          <div>
-            <q-btn
               flat
-              round
-              icon="mdi-arrow-right-bold-outline"
+              stack
+              icon="mdi-square-edit-outline"
+            />
+            <!-- go to rooms button -->
+            <q-btn
+              class="bg-primary text-lowercase"
+              style="
+                width: 50%;
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+              "
+              color="white"
               size="md"
               to="/view_rooms"
+              flat
+              stack
+              icon="mdi-door-sliding"
             />
           </div>
         </q-item>
+        <!-- edit dialog -->
         <q-dialog v-model="confirm" persistent>
           <q-card>
             <q-card-section class="row items-center">
@@ -84,6 +101,18 @@
           </q-card>
         </q-dialog>
       </div>
+      <!-- add floor/location button -->
+      <q-page-sticky expand position="bottom" class="q-pa-md">
+        <q-btn
+          @click="locAdd = true"
+          class="full-width q-pa-md bg-secondary text-white"
+          label="Add Floor/Location"
+          size="md"
+          style="max-width: 1400px; border-radius: 20px"
+          elevated
+          no-caps
+        />
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>
@@ -103,54 +132,6 @@ const floors = [
     id: 3,
     name: "Basement 3",
   },
-  {
-    id: 4,
-    name: "1st Floor",
-  },
-  {
-    id: 5,
-    name: "2nd Floor",
-  },
-  {
-    id: 6,
-    name: "3rd Floor",
-  },
-  {
-    id: 7,
-    name: "4th Floor",
-  },
-  {
-    id: 8,
-    name: "5th Floor",
-  },
-  {
-    id: 9,
-    name: "6th Floor",
-  },
-  {
-    id: 10,
-    name: "7th Floor",
-  },
-  {
-    id: 11,
-    name: "8th Floor",
-  },
-  {
-    id: 12,
-    name: "9th Floor",
-  },
-  {
-    id: 13,
-    name: "10th Floor",
-  },
-  {
-    id: 14,
-    name: "11th Floor",
-  },
-  {
-    id: 15,
-    name: "12th Floor",
-  },
 ];
 
 export default {
@@ -160,11 +141,12 @@ export default {
       confirm: ref(false),
     };
   },
+  data() {
+    return {
+      locAdd: ref(false),
+    };
+  },
+  mounted() {},
+  methods: {},
 };
 </script>
-
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-  max-width: 250px
-</style>

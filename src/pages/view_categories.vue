@@ -99,15 +99,10 @@
         <q-page-sticky expand position="bottom" class="q-pa-md">
           <q-btn
             @click="categAdd = true"
-            class="full-width q-pa-md"
+            class="full-width q-pa-md bg-secondary text-white"
             label="Add Category"
             size="md"
-            style="
-              background: #ff6b6e;
-              color: white;
-              max-width: 1400px;
-              border-radius: 20px;
-            "
+            style="max-width: 1400px; border-radius: 20px"
             elevated
             no-caps
           />

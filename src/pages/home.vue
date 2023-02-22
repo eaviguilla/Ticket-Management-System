@@ -116,14 +116,9 @@
         <q-btn
           elevated
           no-caps
-          class="full-width q-pa-md"
-          style="
-            background: #ff6b6e;
-            color: white;
-            max-width: 1400px;
-            border-radius: 20px;
-          "
-          size="lg"
+          class="full-width q-pa-md bg-secondary text-white"
+          style="max-width: 1400px; border-radius: 20px"
+          size="md"
           label="Create Ticket"
           @click="createBtn = true"
           to="/create_ticket"
