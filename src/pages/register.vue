@@ -31,10 +31,19 @@
             type="password"
             label="Password"
           />
+
+          <q-input
+            class="q-pa-md"
+            outlined
+            type="password"
+            label="Confirm Password"
+          />
+
           <div class="q-pa-sm">
             <q-btn
               class="full-width"
               @click="register"
+              :disabled="isFormEmpty"
               unelevated
               color="primary"
               label="Register Account"
@@ -80,6 +89,11 @@ export default defineComponent({
         password: ref(""),
       },
     };
+  },
+  computed: {
+    isFormEmpty() {
+      return !this.regData.fName || !this.regData.lName || !this.regData.email;
+    },
   },
   methods: {
     register() {
