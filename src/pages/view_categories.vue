@@ -14,7 +14,7 @@
     <q-page-container>
       <div
         class="q-pa-md"
-        style="max-width: 950px; width: 100%; margin: 0 auto"
+        style="max-width: 550px; width: 100%; margin: 0 auto"
       >
         <div class="text-h6 text-bold text-primary">BMO Categories</div>
         <q-item
@@ -113,7 +113,12 @@
             <q-card-section>
               <div class="text-h6">Add Category</div>
             </q-card-section>
-
+            <q-toggle
+              v-model="third"
+              checked-icon="check"
+              color="green"
+              unchecked-icon="clear"
+            />
             <q-card-section class="q-pt-none">
               <q-input
                 v-model="addCategForm.name"

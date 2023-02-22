@@ -21,7 +21,7 @@ export const locsStore = defineStore("locS", {
   }),
   getters: {},
   actions: {
-    getLocs() {
+    getFloors() {
       this.floors = [];
       getDocs(floorsRef).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
@@ -30,6 +30,9 @@ export const locsStore = defineStore("locS", {
           this.floors.push(floorDetails);
         });
       });
+      console.log("got the floors");
+    },
+    getRooms() {
       this.rooms = [];
       getDocs(roomsRef).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
@@ -38,6 +41,7 @@ export const locsStore = defineStore("locS", {
           this.rooms.push(roomDetails);
         });
       });
+      console.log("got the rooms");
     },
     addFloor(payload) {
       const newFloor = { floor: payload.floor, active: true };
