@@ -16,113 +16,71 @@
         class="q-pa-md"
         style="max-width: 600px; width: 100%; margin: 0 auto"
       >
-        <q-list bordered class="rounded-borders">
-          <q-expansion-item
-            class="text-h6 text-bold"
-            expand-separator
-            icon="mdi-map-marker-radius-outline"
-            :label="floor.name"
-            caption="John Doe"
-            v-for="floor in floors"
-            :key="floor.id"
-          >
-            <q-card>
-              <q-card-section class="text-subtitle2 text-bold text-center"
-                ><q-separator />{{ floor.room }}
-                <q-separator />
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
-        </q-list>
+        <q-item
+          class="rounded-borders q-my-sm q-card items-center"
+          v-for="floor in floors"
+          :key="floor.id"
+        >
+          <div style="width: 100%">
+            <q-item-section>
+              <div class="text-bold">Area/Room: {{ floor.name }}</div>
+              <!-- <div v-if="floor.enabled" class="text-overline text-green">
+                Enabled
+              </div>
+              <div v-else class="text-overline text-red">Disabled</div> -->
+            </q-item-section>
+          </div>
+          <div>
+            <!-- edit floor button -->
+            <q-btn
+              class="bg-secondary text-lowercase"
+              color="white"
+              size="md"
+              flat
+              stack
+              icon="mdi-square-edit-outline"
+            />
+          </div>
+        </q-item>
       </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-const floors = [
-  {
-    id: 1,
-    name: "Basement 1",
-    room: "Room 808 Room 809 Room 810 Room 808 Room 809 Room 810 Room 808 Room 809 Room 810",
-  },
-  {
-    id: 2,
-    name: "Basement 2",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 3,
-    name: "Basement 3",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 4,
-    name: "1st Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 5,
-    name: "2nd Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 6,
-    name: "3rd Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 7,
-    name: "4th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 8,
-    name: "5th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 9,
-    name: "6th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 10,
-    name: "7th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 11,
-    name: "8th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 12,
-    name: "9th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 13,
-    name: "10th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 14,
-    name: "11th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-  {
-    id: 15,
-    name: "12th Floor",
-    room: "808 " + " 809 " + " 810",
-  },
-];
+import { ref } from "vue";
+import { authStore } from "src/stores/store_Auth";
+import { locsStore } from "src/stores/store_Loc";
 
 export default {
   setup() {
+    const auth = authStore();
+    const locs = locsStore();
+
+    return { auth, locs };
+  },
+  data() {
     return {
-      floors,
+      floors: [
+        {
+          id: 1,
+          name: "Basement 1",
+        },
+        {
+          id: 2,
+          name: "Basement 2",
+        },
+        {
+          id: 3,
+          name: "Basement 3",
+        },
+      ],
     };
   },
+  mounted() {
+    console.log(this.$route.params.floorID);
+    this.locs.getRooms();
+  },
+  methods: {},
 };
 </script>

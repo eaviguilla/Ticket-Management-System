@@ -113,16 +113,10 @@
             <q-card-section>
               <div class="text-h6">Add Category</div>
             </q-card-section>
-            <q-toggle
-              v-model="third"
-              checked-icon="check"
-              color="green"
-              unchecked-icon="clear"
-            />
+
             <q-card-section class="q-pt-none">
               <q-input
                 v-model="addCategForm.name"
-                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
                 @keyup.enter="categAdd = false"
                 label="Category Name"
                 autofocus
@@ -133,7 +127,6 @@
             <q-card-section class="q-pt-none">
               <q-input
                 v-model="addCategForm.description"
-                :rules="[(val) => val.length > 0 || 'Cannot be empty']"
                 @keyup.enter="categAdd = false"
                 label="Category Description"
                 autofocus

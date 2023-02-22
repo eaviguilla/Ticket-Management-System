@@ -19,22 +19,24 @@
       >
         <div class="text-h6 text-bold text-primary">Floors/Locations</div>
         <q-item
-          class="q-card items-center"
-          v-for="floor in locs.floors"
+          class="rounded-borders q-my-sm q-card items-center"
+          v-for="floor in locs.filterFloors"
           :key="floor.floorID"
         >
           <div style="width: 50%">
             <q-item-section>
               <div class="text-bold">Floor/Location: {{ floor.floor }}</div>
-              <div v-if="floor.active" class="text-overline">Active</div>
-              <div v-else class="text-overline">Disabled</div>
+              <div v-if="floor.enabled" class="text-overline text-green">
+                Enabled
+              </div>
+              <div v-else class="text-overline text-red">Disabled</div>
             </q-item-section>
           </div>
           <div style="width: 50%" class="row justify-around">
             <!-- edit floor button -->
             <q-btn
               v-if="auth.userDetails.admin"
-              @click="confirm = true"
+              @click="editDialog(floor)"
               class="bg-secondary text-lowercase"
               style="
                 width: 50%;
@@ -57,7 +59,7 @@
               "
               color="white"
               size="md"
-              to="/view_rooms"
+              :to="'/view_rooms/' + floor.floorID"
               flat
               stack
               icon="mdi-office-building-marker-outline"
@@ -65,31 +67,41 @@
           </div>
         </q-item>
         <!-- edit dialog -->
-        <q-dialog v-model="confirm" persistent>
+        <q-dialog v-model="editFloor" persistent>
           <q-card style="max-width: 500px; width: 100%">
             <q-card-section class="row items-center">
-              <q-avatar
-                icon="mdi-cog-outline"
-                color="grey"
-                text-color="white"
-              />
-              <span class="q-ml-sm">Please select what you want.</span>
+              <span class="q-ml-sm text-h6">Edit Floor/Location</span
+              ><span class="q-ml-sm text-caption"
+                >Please enter the updated Floor number/Location.</span
+              >
             </q-card-section>
             <q-card-section class="q-pt-none">
               <q-input
                 outlined
                 label="Floor/Location"
-                v-model="address"
+                v-model="this.editFloorForm.floor"
                 autofocus
                 @keyup.enter="prompt = false"
               />
+            </q-card-section>
+
+            <q-card-section class="q-py-none">
               <q-toggle
-                v-model="this.active"
+                v-model="this.editFloorForm.enabled"
                 checked-icon="check"
                 color="green"
                 unchecked-icon="clear"
+                label="Enable Floor/Location"
+                size="lg"
+                left-label
               />
             </q-card-section>
+            <q-card-section class="q-pt-none"
+              ><span class="text-caption"
+                >Disabling a Floor/Location would remove it from the Floors
+                selection in the ticket creation.</span
+              ></q-card-section
+            >
             <q-card-actions align="right">
               <q-btn
                 flat
@@ -100,6 +112,7 @@
               />
               <q-btn
                 flat
+                @click="locs.updateFloor(this.editFloorForm)"
                 class="q-pa-xl"
                 label="Save"
                 color="primary"
@@ -121,18 +134,20 @@
           no-caps
         />
       </q-page-sticky>
-
-      <q-dialog v-model="addLoc" persistent>
+      <!-- add floor/location dialog -->
+      <q-dialog v-model="locAdd" persistent>
         <q-card style="max-width: 500px; width: 100%">
           <q-card-section class="row items-center">
-            <q-avatar icon="mdi-cog-outline" color="grey" text-color="white" />
-            <span class="q-ml-sm">Please select what you want.</span>
+            <span class="q-ml-sm text-h6">Add Floor/Location</span>
+            <span class="q-ml-sm text-caption"
+              >Please enter the Floor number/Location.</span
+            >
           </q-card-section>
           <q-card-section class="q-pt-none">
             <q-input
               outlined
-              label=""
-              v-model="address"
+              label="Floor/Location"
+              v-model="floor"
               autofocus
               @keyup.enter="prompt = false"
             />
@@ -149,6 +164,7 @@
               flat
               class="q-pa-xl"
               label="Save"
+              @click="addFloor()"
               color="primary"
               v-close-popup
             />
@@ -164,21 +180,6 @@ import { ref } from "vue";
 import { authStore } from "src/stores/store_Auth";
 import { locsStore } from "src/stores/store_Loc";
 
-const floors = [
-  {
-    id: 1,
-    name: "Basement 1",
-  },
-  {
-    id: 2,
-    name: "Basement 2",
-  },
-  {
-    id: 3,
-    name: "Basement 3",
-  },
-];
-
 export default {
   setup() {
     const auth = authStore();
@@ -188,15 +189,32 @@ export default {
   },
   data() {
     return {
-      floors,
-      active: ref(true),
-      confirm: ref(false),
+      editFloor: ref(false),
       locAdd: ref(false),
+      floor: ref(""),
+      editFloorForm: {
+        floorID: ref(""),
+        floor: ref(""),
+        enabled: ref(true),
+      },
+      options: [true, false],
     };
   },
   mounted() {
     this.locs.getFloors();
   },
-  methods: {},
+  methods: {
+    addFloor() {
+      this.locs.addFloor(this.floor);
+      this.floor = "";
+      this.locAdd = false;
+    },
+    editDialog(payload) {
+      this.editFloorForm.floorID = payload.floorID;
+      this.editFloorForm.floor = payload.floor;
+      this.editFloorForm.enabled = payload.enabled;
+      this.editFloor = true;
+    },
+  },
 };
 </script>

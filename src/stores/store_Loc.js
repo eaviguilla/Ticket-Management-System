@@ -19,7 +19,27 @@ export const locsStore = defineStore("locS", {
     floors: [],
     rooms: [],
   }),
-  getters: {},
+  getters: {
+    filterFloors() {
+      return this.floors.sort((a, b) => {
+        // First compare the enabled property
+        if (a.enabled && !b.enabled) {
+          return -1;
+        } else if (!a.enabled && b.enabled) {
+          return 1;
+        }
+
+        // Then compare the floor property
+        if (a.floor < b.floor) {
+          return -1;
+        } else if (a.floor > b.floor) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    },
+  },
   actions: {
     getFloors() {
       this.floors = [];
@@ -44,33 +64,45 @@ export const locsStore = defineStore("locS", {
       console.log("got the rooms");
     },
     addFloor(payload) {
-      const newFloor = { floor: payload.floor, active: true };
-      const docRef = addDoc(floorsRef, { newFloor });
-      newFloor.floorID = docRef.id;
-      this.floors.push(newFloor);
+      const newFloor = { floor: payload, enabled: true };
+      addDoc(floorsRef, { floor: payload, enabled: true }).then((docRef) => {
+        newFloor.floorID = docRef.id;
+        this.floors.push(newFloor);
+      });
     },
     addRoom(payload) {
       const newRoom = {
         room: payload.room,
         floorID: payload.floorID,
-        active: true,
+        enabled: true,
       };
-      const docRef = addDoc(roomsRef, { newRoom });
-      newRoom.roomID = docRef.id;
-      this.rooms.push(newRoom);
+      addDoc(roomsRef, {
+        room: payload.room,
+        floorID: payload.floorID,
+        enabled: true,
+      }).then((docRef) => {
+        newRoom.roomID = docRef.id;
+        this.rooms.push(newRoom);
+      });
     },
     updateFloor(payload) {
-      const updatedFloor = { floor: payload.floor, active: payload.active };
-      const docRef = updateDoc(collection(db, "floors", payload.floorID), {
-        updatedFloor,
+      // update firebase
+      updateDoc(doc(db, "floors", payload.floorID), {
+        floor: payload.floor,
+        enabled: payload.enabled,
       });
-      // updatedFloor.floorID = docRef.id;
-      // this.floors.push(updatedFloor);
+      // update state
+      const index = this.floors.findIndex(
+        (floor) => floor.floorID === payload.floorID
+      );
+      this.floors[index].floor = payload.floor;
+      this.floors[index].enabled = payload.enabled;
     },
     updateRoom(payload) {
-      const updatedRoom = { room: payload.room, active: payload.active };
-      const docRef = updateDoc(collection(db, "rooms", payload.roomID), {
-        updatedRoom,
+      const updatedRoom = { room: payload.room, enabled: payload.enabled };
+      const docRef = updateDoc(doc(db, "rooms", payload.roomID), {
+        room: payload.room,
+        enabled: payload.enabled,
       });
       // updatedRoom.roomID = docRef.id;
       // this.rooms.push(updatedRoom);

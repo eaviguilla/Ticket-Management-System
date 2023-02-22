@@ -60,7 +60,7 @@ const routes = [
   },
 
   {
-    path: "/view_rooms",
+    path: "/view_rooms/:floorID",
     component: () => import("src/pages/view_rooms.vue"),
   },
   {
