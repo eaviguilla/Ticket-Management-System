@@ -18,6 +18,8 @@ export const locsStore = defineStore("locS", {
   state: () => ({
     floors: [],
     rooms: [],
+    floor: {},
+    room: {},
   }),
   getters: {
     filterFloors() {
@@ -66,8 +68,16 @@ export const locsStore = defineStore("locS", {
       });
     },
     getFloor(payload) {
-      const foundFloor = this.floors.find((floor) => floor.floorID === payload);
-      return foundFloor ? foundFloor.floor : null;
+      const docRef = doc(db, "floors", payload);
+      getDoc(docRef).then((docSnap) => {
+        const floorDetails = docSnap.data();
+        floorDetails.floorID = docSnap.id;
+        this.floor = floorDetails;
+        console.log(this.floor);
+      });
+
+      // const foundFloor = this.floors.find((floor) => floor.floorID === payload);
+      // return foundFloor ? foundFloor.floor : null;
     },
     getRooms() {
       this.rooms = [];
@@ -78,6 +88,19 @@ export const locsStore = defineStore("locS", {
           this.rooms.push(roomDetails);
         });
       });
+    },
+    getRoom(payload) {
+      const docRef = doc(db, "rooms", payload);
+      getDoc(docRef).then((docSnap) => {
+        const roomDetails = docSnap.data();
+        roomDetails.roomID = docSnap.id;
+        this.room = roomDetails;
+        console.log(this.room);
+        this.getFloor(this.room.floorID);
+      });
+
+      // const foundRoom = this.rooms.find((room) => room.roomID === payload);
+      // return foundRoom ? foundRoom.floor : null;
     },
     addFloor(payload) {
       const newFloor = { floor: payload, enabled: true };

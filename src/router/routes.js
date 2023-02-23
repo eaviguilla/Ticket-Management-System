@@ -25,7 +25,7 @@ const routes = [
     component: () => import("src/components/subscribed_tickets.vue"),
   },
   {
-    path: "/view_ticket",
+    path: "/view_ticket/:ticketID",
     name: "View ticket",
     component: () => import("pages/view_ticket.vue"),
   },

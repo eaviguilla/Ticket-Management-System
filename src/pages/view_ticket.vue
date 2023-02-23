@@ -17,15 +17,17 @@
           <!-- back button -->
 
           <div class="q-ma-md">
-            <h5 class="text-weight-bolder text-primary">Ticket Details</h5>
+            <div class="text-h6 q-pb-sm text-bold text-primary">
+              Ticket Details
+            </div>
             <!-- ticket id -->
             <q-card class="row items-center bg-primary">
               <q-card-section class="col row items-center">
                 <span class="col text-subtitle2 text-white text-bold"
                   >ID:
                 </span>
-                <span class="col text-subtitle2 text-white text-weight-regular"
-                  >2019-100306
+                <span class="col text-right text-caption text-white text-bold"
+                  >{{ tick.ticket.ticketID }}
                 </span>
               </q-card-section></q-card
             >
@@ -50,7 +52,9 @@
                 <span class="col text-subtitle1 text-primary text-bold"
                   >Office:
                 </span>
-                <span class="col text-subtitle2 text-weight-regular">BMO</span>
+                <span class="col text-right text-caption text-bold">{{
+                  tick.ticket.office
+                }}</span>
               </q-card-section>
               <q-separator vertical />
 
@@ -58,9 +62,9 @@
                 <span class="col text-subtitle1 text-primary text-bold"
                   >Category:
                 </span>
-                <span class="col text-subtitle2 text-weight-regular"
-                  >Plumbing</span
-                >
+                <span class="col text-right text-caption text-bold">{{
+                  categ.displayCateg(tick.ticket.categID)
+                }}</span>
               </q-card-section>
             </q-card>
           </div>
@@ -69,19 +73,21 @@
             <q-card class="row items-center"
               ><q-card-section class="col row items-center">
                 <span class="col text-subtitle1 text-primary text-bold"
-                  >Floor:
+                  >Floor / Location:
                 </span>
-                <span class="col text-subtitle2 text-weight-regular"
-                  >3rd Floor</span
-                >
+                <span class="col text-right text-caption text-bold">{{
+                  locs.floor.floor
+                }}</span>
               </q-card-section>
               <q-separator vertical />
 
               <q-card-section class="col row items-center">
                 <span class="col text-subtitle1 text-primary text-bold"
-                  >Specific Area:
+                  >Specific Area / Room:
                 </span>
-                <span class="col text-subtitle2 text-weight-regular">309</span>
+                <span class="col text-right text-caption text-bold">{{
+                  locs.room.area_room
+                }}</span>
               </q-card-section>
             </q-card>
           </div>
@@ -92,9 +98,9 @@
                 class="col text-subtitle1 text-primary text-bold"
               >
                 Description: </q-card-section
-              ><q-card-section class="col text-subtitle2 text-weight-regular"
-                >N/A</q-card-section
-              >
+              ><q-card-section class="col text-subtitle2">{{
+                tick.ticket.description
+              }}</q-card-section>
               <q-separator />
             </q-card>
           </div>
@@ -135,15 +141,31 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref } from "vue";
+import { tickStore } from "src/stores/store_Ticket";
+import { locsStore } from "src/stores/store_Loc";
+import { categStore } from "src/stores/store_Categ";
 
 export default {
-  name: "SelectedTicket",
+  setup() {
+    const tick = tickStore();
+    const locs = locsStore();
+    const categ = categStore();
 
+    return { tick, locs, categ };
+  },
   data() {
     return {
       note: ref(false),
+      ticketID: ref(""),
     };
   },
+  mounted() {
+    this.categ.getCategs();
+    this.ticketID = this.$route.params.ticketID;
+    this.tick.getTicket(this.ticketID);
+    // console.log("from vue", this.ticketDetails);
+  },
+  methods: {},
 };
 </script>
