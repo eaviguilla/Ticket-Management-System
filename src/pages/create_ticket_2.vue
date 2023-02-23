@@ -101,7 +101,7 @@ export default {
   methods: {
     submitTicket() {
       this.tick.addTicket(this.addTicketForm);
-      this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
+      // this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
       console.log(this.addTicketForm.description);
       // this.ticketID = this.tick.getTicket(this.addTicketForm);
       // console.log("From vue: ", test.ticketID);

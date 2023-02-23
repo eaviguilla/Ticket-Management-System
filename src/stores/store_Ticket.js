@@ -46,7 +46,7 @@ export const tickStore = defineStore("tickS", {
         console.log("From add: ", ticketDetails.ticketID);
         this.tickets.push(ticketDetails);
         this.ticket = ticketDetails;
-        // this.router.replace("/view_ticket/" + docRef.id);
+        this.router.replace("/view_ticket/" + docRef.id);
       });
     },
     getTickets() {
