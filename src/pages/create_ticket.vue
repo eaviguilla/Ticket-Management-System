@@ -1,64 +1,93 @@
 <template>
-  <div class="q-pa-md">
-    <div
-      class="q-gutter-md"
-      style="max-width: 850px; width: 50%; margin: 0 auto"
-    >
-      <div class="text-bold text-h6 text-primary">
-        <p>Create Ticket Form</p>
-      </div>
-      <q-select
-        standout="bg-teal text-white"
-        v-model="model"
-        :options="floors"
-        label="Select Floor Level"
-      />
+  <q-layout style="margin-bottom: 65px" view="hHh lpR fFf"
+    ><q-header bordered class="bg-white text-white">
+      <q-toolbar>
+        <q-btn flat rounded class="float-left" to="/"
+          ><q-icon color="primary" name="mdi-arrow-left"></q-icon
+        ></q-btn>
+        <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>
+        <q-toolbar-title class="text-primary text-weight-bold"
+          >RAMaintenance</q-toolbar-title
+        >
+      </q-toolbar>
+    </q-header>
 
-      <q-select
-        standout="bg-teal text-white"
-        v-model="model2"
-        :options="rooms"
-        label="Select Room/Area"
-      />
+    <q-page-container>
+      <div
+        class="q-pa-md"
+        style="max-width: 550px; width: 100%; margin: 0 auto"
+      >
+        <div class="q-gutter-md">
+          <div class="text-h6 text-bold text-primary">Create Ticket</div>
 
-      <div align="right">
-        <q-btn
-          unelevated
-          round
-          color="teal"
-          icon="send"
-          size="md"
-          to="/create_ticket_2"
-        />
-      </div>
-    </div>
-  </div>
+          <q-select
+            v-model="floor"
+            :options="this.locs.selectFloors"
+            label="Select Floor/Location"
+            option-label="floor"
+            option-value="floorID"
+            emit-value
+            map-options
+            outlined
+          />
+          <q-select
+            v-model="room"
+            :disable="!floor"
+            :options="this.locs.selectRooms(this.floor)"
+            label="Select Specific Area/Room"
+            option-label="area_room"
+            option-value="roomID"
+            emit-value
+            map-options
+            outlined
+          />
+
+          <q-page-sticky expand position="bottom" class="q-pa-md">
+            <q-btn
+              class="full-width q-pa-md bg-secondary text-white"
+              label="Next"
+              icon-right="mdi-chevron-right"
+              size="md"
+              :disable="!room"
+              :to="'/create_ticket_desc/' + this.room"
+              style="max-width: 1400px; border-radius: 20px"
+              elevated
+              no-caps
+            />
+          </q-page-sticky>
+        </div></div></q-page-container
+  ></q-layout>
 </template>
 
 <script>
 import { ref } from "vue";
+import { locsStore } from "src/stores/store_Loc";
 
 export default {
   setup() {
+    const locs = locsStore();
+
+    return { locs };
+  },
+  data() {
     return {
-      model: ref(null),
-      model2: ref(null),
-      floors: [
-        "Basement",
-        "First floor",
-        "Second floor",
-        "Third floor",
-        "Fourth floor",
-        "Sixth floor",
-        "Seventh floor",
-        "Eight floor",
-        "Nineth floor",
-        "Tenth floor",
-        "Eleventh floor",
-        "Tweleveth  floor",
-      ],
+      floor: ref(""),
+      room: ref(""),
+      roomsOptions: ref(null),
+
       rooms: ["101", "102", "103"],
     };
   },
+  mounted() {
+    this.locs.getFloors();
+    this.locs.getRooms();
+  },
+  // computed: {
+  //   selectRooms() {
+  //     console.log(this.floor);
+  //     return this.locs.selectRooms(this.floor);
+  //   },
+  // },
+  methods: {},
 };
 </script>

@@ -81,5 +81,17 @@ export const categStore = defineStore("categS", {
         return "None";
       }
     },
+    selectCategs(payload) {
+      const filteredCategs = this.categories.filter((c) => c.office == payload);
+      return filteredCategs.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        } else if (a.name > b.name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    },
   },
 });

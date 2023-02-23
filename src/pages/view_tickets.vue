@@ -12,8 +12,8 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <div class="q-pa-md">
-        <div class="q-gutter-y-md" style="full-width">
+      <div>
+        <div style="full-width">
           <q-card>
             <q-tabs
               v-model="tab"
@@ -31,11 +31,11 @@
             <q-separator />
 
             <q-tab-panels v-model="tab" animated>
-              <q-tab-panel name="active">
+              <q-tab-panel name="active" style="padding: 0%">
                 <active_tickets />
               </q-tab-panel>
 
-              <q-tab-panel name="subscribed">
+              <q-tab-panel name="subscribed" style="padding: 0%">
                 <subscribed_tickets />
               </q-tab-panel>
             </q-tab-panels>

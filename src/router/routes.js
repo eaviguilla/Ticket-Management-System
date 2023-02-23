@@ -40,8 +40,8 @@ const routes = [
     component: () => import("pages/register.vue"),
   },
   {
-    path: "/create_ticket",
-    name: "Create ticket",
+    path: "/create_ticket_loc",
+    name: "Create ticket location",
     component: () => import("pages/create_ticket.vue"),
   },
   {
@@ -54,17 +54,15 @@ const routes = [
     name: "View locations",
     component: () => import("src/pages/view_locations.vue"),
   },
-  {
-    path: "/view_locs",
-    component: () => import("src/pages/view_locs.vue"),
-  },
 
   {
     path: "/view_rooms/:floorID",
     component: () => import("src/pages/view_rooms.vue"),
   },
   {
-    path: "/create_ticket_2",
+    path: "/create_ticket_desc/:roomID",
+    name: "Create ticket description",
+
     component: () => import("src/pages/create_ticket_2.vue"),
   },
   {

@@ -39,6 +39,20 @@ export const locsStore = defineStore("locS", {
         }
       });
     },
+    selectFloors() {
+      const filteredFloors = this.floors.filter(
+        (floor) => floor.enabled === true
+      );
+      return filteredFloors.sort((a, b) => {
+        if (a.floor < b.floor) {
+          return -1;
+        } else if (a.floor > b.floor) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    },
   },
   actions: {
     getFloors() {
@@ -126,6 +140,24 @@ export const locsStore = defineStore("locS", {
           return 1;
         }
 
+        // Then compare the floor property
+        if (a.area_room < b.area_room) {
+          return -1;
+        } else if (a.area_room > b.area_room) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    },
+    selectRooms(payload) {
+      const filteredRooms = this.rooms.filter(
+        (room) => room.floorID === payload
+      );
+      const enabledRooms = filteredRooms.filter(
+        (room) => room.enabled === true
+      );
+      return enabledRooms.sort((a, b) => {
         // Then compare the floor property
         if (a.area_room < b.area_room) {
           return -1;

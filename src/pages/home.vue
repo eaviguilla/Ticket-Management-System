@@ -121,7 +121,7 @@
           size="md"
           label="Create Ticket"
           @click="createBtn = true"
-          to="/create_ticket"
+          to="/create_ticket_loc"
         />
       </q-page-sticky>
       <q-dialog v-model="createBtn" persistent full-height full-width>
