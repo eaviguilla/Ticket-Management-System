@@ -18,7 +18,7 @@
       >
         <div class="text-h6 text-bold text-primary">
           Specific Areas/Rooms in Floor/Location
-          {{ locs.getFloor(this.addRoomForm.floorID) }}
+          {{ locs.floor.floor }}
         </div>
 
         <q-item
@@ -207,6 +207,7 @@ export default {
       this.locs.addRoom(this.addRoomForm);
       this.addRoomForm.area_room = "";
       this.locAdd = false;
+      this.locs.getFloor(this.addRoomForm.floorID);
     },
     editDialog(payload) {
       this.editRoomForm.roomID = payload.roomID;
