@@ -25,7 +25,7 @@
                   >ID:
                 </span>
                 <span class="col text-subtitle2 text-white text-weight-regular"
-                  >2019-100306
+                  >6348267348973
                 </span>
               </q-card-section></q-card
             >
@@ -135,15 +135,32 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref } from "vue";
+import { tickStore } from "src/stores/store_Ticket";
+import { locsStore } from "src/stores/store_Loc";
+import { categStore } from "src/stores/store_Categ";
 
 export default {
-  name: "SelectedTicket",
+  setup() {
+    const tick = tickStore();
+    const locs = locsStore();
+    const categ = categStore();
 
+    return { tick, locs, categ };
+  },
   data() {
     return {
       note: ref(false),
+      ticketID: ref(""),
+      ticketDetails: ref(null),
     };
   },
+  mounted() {
+    this.tick.getTickets();
+    this.ticketID = this.$route.params.ticketID;
+    this.ticketDetails = this.tick.getTicket(this.ticketID);
+    console.log(this.ticketDetails);
+  },
+  methods: {},
 };
 </script>

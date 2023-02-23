@@ -100,7 +100,11 @@ export default {
   },
   methods: {
     submitTicket() {
-      this.tick.addTicket(this.addTicketForm);
+      const test = this.tick.addTicket(this.addTicketForm);
+      console.log(this.addTicketForm.description);
+      // this.ticketID = this.tick.getTicket(this.addTicketForm);
+      // console.log("From vue: ", test.ticketID);
+      // this.router.replace("/view_ticket/" + this.ticketID);
     },
   },
 };
