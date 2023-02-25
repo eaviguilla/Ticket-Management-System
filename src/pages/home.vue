@@ -132,9 +132,6 @@
               <q-tooltip class="bg-white text-primary">Close</q-tooltip>
             </q-btn>
           </q-bar>
-          <q-page-container style="padding: 0px !important">
-            <newTicket :userDetails="userDetails" />
-          </q-page-container>
         </q-card>
       </q-dialog>
     </div>

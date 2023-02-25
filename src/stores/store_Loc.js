@@ -4,11 +4,12 @@ import { authStore } from "./store_Auth";
 import {
   doc,
   addDoc,
-  deleteDoc,
   getDocs,
   collection,
   updateDoc,
   getDoc,
+  query,
+  where,
 } from "firebase/firestore";
 
 const floorsRef = collection(db, "floors");
@@ -31,14 +32,21 @@ export const locsStore = defineStore("locS", {
           return 1;
         }
 
-        // Then compare the floor property
-        if (a.floor < b.floor) {
+        return a.floor.localeCompare(b.floor, undefined, { numeric: true });
+      });
+    },
+    filterRooms() {
+      return this.rooms.sort((a, b) => {
+        // First compare the enabled property
+        if (a.enabled && !b.enabled) {
           return -1;
-        } else if (a.floor > b.floor) {
+        } else if (!a.enabled && b.enabled) {
           return 1;
-        } else {
-          return 0;
         }
+        // Then compare the floor property
+        return a.area_room.localeCompare(b.area_room, undefined, {
+          numeric: true,
+        });
       });
     },
     selectFloors() {
@@ -46,13 +54,7 @@ export const locsStore = defineStore("locS", {
         (floor) => floor.enabled === true
       );
       return filteredFloors.sort((a, b) => {
-        if (a.floor < b.floor) {
-          return -1;
-        } else if (a.floor > b.floor) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return a.floor.localeCompare(b.floor, undefined, { numeric: true });
       });
     },
   },
@@ -79,15 +81,18 @@ export const locsStore = defineStore("locS", {
       // const foundFloor = this.floors.find((floor) => floor.floorID === payload);
       // return foundFloor ? foundFloor.floor : null;
     },
-    getRooms() {
+    getRooms(payload) {
       this.rooms = [];
-      getDocs(roomsRef).then((querySnapshot) => {
+      const q = query(roomsRef, where("floorID", "==", payload));
+      getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
           const roomDetails = response.data();
           roomDetails.roomID = response.id;
           this.rooms.push(roomDetails);
+          console.log(roomDetails);
         });
       });
+      this.filterRooms;
     },
     getRoom(payload) {
       const docRef = doc(db, "rooms", payload);
@@ -150,30 +155,9 @@ export const locsStore = defineStore("locS", {
       this.rooms[index].area_room = payload.area_room;
       this.rooms[index].enabled = payload.enabled;
     },
-    filterRooms(payload) {
-      const filteredRooms = this.rooms.filter(
-        (room) => room.floorID === payload
-      );
 
-      return filteredRooms.sort((a, b) => {
-        // First compare the enabled property
-        if (a.enabled && !b.enabled) {
-          return -1;
-        } else if (!a.enabled && b.enabled) {
-          return 1;
-        }
-
-        // Then compare the floor property
-        if (a.area_room < b.area_room) {
-          return -1;
-        } else if (a.area_room > b.area_room) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    },
     selectRooms(payload) {
+      // First compare the enabled property
       const filteredRooms = this.rooms.filter(
         (room) => room.floorID === payload
       );
@@ -182,13 +166,11 @@ export const locsStore = defineStore("locS", {
       );
       return enabledRooms.sort((a, b) => {
         // Then compare the floor property
-        if (a.area_room < b.area_room) {
-          return -1;
-        } else if (a.area_room > b.area_room) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return filteredRooms.sort((a, b) => {
+          return a.area_room.localeCompare(b.area_room, undefined, {
+            numeric: true,
+          });
+        });
       });
     },
   },

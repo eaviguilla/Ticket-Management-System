@@ -33,7 +33,7 @@
           <q-select
             v-model="room"
             :disable="!floor"
-            :options="this.locs.selectRooms(this.floor)"
+            :options="this.locs.filterRooms"
             label="Select Specific Area/Room"
             option-label="area_room"
             option-value="roomID"
@@ -78,9 +78,14 @@ export default {
       rooms: ["101", "102", "103"],
     };
   },
+  watch: {
+    floor() {
+      this.room = "";
+      this.locs.getRooms(this.floor);
+    },
+  },
   mounted() {
     this.locs.getFloors();
-    this.locs.getRooms();
   },
   // computed: {
   //   selectRooms() {
