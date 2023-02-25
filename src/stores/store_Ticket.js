@@ -44,14 +44,13 @@ export const tickStore = defineStore("tickS", {
         };
         ticketDetails.ticketID = docRef.id;
         console.log("From add: ", ticketDetails.ticketID);
-        this.tickets.push(ticketDetails);
         this.ticket = ticketDetails;
         this.router.replace("/view_ticket/" + docRef.id);
       });
     },
     getTickets() {
       this.tickets = [];
-      const querySnapshot = getDocs(ticketsRef).then((querySnapshot) => {
+      getDocs(ticketsRef).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
           const ticketDetails = response.data();
           ticketDetails.ticketID = response.id;
@@ -68,16 +67,6 @@ export const tickStore = defineStore("tickS", {
         console.log(this.ticket);
         locs.getRoom(ticketDetails.roomID);
       });
-      // const index = this.tickets.findIndex((tick) => tick.ticketID === payload);
-      // console.log(this.tickets);
-      // return this.tickets[index];
-
-      // const ticket = this.tickets.find((ticket) => ticket.ticketID === payload);
-      // if (ticket) {
-      //   return ticket;
-      // } else {
-      //   return "None";
-      // }
     },
   },
 });

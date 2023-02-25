@@ -42,7 +42,7 @@ export const categStore = defineStore("categS", {
     },
     getCategs() {
       this.categories = [];
-      const querySnapshot = getDocs(categsRef).then((querySnapshot) => {
+      getDocs(categsRef).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
           const categDetails = response.data();
           categDetails.categID = response.id;

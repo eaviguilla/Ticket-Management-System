@@ -13,13 +13,13 @@
     </q-header>
 
     <q-page-container>
-      <div class="q-pa-md">
-        <div
-          class="q-gutter-md"
-          style="max-width: 550px; width: 100%; margin: 0 auto"
-        >
-          <div class="text-bold text-h6 text-primary">
-            <p>Create Ticket Form</p>
+      <div
+        class="q-pa-md"
+        style="max-width: 550px; width: 100%; margin: 0 auto"
+      >
+        <div class="q-gutter-md">
+          <div class="text-bold text-h6 text-primary q-pb-sm">
+            Ticket Creation Form
           </div>
 
           <q-select
@@ -51,7 +51,7 @@
           <q-page-sticky expand position="bottom" class="q-pa-md">
             <q-btn
               :disable="!addTicketForm.description"
-              @click="submitTicket()"
+              @click="this.tick.addTicket(this.addTicketForm)"
               class="full-width q-pa-md bg-secondary text-white"
               icon="mdi-circle-small"
               label="Submit"
@@ -91,22 +91,12 @@ export default {
         timestamp: Date.now(),
       },
       offices: ["BMO", "ITRO"],
-      ticketID: ref(""),
+      ticketID: this.tick.ticket.ticketID,
     };
   },
   mounted() {
     this.addTicketForm.roomID = this.$route.params.roomID;
     this.categ.getCategs();
-  },
-  methods: {
-    submitTicket() {
-      this.tick.addTicket(this.addTicketForm);
-      // this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
-      console.log(this.addTicketForm.description);
-      // this.ticketID = this.tick.getTicket(this.addTicketForm);
-      // console.log("From vue: ", test.ticketID);
-      // this.router.replace("/view_ticket/" + this.ticketID);
-    },
   },
 };
 </script>

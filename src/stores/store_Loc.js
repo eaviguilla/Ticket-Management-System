@@ -23,6 +23,8 @@ export const locsStore = defineStore("locS", {
     room: {},
   }),
   getters: {
+    // filtering for floors and rooms for staffs and admins
+
     filterFloors() {
       return this.floors.sort((a, b) => {
         // First compare the enabled property
@@ -49,6 +51,9 @@ export const locsStore = defineStore("locS", {
         });
       });
     },
+
+    // selection filtering of floors and rooms
+
     selectFloors() {
       const filteredFloors = this.floors.filter(
         (floor) => floor.enabled === true
@@ -57,8 +62,18 @@ export const locsStore = defineStore("locS", {
         return a.floor.localeCompare(b.floor, undefined, { numeric: true });
       });
     },
+    selectRooms() {
+      const filteredRooms = this.rooms.filter((room) => room.enabled === true);
+      return filteredRooms.sort((a, b) => {
+        return a.area_room.localeCompare(b.area_room, undefined, {
+          numeric: true,
+        });
+      });
+    },
   },
+
   actions: {
+    // getting all floors
     getFloors() {
       this.floors = [];
       getDocs(floorsRef).then((querySnapshot) => {
@@ -69,6 +84,8 @@ export const locsStore = defineStore("locS", {
         });
       });
     },
+
+    // getting specific floor
     getFloor(payload) {
       const docRef = doc(db, "floors", payload);
       getDoc(docRef).then((docSnap) => {
@@ -77,10 +94,9 @@ export const locsStore = defineStore("locS", {
         this.floor = floorDetails;
         console.log(this.floor);
       });
-
-      // const foundFloor = this.floors.find((floor) => floor.floorID === payload);
-      // return foundFloor ? foundFloor.floor : null;
     },
+
+    // getting all rooms in a floor
     getRooms(payload) {
       this.rooms = [];
       const q = query(roomsRef, where("floorID", "==", payload));
@@ -92,8 +108,9 @@ export const locsStore = defineStore("locS", {
           console.log(roomDetails);
         });
       });
-      this.filterRooms;
     },
+
+    // getting specific room
     getRoom(payload) {
       const docRef = doc(db, "rooms", payload);
       getDoc(docRef).then((docSnap) => {
@@ -103,10 +120,9 @@ export const locsStore = defineStore("locS", {
         console.log(this.room);
         this.getFloor(this.room.floorID);
       });
-
-      // const foundRoom = this.rooms.find((room) => room.roomID === payload);
-      // return foundRoom ? foundRoom.floor : null;
     },
+
+    // adding new floor and room methods
     addFloor(payload) {
       const newFloor = { floor: payload, enabled: true };
       addDoc(floorsRef, { floor: payload, enabled: true }).then((docRef) => {
@@ -129,6 +145,8 @@ export const locsStore = defineStore("locS", {
         this.rooms.push(newRoom);
       });
     },
+
+    // updating floor and room methods
     updateFloor(payload) {
       // update firebase
       updateDoc(doc(db, "floors", payload.floorID), {
@@ -154,24 +172,6 @@ export const locsStore = defineStore("locS", {
       );
       this.rooms[index].area_room = payload.area_room;
       this.rooms[index].enabled = payload.enabled;
-    },
-
-    selectRooms(payload) {
-      // First compare the enabled property
-      const filteredRooms = this.rooms.filter(
-        (room) => room.floorID === payload
-      );
-      const enabledRooms = filteredRooms.filter(
-        (room) => room.enabled === true
-      );
-      return enabledRooms.sort((a, b) => {
-        // Then compare the floor property
-        return filteredRooms.sort((a, b) => {
-          return a.area_room.localeCompare(b.area_room, undefined, {
-            numeric: true,
-          });
-        });
-      });
     },
   },
 });

@@ -164,7 +164,7 @@ export default {
     this.categ.getCategs();
     this.ticketID = this.$route.params.ticketID;
     this.tick.getTicket(this.$route.params.ticketID);
-    // console.log("from vue", this.ticketDetails);
+    console.log("from vue", this.ticketDetails);
   },
   methods: {},
 };

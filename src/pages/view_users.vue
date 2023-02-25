@@ -294,7 +294,7 @@
                         bordered
                         items-center
                       >
-                        BMO Admin
+                        {{ auth.userDetails.office }} Admin
                       </q-item-label>
                     </q-item-section>
                   </div>

@@ -36,36 +36,32 @@
           </div>
           <div style="width: 50%" class="row justify-around">
             <!-- edit floor button -->
-            <q-btn
-              v-if="auth.userDetails.admin"
-              @click="editDialog(floor)"
-              class="bg-secondary text-lowercase"
-              style="
-                width: 50%;
-                border-bottom-right-radius: 0;
-                border-top-right-radius: 0;
-              "
-              color="white"
-              size="md"
-              flat
-              stack
-              icon="mdi-square-edit-outline"
-            />
+            <div class="q-px-xs" style="width: 50%">
+              <q-btn
+                v-if="auth.userDetails.admin"
+                @click="editDialog(floor)"
+                class="bg-secondary"
+                color="white"
+                style="width: 100%"
+                size="md"
+                flat
+                stack
+                icon="mdi-square-edit-outline"
+              />
+            </div>
             <!-- go to rooms button -->
-            <q-btn
-              class="bg-primary text-lowercase"
-              style="
-                width: 50%;
-                border-bottom-left-radius: 0;
-                border-top-left-radius: 0;
-              "
-              color="white"
-              size="md"
-              :to="'/view_rooms/' + floor.floorID"
-              flat
-              stack
-              icon="mdi-office-building-marker-outline"
-            />
+            <div class="q-px-xs" style="width: 50%">
+              <q-btn
+                class="bg-primary"
+                color="white"
+                style="width: 100%"
+                size="md"
+                :to="'/view_rooms/' + floor.floorID"
+                flat
+                stack
+                icon="mdi-office-building-marker-outline"
+              />
+            </div>
           </div>
         </q-item>
         <!-- edit floor/location dialog -->

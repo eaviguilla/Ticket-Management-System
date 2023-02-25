@@ -18,7 +18,9 @@
         style="max-width: 550px; width: 100%; margin: 0 auto"
       >
         <div class="q-gutter-md">
-          <div class="text-h6 text-bold text-primary">Create Ticket</div>
+          <div class="text-bold text-h6 text-primary q-py-sm">
+            Create Ticket
+          </div>
 
           <q-select
             v-model="floor"
@@ -33,7 +35,7 @@
           <q-select
             v-model="room"
             :disable="!floor"
-            :options="this.locs.filterRooms"
+            :options="this.locs.selectRooms"
             label="Select Specific Area/Room"
             option-label="area_room"
             option-value="roomID"
@@ -74,8 +76,6 @@ export default {
       floor: ref(""),
       room: ref(""),
       roomsOptions: ref(null),
-
-      rooms: ["101", "102", "103"],
     };
   },
   watch: {
@@ -87,12 +87,6 @@ export default {
   mounted() {
     this.locs.getFloors();
   },
-  // computed: {
-  //   selectRooms() {
-  //     console.log(this.floor);
-  //     return this.locs.selectRooms(this.floor);
-  //   },
-  // },
   methods: {},
 };
 </script>

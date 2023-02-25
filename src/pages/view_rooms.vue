@@ -16,9 +16,11 @@
         class="q-pa-md"
         style="max-width: 600px; width: 100%; margin: 0 auto"
       >
-        <div class="text-h6 text-bold text-primary">
-          Specific Areas/Rooms in Floor/Location
-          {{ locs.floor.floor }}
+        <div>
+          <span class="text-h6 text-bold text-primary"
+            >Specific Areas/Rooms in Floor/Location:
+          </span>
+          <span class="text-h6 text-primary"> {{ locs.floor.floor }}</span>
         </div>
 
         <q-item
@@ -186,13 +188,13 @@ export default {
   mounted() {
     this.addRoomForm.floorID = this.$route.params.floorID;
     this.locs.getRooms(this.addRoomForm.floorID);
+    this.locs.getFloor(this.addRoomForm.floorID);
   },
   methods: {
     addRoom() {
       this.locs.addRoom(this.addRoomForm);
       this.addRoomForm.area_room = "";
       this.locAdd = false;
-      this.locs.getFloor(this.addRoomForm.floorID);
     },
     editDialog(payload) {
       this.editRoomForm.roomID = payload.roomID;
