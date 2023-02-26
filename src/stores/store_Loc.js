@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { db } from "boot/firebase";
-import { authStore } from "./store_Auth";
 import {
   doc,
   addDoc,

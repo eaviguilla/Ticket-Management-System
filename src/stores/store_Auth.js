@@ -6,6 +6,9 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
+// import { tickStore } from "./store_Ticket";
+
+// const tick = tickStore();
 
 export const authStore = defineStore("authS", {
   state: () => ({
@@ -52,6 +55,7 @@ export const authStore = defineStore("authS", {
             this.userDetails.userID = userID;
             console.log("from onauthstate", this.userDetails);
           });
+          // tick.getTickets;
         } else {
           //user is signed out
           console.log("user not signed in");

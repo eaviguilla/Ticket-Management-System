@@ -124,16 +124,6 @@
           to="/create_ticket_loc"
         />
       </q-page-sticky>
-      <q-dialog v-model="createBtn" persistent full-height full-width>
-        <q-card class="text-black">
-          <q-bar>
-            <q-space />
-            <q-btn dense flat icon="close" v-close-popup>
-              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-            </q-btn>
-          </q-bar>
-        </q-card>
-      </q-dialog>
     </div>
   </div>
 </template>

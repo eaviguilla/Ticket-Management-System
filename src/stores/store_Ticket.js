@@ -1,11 +1,18 @@
 import { defineStore } from "pinia";
-import { auth, db } from "boot/firebase";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { useRouter } from "vue-router";
+import { db } from "boot/firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { locsStore } from "./store_Loc";
 
 const ticketsRef = collection(db, "tickets");
-const router = useRouter();
 const locs = locsStore();
 
 export const tickStore = defineStore("tickS", {
@@ -45,12 +52,22 @@ export const tickStore = defineStore("tickS", {
         ticketDetails.ticketID = docRef.id;
         console.log("From add: ", ticketDetails.ticketID);
         this.ticket = ticketDetails;
-        this.router.replace("/view_ticket/" + docRef.id);
       });
     },
     getTickets() {
-      this.tickets = [];
-      getDocs(ticketsRef).then((querySnapshot) => {
+      // const q = query(ticketsRef, where("status", "!=", "Resolved"));
+      // getDocs(q).then((querySnapshot) => {
+      //   querySnapshot.forEach((response) => {
+      //     const ticketDetails = response.data();
+      //     ticketDetails.ticketID = response.id;
+      //     this.tickets.push(ticketDetails);
+      //   });
+      // });
+
+      const q = query(ticketsRef, where("status", "!=", "Resolved"));
+      onSnapshot(q, (querySnapshot) => {
+        this.tickets = [];
+        console.log("hasbeencalled");
         querySnapshot.forEach((response) => {
           const ticketDetails = response.data();
           ticketDetails.ticketID = response.id;

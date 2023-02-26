@@ -18,7 +18,7 @@
         style="max-width: 550px; width: 100%; margin: 0 auto"
       >
         <div class="q-gutter-md">
-          <div class="text-bold text-h6 text-primary q-pb-sm">
+          <div class="text-bold text-h6 text-primary q-py-sm">
             Ticket Creation Form
           </div>
 
@@ -78,8 +78,9 @@ export default {
     const tick = tickStore();
     const auth = authStore();
     const router = useRouter();
+    const tickState = tick.ticket;
 
-    return { auth, categ, tick, router };
+    return { auth, categ, tick, router, tickState };
   },
   data() {
     return {
@@ -93,6 +94,11 @@ export default {
       offices: ["BMO", "ITRO"],
       ticketID: this.tick.ticket.ticketID,
     };
+  },
+  watch: {
+    "tick.ticket"() {
+      this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
+    },
   },
   mounted() {
     this.addTicketForm.roomID = this.$route.params.roomID;

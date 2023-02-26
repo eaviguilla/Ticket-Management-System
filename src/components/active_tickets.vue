@@ -79,21 +79,9 @@
       </div>
     </div>
   </q-layout>
-  <div class="">
-    <q-page-sticky expand position="bottom-left" class="q-pa-lg q-pl-lg">
-      <q-btn
-        unelevated
-        rounded
-        style="background: #ff6b6e; color: white"
-        icon="fa-solid fa-plus"
-        size="md"
-        :label="$q.screen.gt.xs ? 'Create a ticket' : void 0"
-      />
-    </q-page-sticky>
-  </div>
 </template>
 <script>
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   setup() {},
@@ -102,6 +90,8 @@ export default defineComponent({
       title: ref("bfiwfiwffniownfwefwefnwijfnwef"),
     };
   },
+  mounted() {},
+  methods: {},
   computed: {},
 });
 </script>
