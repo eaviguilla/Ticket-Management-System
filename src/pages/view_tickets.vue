@@ -82,7 +82,10 @@ export default defineComponent({
       createBtn: ref(false),
     };
   },
-  mounted() {},
+  mounted() {
+    this.locs.getAllLocs();
+    this.categs.getCategs();
+  },
   methods: {},
 });
 </script>

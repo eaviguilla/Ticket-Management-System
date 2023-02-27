@@ -72,8 +72,34 @@ export const locsStore = defineStore("locS", {
   },
 
   actions: {
+    // get all floors and rooms
+    getAllLocs() {
+      this.getFloors();
+      this.rooms = [];
+      getDocs(roomsRef).then((querySnapshot) => {
+        querySnapshot.forEach((response) => {
+          const roomDetails = response.data();
+          roomDetails.roomID = response.id;
+          this.rooms.push(roomDetails);
+        });
+      });
+      console.log(this.rooms);
+    },
+
     // getting all floors
     getFloors() {
+      this.floors = [];
+      getDocs(floorsRef).then((querySnapshot) => {
+        querySnapshot.forEach((response) => {
+          const floorDetails = response.data();
+          floorDetails.floorID = response.id;
+          this.floors.push(floorDetails);
+        });
+      });
+    },
+
+    // get all floors
+    getAllFloors() {
       this.floors = [];
       getDocs(floorsRef).then((querySnapshot) => {
         querySnapshot.forEach((response) => {
@@ -92,6 +118,7 @@ export const locsStore = defineStore("locS", {
         floorDetails.floorID = docSnap.id;
         this.floor = floorDetails;
         console.log(this.floor);
+        return floorDetails.floor;
       });
     },
 
@@ -171,6 +198,30 @@ export const locsStore = defineStore("locS", {
       );
       this.rooms[index].area_room = payload.area_room;
       this.rooms[index].enabled = payload.enabled;
+    },
+
+    displayFloor(id) {
+      const room = this.rooms.find((room) => room.roomID === id);
+      if (room) {
+        const floor = this.floors.find(
+          (floor) => floor.floorID === room.floorID
+        );
+        if (floor) {
+          return floor.floor;
+        } else {
+          return "None";
+        }
+      } else {
+        return "None";
+      }
+    },
+    displayRoom(id) {
+      const room = this.rooms.find((room) => room.roomID === id);
+      if (room) {
+        return room.area_room;
+      } else {
+        return "None";
+      }
     },
   },
 });

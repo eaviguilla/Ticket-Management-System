@@ -8,12 +8,13 @@ import {
   getDocs,
   onSnapshot,
   query,
+  setDoc,
   where,
 } from "firebase/firestore";
 import { locsStore } from "./store_Loc";
+import { authStore } from "./store_Auth";
 
 const ticketsRef = collection(db, "tickets");
-const locs = locsStore();
 
 export const tickStore = defineStore("tickS", {
   state: () => ({
@@ -63,7 +64,6 @@ export const tickStore = defineStore("tickS", {
       //     this.tickets.push(ticketDetails);
       //   });
       // });
-
       const q = query(ticketsRef, where("status", "!=", "Resolved"));
       onSnapshot(q, (querySnapshot) => {
         this.tickets = [];
@@ -73,6 +73,7 @@ export const tickStore = defineStore("tickS", {
           ticketDetails.ticketID = response.id;
           this.tickets.push(ticketDetails);
         });
+        console.log(this.tickets);
       });
     },
     getTicket(payload) {
@@ -82,8 +83,11 @@ export const tickStore = defineStore("tickS", {
         ticketDetails.ticketID = docSnap.id;
         this.ticket = ticketDetails;
         console.log(this.ticket);
-        locs.getRoom(ticketDetails.roomID);
+        locsStore().getRoom(ticketDetails.roomID);
       });
+    },
+    subTicket(payload) {
+      setDoc(doc(db, "users", authStore().userDetails.userID));
     },
   },
 });
