@@ -46,7 +46,9 @@
                 ID: {{ ticket.ticketID }}
               </div>
             </q-item-label>
-            <div flat class="q-mt-md row justify-betweem" style="width: 100%">
+          </q-item-section>
+          <!-- <q-item-section
+            ><div flat class="q-mt-md row justify-betweem" style="width: 100%">
               <q-btn
                 flat
                 rounded
@@ -74,9 +76,8 @@
                 label="Subscribe"
                 icon="mdi-bell-plus-outline"
               >
-              </q-btn>
-            </div>
-          </q-item-section>
+              </q-btn></div
+          ></q-item-section> -->
         </q-item>
 
         <br />

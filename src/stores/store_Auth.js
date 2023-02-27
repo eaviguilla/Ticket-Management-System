@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
-// import { tickStore } from "./store_Ticket";
+import { tickStore } from "./store_Ticket";
 
 // const tick = tickStore();
 
@@ -53,6 +53,7 @@ export const authStore = defineStore("authS", {
           const unsub = onSnapshot(doc(db, "users", userID), (snapshot) => {
             this.userDetails = snapshot.data();
             this.userDetails.userID = userID;
+            tickStore().subscribed = this.userDetails.subscribed;
             console.log("from onauthstate", this.userDetails);
           });
           // tick.getTickets;

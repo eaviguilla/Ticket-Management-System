@@ -40,7 +40,7 @@
             style="background: #ff6b6e; color: white"
             class="row justify-center q-ma-md"
             ><div class="row items-center">
-              <q-icon class="col q-pr-sm" name="mdi-pencil"></q-icon>
+              <q-icon class="col q-pr-sm" name="mdi-pencil" />
 
               <div class="col q-pl-sm text-overline">Edit</div>
             </div>

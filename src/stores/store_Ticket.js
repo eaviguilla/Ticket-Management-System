@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { db } from "boot/firebase";
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -20,6 +21,7 @@ export const tickStore = defineStore("tickS", {
   state: () => ({
     tickets: [],
     ticket: {},
+    subscribed: [],
   }),
   getters: {},
   actions: {
@@ -87,7 +89,9 @@ export const tickStore = defineStore("tickS", {
       });
     },
     subTicket(payload) {
-      setDoc(doc(db, "users", authStore().userDetails.userID));
+      setDoc(doc(db, "users", authStore().userDetails.userID), {
+        subscribed: arrayUnion(payload),
+      });
     },
   },
 });
