@@ -96,7 +96,11 @@ export default {
     };
   },
   watch: {
+    "addTicketForm.office"() {
+      this.addTicketForm.categID = "";
+    },
     "tick.ticket"() {
+      this.tick.subTicket(this.tick.ticket.ticketID);
       this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
     },
   },

@@ -21,7 +21,7 @@
               Ticket Details
             </div>
             <!-- ticket id -->
-            <q-card class="row items-center bg-primary">
+            <q-card class="row items-center bg-primary" bordered flat>
               <q-card-section class="col row items-center">
                 <span class="col text-subtitle2 text-white text-bold"
                   >ID:
@@ -32,22 +32,37 @@
               </q-card-section></q-card
             >
           </div>
-          <!-- edit ticket -->
+          <!-- unsubscribe ticket -->
           <q-card
-            rounded
-            clickable
+            v-if="!isSubscribed"
             v-ripple
-            style="background: #ff6b6e; color: white"
-            class="row justify-center q-ma-md"
+            class="row justify-center q-ma-md bg-primary text-white"
+            clickable
+            rounded
+            @click="tick.subTicket(tick.ticket.ticketID)"
             ><div class="row items-center">
-              <q-icon class="col q-pr-sm" name="mdi-pencil" />
+              <q-icon class="col" name="mdi-bell-ring-outline" />
 
-              <div class="col q-pl-sm text-overline">Edit</div>
+              <div class="col q-pr-lg text-overline">Subscribe</div>
+            </div>
+          </q-card>
+
+          <q-card
+            v-if="isSubscribed"
+            v-ripple
+            class="row justify-center q-ma-md bg-secondary text-white"
+            clickable
+            rounded
+            @click="tick.unsubTicket(tick.ticket.ticketID)"
+            ><div class="row items-center">
+              <q-icon class="col" name="mdi-bell-off-outline" />
+
+              <div class="col q-pr-xl text-overline">Unsubscribe</div>
             </div>
           </q-card>
           <!-- office and category -->
           <div class="q-ma-md">
-            <q-card class="row items-center"
+            <q-card bordered flat class="row items-center"
               ><q-card-section class="col row items-center">
                 <span class="col text-subtitle1 text-primary text-bold"
                   >Office:
@@ -70,7 +85,7 @@
           </div>
           <!-- floor and specific area/floor -->
           <div class="q-ma-md">
-            <q-card class="row items-center"
+            <q-card bordered flat class="row items-center"
               ><q-card-section class="col row items-center">
                 <span class="col text-subtitle1 text-primary text-bold"
                   >Floor / Location:
@@ -93,7 +108,7 @@
           </div>
           <!-- ticket description and status -->
           <div class="q-ma-md">
-            <q-card
+            <q-card bordered flat
               ><q-card-section
                 class="col text-subtitle1 text-primary text-bold"
               >
@@ -125,10 +140,10 @@
               >
             </q-card>
           </q-dialog>
-          <q-page-sticky position="bottom-right" :offset="[18, 90]">
+          <q-page-sticky position="bottom-right" :offset="[25, 25]">
             <q-btn
               rounded
-              color="accent"
+              color="primary"
               label="Notes"
               icon="mdi-forum-outline"
               class="q-pa-md"
@@ -160,12 +175,24 @@ export default {
       ticketID: ref(""),
     };
   },
+  watch: {
+    "tick.tickets"() {
+      this.tick.getTicket(this.$route.params.ticketID);
+    },
+  },
   mounted() {
     this.categ.getCategs();
     this.ticketID = this.$route.params.ticketID;
-    this.tick.getTicket(this.$route.params.ticketID);
     console.log("from vue", this.ticketDetails);
   },
   methods: {},
+  computed: {
+    isSubscribed() {
+      return this.tick.subscribed.includes(this.tick.ticket.ticketID);
+    },
+    hmm() {
+      return false;
+    },
+  },
 };
 </script>

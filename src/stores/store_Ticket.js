@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { db } from "boot/firebase";
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -10,6 +11,7 @@ import {
   onSnapshot,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { locsStore } from "./store_Loc";
@@ -23,7 +25,22 @@ export const tickStore = defineStore("tickS", {
     ticket: {},
     subscribed: [],
   }),
-  getters: {},
+  getters: {
+    filterSub() {
+      if (this.subscribed != undefined) {
+        return this.tickets.filter((ticket) =>
+          this.subscribed.includes(ticket.ticketID)
+        );
+      }
+    },
+    filterActive() {
+      if (this.subscribed != undefined) {
+        return this.tickets.filter(
+          (ticket) => !this.subscribed.includes(ticket.ticketID)
+        );
+      }
+    },
+  },
   actions: {
     addTicket(payload) {
       addDoc(ticketsRef, {
@@ -55,6 +72,7 @@ export const tickStore = defineStore("tickS", {
         ticketDetails.ticketID = docRef.id;
         console.log("From add: ", ticketDetails.ticketID);
         this.ticket = ticketDetails;
+        locsStore().getRoom(this.ticket.roomID);
       });
     },
     getTickets() {
@@ -79,18 +97,28 @@ export const tickStore = defineStore("tickS", {
       });
     },
     getTicket(payload) {
-      const docRef = doc(db, "tickets", payload);
-      getDoc(docRef).then((docSnap) => {
-        const ticketDetails = docSnap.data();
-        ticketDetails.ticketID = docSnap.id;
-        this.ticket = ticketDetails;
-        console.log(this.ticket);
-        locsStore().getRoom(ticketDetails.roomID);
-      });
+      // const docRef = doc(db, "tickets", payload);
+      // getDoc(docRef).then((docSnap) => {
+      //   const ticketDetails = docSnap.data();
+      //   ticketDetails.ticketID = docSnap.id;
+      //   this.ticket = ticketDetails;
+      //   console.log(this.ticket);
+      //   locsStore().getRoom(ticketDetails.roomID);
+      // });
+      const specificTicket = this.tickets.find(
+        (specificTicket) => specificTicket.ticketID === payload
+      );
+      locsStore().getRoom(specificTicket.roomID);
+      this.ticket = specificTicket;
     },
     subTicket(payload) {
-      setDoc(doc(db, "users", authStore().userDetails.userID), {
+      updateDoc(doc(db, "users", authStore().userDetails.userID), {
         subscribed: arrayUnion(payload),
+      });
+    },
+    unsubTicket(payload) {
+      updateDoc(doc(db, "users", authStore().userDetails.userID), {
+        subscribed: arrayRemove(payload),
       });
     },
   },

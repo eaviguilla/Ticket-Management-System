@@ -10,9 +10,10 @@
           bordered
           clickable
           v-ripple
-          v-for="ticket in tick.tickets"
+          v-for="ticket in tick.filterActive"
           :key="ticket.ticketID"
           :to="'/view_ticket/' + ticket.ticketID"
+          @click="tick.getTicket(ticket.ticketID)"
         >
           <q-item-section class="col">
             <!-- details, category, and status -->

@@ -10,38 +10,46 @@
           bordered
           clickable
           v-ripple
+          v-for="ticket in tick.filterSub"
+          :key="ticket.ticketID"
+          :to="'/view_ticket/' + ticket.ticketID"
+          @click="tick.getTicket(ticket.ticketID)"
         >
           <q-item-section class="col">
             <!-- details, category, and status -->
             <q-item-label class="row items-center justify-between"
               ><div>
                 <span class="text-weight-bolder text-body1 q-pr-sm">{{
-                  title.substring(0, 15) + ".."
+                  ticket.description.substring(0, 17) + ".."
                 }}</span
                 ><span class="text-bold text-grey">·</span
                 ><span class="text-bold text-grey text-caption q-pl-sm">
-                  boogaloo</span
-                >
+                  {{ categs.displayCateg(ticket.categID) }}
+                </span>
               </div>
               <div
                 class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
                 bordered
               >
-                On-going
+                {{ ticket.status }}
               </div>
             </q-item-label>
             <!-- location -->
-            <q-item-label class="text-caption">Floor 3 | 302 </q-item-label>
+            <q-item-label class="text-caption"
+              ><span class="text-bold">Floor/Location: </span
+              >{{ locs.displayFloor(ticket.roomID) }} |
+              {{ locs.displayRoom(ticket.roomID) }}
+            </q-item-label>
             <!-- date and ticket id -->
             <q-item-label class="row items-center justify-between">
+              <div class="text-caption text-grey q-pt-lg"></div>
               <div class="text-caption text-grey q-pt-lg">
-                Submitted: 5mins ago
-              </div>
-              <div class="text-caption text-grey q-pt-lg">
-                ID: 11181561561564
+                ID: {{ ticket.ticketID }}
               </div>
             </q-item-label>
-            <div flat class="q-mt-md row justify-betweem" style="width: 100%">
+          </q-item-section>
+          <!-- <q-item-section
+            ><div flat class="q-mt-md row justify-betweem" style="width: 100%">
               <q-btn
                 flat
                 rounded
@@ -52,8 +60,8 @@
                   border-bottom-right-radius: 0;
                   border-top-right-radius: 0;
                 "
-                label="Unsubscribe"
-                icon="mdi-bell-off-outline"
+                label="Assist"
+                icon="mdi-account-multiple-plus-outline"
               >
               </q-btn>
               <q-btn
@@ -66,15 +74,12 @@
                   border-bottom-left-radius: 0;
                   border-top-left-radius: 0;
                 "
-                label="View"
-                icon="mdi-file-search-outline"
-                to="/view_ticket"
+                label="Subscribe"
+                icon="mdi-bell-plus-outline"
               >
-              </q-btn>
-            </div>
-          </q-item-section>
+              </q-btn></div
+          ></q-item-section> -->
         </q-item>
-
         <br />
         <br />
       </div>
@@ -83,13 +88,25 @@
 </template>
 <script>
 import { defineComponent, ref } from "vue";
+import { tickStore } from "src/stores/store_Ticket";
+import { categStore } from "src/stores/store_Categ";
+import { locsStore } from "src/stores/store_Loc";
 
 export default defineComponent({
-  setup() {},
+  setup() {
+    const tick = tickStore();
+    const categs = categStore();
+    const locs = locsStore();
+
+    return { tick, categs, locs };
+  },
   data() {
     return {
       title: ref("bfiwfiwffniownfwefwefnwijfnwef"),
     };
   },
+  mounted() {},
+  methods: {},
+  computed: {},
 });
 </script>
