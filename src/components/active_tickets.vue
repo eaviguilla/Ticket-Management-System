@@ -33,30 +33,30 @@
                 {{ ticket.status }}
               </div>
             </q-item-label>
+
             <!-- location -->
-            <q-item-label class="text-caption"
+            <q-item-label class="text-caption q-pb-md"
               ><span class="text-bold">Floor/Location: </span
               >{{ locs.displayFloor(ticket.roomID) }} |
               {{ locs.displayRoom(ticket.roomID) }}
             </q-item-label>
+            <q-separator
+              :color="ticket.office === 'BMO' ? 'blue-10' : 'green'"
+            />
             <!-- date and ticket id -->
             <q-item-label class="row items-center justify-between">
-              <div
-                v-if="ticket.office === 'BMO'"
-                class="text-caption text-grey q-pt-md"
-              >
-                <q-icon name="mdi-tools" size="sm" color="pink-11" />
-              </div>
-              <div
-                v-if="ticket.office === 'ITRO'"
-                class="text-caption text-grey q-pt-md"
-              >
+              <div class="text-caption text-grey q-pt-md">
                 <q-icon
-                  name="mdi-desktop-tower-monitor"
+                  :name="
+                    ticket.office == 'BMO'
+                      ? 'mdi-toolbox-outline'
+                      : 'mdi-desktop-tower-monitor'
+                  "
                   size="sm"
-                  color="indigo-11"
+                  :color="ticket.office === 'BMO' ? 'blue-10' : 'green'"
                 />
               </div>
+
               <div class="text-caption text-grey q-pt-md">
                 ID: {{ ticket.ticketID }}
               </div>
