@@ -38,6 +38,8 @@ export const tickStore = defineStore("tickS", {
         return this.tickets.filter(
           (ticket) => !this.subscribed.includes(ticket.ticketID)
         );
+      } else {
+        return this.tickets;
       }
     },
   },
