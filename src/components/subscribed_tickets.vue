@@ -17,33 +17,43 @@
         >
           <q-item-section class="col">
             <!-- details, category, and status -->
-            <q-item-label class="row items-center justify-between"
-              ><div>
-                <span class="text-weight-bolder text-body1 q-pr-sm">{{
-                  ticket.description.substring(0, 17) + ".."
-                }}</span
-                ><span class="text-bold text-grey">·</span
-                ><span class="text-bold text-grey text-caption q-pl-sm">
-                  {{ categs.displayCateg(ticket.categID) }}
-                </span>
-              </div>
-              <div
+            <q-item-label class="row justify-between items-center">
+              <span class="text-bold text-grey text-caption">
+                · {{ categs.displayCateg(ticket.categID) }}
+              </span>
+              <span
                 class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
-                bordered
+                >{{ ticket.status }}</span
               >
-                {{ ticket.status }}
+            </q-item-label>
+            <q-item-label class="row items-center justify-between"
+              ><div class="text-weight-bolder text-body1">
+                {{ ticket.description }}
               </div>
             </q-item-label>
+
             <!-- location -->
-            <q-item-label class="text-caption"
+            <q-item-label class="text-caption q-pb-sm"
               ><span class="text-bold">Floor/Location: </span
               >{{ locs.displayFloor(ticket.roomID) }} |
               {{ locs.displayRoom(ticket.roomID) }}
             </q-item-label>
+            <q-separator
+              :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
+            />
             <!-- date and ticket id -->
             <q-item-label class="row items-center justify-between">
-              <div class="text-caption text-grey q-pt-lg"></div>
-              <div class="text-caption text-grey q-pt-lg">
+              <div class="text-caption text-grey q-pt-sm">
+                <q-icon
+                  :name="
+                    ticket.office == 'BMO' ? 'mdi-tools' : 'mdi-desktop-classic'
+                  "
+                  size="sm"
+                  :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
+                />
+              </div>
+
+              <div class="text-caption text-grey q-pt-sm">
                 ID: {{ ticket.ticketID }}
               </div>
             </q-item-label>
