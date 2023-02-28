@@ -25,7 +25,7 @@
 
         <q-item
           class="rounded-borders q-my-sm q-card items-center"
-          v-for="room in locs.filterRooms"
+          v-for="room in locs.filterRooms(this.addRoomForm.floorID)"
           :key="room.roomID"
         >
           <div style="width: 100%">
@@ -187,7 +187,6 @@ export default {
   },
   mounted() {
     this.addRoomForm.floorID = this.$route.params.floorID;
-    this.locs.getRooms(this.addRoomForm.floorID);
     this.locs.getFloor(this.addRoomForm.floorID);
   },
   methods: {

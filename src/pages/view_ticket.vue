@@ -177,7 +177,7 @@ export default {
     };
   },
   watch: {
-    "tick.tickets"() {
+    "locs.floors"() {
       this.tick.getTicket(this.$route.params.ticketID);
     },
   },

@@ -121,7 +121,7 @@
         </q-dialog>
       </div>
       <!-- add floor/location button -->
-      <q-page-sticky expand position="bottom" class="q-pa-md">
+      <q-page-sticky expand position="bottom" class="q-pa-sm">
         <q-btn
           @click="locAdd = true"
           class="full-width q-pa-md bg-secondary text-white"
@@ -197,9 +197,7 @@ export default {
       options: [true, false],
     };
   },
-  mounted() {
-    this.locs.getFloors();
-  },
+  mounted() {},
   methods: {
     addFloor() {
       this.locs.addFloor(this.floor);

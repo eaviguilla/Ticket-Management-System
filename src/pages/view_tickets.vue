@@ -65,16 +65,14 @@ import { defineComponent, ref } from "vue";
 import active_tickets from "src/components/active_tickets.vue";
 import subscribed_tickets from "src/components/subscribed_tickets.vue";
 import { tickStore } from "src/stores/store_Ticket";
-import { locsStore } from "src/stores/store_Loc";
 import { categStore } from "src/stores/store_Categ";
 
 export default defineComponent({
   components: { active_tickets, subscribed_tickets },
   setup() {
     const ticks = tickStore();
-    const locs = locsStore();
     const categs = categStore();
-    return { ticks, locs, categs };
+    return { ticks, categs };
   },
   data() {
     return {
@@ -83,7 +81,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.locs.getAllLocs();
     this.categs.getCategs();
   },
   methods: {},

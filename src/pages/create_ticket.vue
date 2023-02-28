@@ -35,7 +35,7 @@
           <q-select
             v-model="room"
             :disable="!floor"
-            :options="this.locs.selectRooms"
+            :options="this.roomsOptions"
             label="Select Specific Area/Room"
             option-label="area_room"
             option-value="roomID"
@@ -81,12 +81,10 @@ export default {
   watch: {
     floor() {
       this.room = "";
-      this.locs.getRooms(this.floor);
+      this.roomsOptions = this.locs.selectRooms(this.floor);
     },
   },
-  mounted() {
-    this.locs.getFloors();
-  },
+  mounted() {},
   methods: {},
 };
 </script>

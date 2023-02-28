@@ -8,9 +8,9 @@ import {
   getDocs,
   collection,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 
-const authS = authStore();
 const categsRef = collection(db, "categories");
 
 export const categStore = defineStore("categS", {
@@ -19,11 +19,33 @@ export const categStore = defineStore("categS", {
   }),
   getters: {
     filterCategs() {
-      if (authS.userDetails.office === "BMO") {
-        return this.categories.filter((c) => c.office == "BMO");
+      if (authStore().userDetails.office === "BMO") {
+        const filteredCategs = this.categories.filter((c) => c.office == "BMO");
+        return filteredCategs.sort((a, b) => {
+          // First compare the enabled property
+          if (a.enabled && !b.enabled) {
+            return -1;
+          } else if (!a.enabled && b.enabled) {
+            return 1;
+          }
+
+          return a.name.localeCompare(b.name, undefined, { numeric: true });
+        });
       }
-      if (authS.userDetails.office === "ITRO") {
-        return this.categories.filter((c) => c.office == "ITRO");
+      if (authStore().userDetails.office === "ITRO") {
+        const filteredCategs = this.categories.filter(
+          (c) => c.office == "ITRO"
+        );
+        return filteredCategs.sort((a, b) => {
+          // First compare the enabled property
+          if (a.enabled && !b.enabled) {
+            return -1;
+          } else if (!a.enabled && b.enabled) {
+            return 1;
+          }
+
+          return a.name.localeCompare(b.name, undefined, { numeric: true });
+        });
       }
     },
   },
@@ -33,16 +55,12 @@ export const categStore = defineStore("categS", {
         name: payload.name,
         office: payload.office,
         description: payload.description,
-      }).then((docRef) => {
-        // updating state
-        const categDetails = payload;
-        categDetails.categID = docRef.id;
-        this.categories.push(categDetails);
+        enabled: payload.enabled,
       });
     },
     getCategs() {
-      this.categories = [];
-      getDocs(categsRef).then((querySnapshot) => {
+      onSnapshot(categsRef, (querySnapshot) => {
+        this.categories = [];
         querySnapshot.forEach((response) => {
           const categDetails = response.data();
           categDetails.categID = response.id;
@@ -55,23 +73,11 @@ export const categStore = defineStore("categS", {
       updateDoc(categRef, {
         name: payload.name,
         description: payload.description,
+        enabled: payload.enabled,
       });
-      // updating state
-      const index = this.categories.findIndex(
-        (categ) => categ.categID === payload.categID
-      );
-      this.categories[index].name = payload.name;
-      this.categories[index].description = payload.description;
     },
-    deleteCateg(categID) {
-      deleteDoc(doc(categsRef, categID));
-      // updating state
-      const index = this.categories.findIndex(
-        (categ) => categ.categID === categID
-      );
-      if (index !== -1) {
-        this.categories.splice(index, 1);
-      }
+    deleteCateg(id) {
+      deleteDoc(doc(categsRef, id));
     },
     displayCateg(id) {
       const categ = this.categories.find((categ) => categ.categID === id);
@@ -81,16 +87,12 @@ export const categStore = defineStore("categS", {
         return "None";
       }
     },
-    selectCategs(payload) {
-      const filteredCategs = this.categories.filter((c) => c.office == payload);
+    selectCategs(office) {
+      const filteredCategs = this.categories.filter(
+        (c) => c.enabled === true && c.office == office
+      );
       return filteredCategs.sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        } else if (a.name > b.name) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return a.name.localeCompare(b.name, undefined, { numeric: true });
       });
     },
   },

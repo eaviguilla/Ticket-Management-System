@@ -24,9 +24,12 @@
           bordered
           ><div class="full-width">
             <q-item-section class="justify-between">
-              <q-item-label class="text-caption text-grey">{{
-                categ.categID
-              }}</q-item-label>
+              <q-item-label class="row justify-between items-center"
+                ><span class="text-caption text-grey">{{ categ.categID }}</span
+                ><span v-if="categ.enabled" class="text-overline text-green"
+                  >Enabled</span
+                ><span v-else class="text-overline text-red">Disabled</span>
+              </q-item-label>
               <q-item-label class="text-bold text-body2">{{
                 categ.name
               }}</q-item-label>
@@ -36,7 +39,7 @@
 
               <div class="q-mt-md row justify-betweem" style="width: 100%" flat>
                 <!-- Category deletion button -->
-                <q-btn
+                <!-- <q-btn
                   flat
                   rounded
                   @click="delDialog(categ.categID)"
@@ -49,8 +52,7 @@
                   "
                   label="delete"
                   icon="mdi-delete-outline"
-                >
-                </q-btn>
+                /> -->
 
                 <!-- Category edit button -->
                 <q-btn
@@ -59,15 +61,10 @@
                   @click="editDialog(categ)"
                   size="sm"
                   class="text-white bg-primary"
-                  style="
-                    width: 50%;
-                    border-bottom-left-radius: 0;
-                    border-top-left-radius: 0;
-                  "
+                  style="width: 100%"
                   label="edit"
                   icon="mdi-pencil-outline"
-                >
-                </q-btn>
+                />
               </div>
             </q-item-section></div
         ></q-item>
@@ -78,6 +75,8 @@
               <span class="q-ml-sm"
                 >Are you sure you want to delete this Category? It cannot be
                 reversed and may affect Tickets that have this category.
+                <br /><br />If you simply do not want to list this category in
+                the tickets selection, you can just disable it.
               </span>
             </q-card-section>
 
@@ -96,7 +95,7 @@
       </div>
       <div>
         <!-- Add category button -->
-        <q-page-sticky expand position="bottom" class="q-pa-md">
+        <q-page-sticky expand position="bottom" class="q-pa-sm">
           <q-btn
             @click="categAdd = true"
             class="full-width q-pa-md bg-secondary text-white"
@@ -175,9 +174,40 @@
                 outlined
               />
             </q-card-section>
-            <q-card-actions align="right" class="text-primary">
-              <q-btn flat label="Cancel" v-close-popup />
-              <q-btn flat @click="editCateg" label="Save" v-close-popup />
+            <q-card-section class="q-py-none">
+              <q-toggle
+                v-model="this.editCategForm.enabled"
+                checked-icon="check"
+                color="green"
+                unchecked-icon="clear"
+                label="Enable Category"
+                size="lg"
+                left-label
+              />
+            </q-card-section>
+            <q-card-section class="q-pt-none"
+              ><span class="text-caption"
+                >Disabling a Category would remove it from the Category
+                selection in the ticket creation.</span
+              ></q-card-section
+            >
+            <q-card-actions
+              align="right"
+              class="text-primary row justify-between"
+            >
+              <div>
+                <q-btn
+                  flat
+                  @click="delDialog(this.editCategForm.categID)"
+                  class="text-red"
+                  label="delete"
+                  icon="mdi-delete-outline"
+                />
+              </div>
+              <div>
+                <q-btn flat label="Cancel" v-close-popup />
+                <q-btn flat @click="editCateg" label="Save" v-close-popup />
+              </div>
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -206,16 +236,21 @@ export default {
       addCategForm: {
         name: ref(""),
         description: ref(""),
+        office: ref(""),
+        enabled: ref(true),
       },
       editCategForm: {
+        enabled: ref(null),
         categID: ref(""),
         name: ref(""),
         description: ref(""),
+        office: ref(""),
       },
     };
   },
   mounted() {
-    this.categs.getCategs();
+    this.addCategForm.office = this.auth.userDetails.office;
+    this.editCategForm.office = this.auth.userDetails.office;
   },
   methods: {
     delDialog(id) {
@@ -224,18 +259,14 @@ export default {
     },
     editDialog(toEdit) {
       this.editCategForm.categID = toEdit.categID;
+      this.editCategForm.enabled = toEdit.enabled;
       this.editCategForm.name = toEdit.name;
       this.editCategForm.description = toEdit.description;
       this.categEdit = true;
     },
 
     addCateg() {
-      const payload = {
-        name: this.addCategForm.name,
-        description: this.addCategForm.description,
-        office: this.auth.userDetails.office,
-      };
-      this.categs.addCateg(payload);
+      this.categs.addCateg(this.addCategForm);
       this.addCategForm.name = "";
       this.addCategForm.description = "";
     },
@@ -244,9 +275,7 @@ export default {
       this.confirmDel = false;
     },
     editCateg() {
-      const payload = this.editCategForm;
-      payload.office = this.auth.userDetails.office;
-      this.categs.updateCateg(payload);
+      this.categs.updateCateg(this.editCategForm);
       this.categEdit = false;
     },
   },
