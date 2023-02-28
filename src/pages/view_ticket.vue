@@ -32,7 +32,7 @@
               </q-card-section></q-card
             >
           </div>
-          <!-- unsubscribe ticket -->
+          <!-- subscribe ticket -->
           <q-card
             v-if="!isSubscribed"
             v-ripple
@@ -47,6 +47,7 @@
             </div>
           </q-card>
 
+          <!-- unsubscribe ticket -->
           <q-card
             v-if="isSubscribed"
             v-ripple
@@ -189,10 +190,11 @@ export default {
   methods: {},
   computed: {
     isSubscribed() {
-      return this.tick.subscribed.includes(this.tick.ticket.ticketID);
-    },
-    hmm() {
-      return false;
+      if (this.tick.subscribe != undefined) {
+        return false;
+      } else {
+        return this.tick.subscribed.includes(this.tick.ticket.ticketID);
+      }
     },
   },
 };

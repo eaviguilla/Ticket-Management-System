@@ -10,7 +10,6 @@
           :key="ticket.ticketID"
           v-ripple
           :to="'/view_ticket/' + ticket.ticketID"
-          @click="tick.getTicket(ticket.ticketID)"
           class="rounded-borders q-my-md q-card column full-width"
           bordered
           clickable
@@ -42,8 +41,23 @@
             </q-item-label>
             <!-- date and ticket id -->
             <q-item-label class="row items-center justify-between">
-              <div class="text-caption text-grey q-pt-lg"></div>
-              <div class="text-caption text-grey q-pt-lg">
+              <div
+                v-if="ticket.office === 'BMO'"
+                class="text-caption text-grey q-pt-md"
+              >
+                <q-icon name="mdi-tools" size="sm" color="pink-11" />
+              </div>
+              <div
+                v-if="ticket.office === 'ITRO'"
+                class="text-caption text-grey q-pt-md"
+              >
+                <q-icon
+                  name="mdi-desktop-tower-monitor"
+                  size="sm"
+                  color="indigo-11"
+                />
+              </div>
+              <div class="text-caption text-grey q-pt-md">
                 ID: {{ ticket.ticketID }}
               </div>
             </q-item-label>
