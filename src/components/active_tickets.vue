@@ -41,7 +41,7 @@
               {{ locs.displayRoom(ticket.roomID) }}
             </q-item-label>
             <q-separator
-              :color="ticket.office === 'BMO' ? 'blue-10' : 'green'"
+              :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
             />
             <!-- date and ticket id -->
             <q-item-label class="row items-center justify-between">
@@ -53,7 +53,7 @@
                       : 'mdi-desktop-tower-monitor'
                   "
                   size="sm"
-                  :color="ticket.office === 'BMO' ? 'blue-10' : 'green'"
+                  :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
                 />
               </div>
 
