@@ -6,14 +6,14 @@
           Active Tickets
         </div>
         <q-item
+          v-for="ticket in tick.filterActive"
+          :key="ticket.ticketID"
+          v-ripple
+          :to="'/view_ticket/' + ticket.ticketID"
+          @click="tick.getTicket(ticket.ticketID)"
           class="rounded-borders q-my-md q-card column full-width"
           bordered
           clickable
-          v-ripple
-          v-for="ticket in tick.filterActive"
-          :key="ticket.ticketID"
-          :to="'/view_ticket/' + ticket.ticketID"
-          @click="tick.getTicket(ticket.ticketID)"
         >
           <q-item-section class="col">
             <!-- details, category, and status -->
