@@ -16,7 +16,9 @@
         class="q-pa-md"
         style="max-width: 550px; width: 100%; margin: 0 auto"
       >
-        <div class="text-h6 text-bold text-primary">BMO Categories</div>
+        <div class="text-h6 text-bold text-primary">
+          {{ auth.userDetails.office }} Categories
+        </div>
         <q-item
           v-for="categ in categs.filterCategs"
           :key="categ.categID"
