@@ -427,10 +427,7 @@ export default {
       this.editRole.role = this.role;
     },
   },
-  mounted() {
-    this.users.getUsers();
-    this.users.getSpecs();
-  },
+  mounted() {},
   methods: {
     // editing user role dialog
     editUser(id) {
@@ -497,9 +494,6 @@ export default {
       }
     },
   },
-  beforeUnmount() {
-    this.users.unsubUsers();
-    this.users.unsubSpecs();
-  },
+  beforeUnmount() {},
 };
 </script>

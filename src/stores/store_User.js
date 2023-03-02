@@ -13,7 +13,6 @@ import {
   query,
 } from "firebase/firestore";
 
-const authS = authStore();
 const usersRef = collection(db, "users");
 
 export const userStore = defineStore("userS", {
@@ -21,32 +20,30 @@ export const userStore = defineStore("userS", {
     users: [],
     specs: [],
     staff: [],
-    unsubUsers: null,
-    unsubSpecs: null,
   }),
   getters: {
     getComm() {
       return this.users.filter((u) => !u.office);
     },
     getStaff() {
-      if (authS.userDetails.office === "BMO") {
+      if (authStore().userDetails.office === "BMO") {
         return this.users.filter(
           (u) => (u.office == "BMO") & (u.role == "Staff")
         );
       }
-      if (authS.userDetails.office === "ITRO") {
+      if (authStore().userDetails.office === "ITRO") {
         return this.users.filter(
           (u) => (u.office == "ITRO") & (u.role == "Staff")
         );
       }
     },
     getAdmin() {
-      if (authS.userDetails.office === "BMO") {
+      if (authStore().userDetails.office === "BMO") {
         return this.users.filter(
           (u) => (u.office == "BMO") & (u.role == "Admin")
         );
       }
-      if (authS.userDetails.office === "ITRO") {
+      if (authStore().userDetails.office === "ITRO") {
         return this.users.filter(
           (u) => (u.office == "ITRO") & (u.role == "Admin")
         );
@@ -55,7 +52,7 @@ export const userStore = defineStore("userS", {
   },
   actions: {
     getUsers() {
-      this.unsubUsers = onSnapshot(usersRef, (snapshot) => {
+      onSnapshot(usersRef, (snapshot) => {
         this.users = [];
         snapshot.forEach((response) => {
           const userDetails = response.data();
@@ -73,7 +70,7 @@ export const userStore = defineStore("userS", {
       });
       if (payload.role === "Staff") {
         updateDoc(userRef, {
-          online: false,
+          available: false,
         });
         setDoc(doc(db, "specializations", payload.userID), {
           specializations: [],
@@ -85,12 +82,13 @@ export const userStore = defineStore("userS", {
       updateDoc(userRef, {
         office: deleteField(),
         role: deleteField(),
-        online: deleteField(),
+        available: deleteField(),
       });
       updateDoc(doc(db, "specializations", payload.userID), {
         specializations: deleteField(),
       });
     },
+
     deleteSpec(uID, sID) {
       updateDoc(doc(db, "specializations", uID), {
         specializations: arrayRemove(sID),
@@ -102,31 +100,28 @@ export const userStore = defineStore("userS", {
       });
     },
     getSpecs() {
-      this.unsubSpecs = onSnapshot(
-        collection(db, "specializations"),
-        (querySnapshot) => {
-          this.specs = [];
-          querySnapshot.forEach((response) => {
-            const docSpecs = response.data();
-            docSpecs.userID = response.id;
-            this.specs.push(docSpecs);
-          });
-        }
-      );
+      onSnapshot(collection(db, "specializations"), (querySnapshot) => {
+        this.specs = [];
+        querySnapshot.forEach((response) => {
+          const docSpecs = response.data();
+          docSpecs.userID = response.id;
+          this.specs.push(docSpecs);
+        });
+      });
     },
     getUserSpec(id) {
       const userSpec = this.specs.find((spec) => spec.userID === id);
       return userSpec ? userSpec.specializations : null;
     },
-    getStaffOnly() {
-      const q = query(collection(db, "users"), where("role", "==", "Staff"));
-      const querySnapshot = getDocs(q);
-      this.staff = [];
-      querySnapshot.forEach((response) => {
-        const userDetails = response.data();
-        userDetails.userID = response.id;
-        this.staff.push(userDetails);
+    available() {
+      const userRef = doc(usersRef, authStore().userDetails.userID);
+      updateDoc(userRef, {
+        available: authStore().userDetails.available,
       });
+    },
+    getStaffOnly() {
+      this.staff = this.users.filter((user) => user.role === "Staff");
+      return this.staff;
     },
   },
 });

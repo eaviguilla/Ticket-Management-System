@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, onSnapshot, addDoc } from "firebase/firestore";
 import { tickStore } from "./store_Ticket";
+import { userStore } from "./store_User";
 
 export const authStore = defineStore("authS", {
   state: () => ({
@@ -56,6 +57,8 @@ export const authStore = defineStore("authS", {
             this.userDetails.userID = userID;
             // tickStore().subscribed = this.userDetails.subscribed;
             tickStore().getSubs(userID);
+            userStore().getUsers();
+            userStore().getSpecs();
             console.log("from onauthstate", this.userDetails);
           });
           // tick.getTickets;

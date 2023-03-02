@@ -14,7 +14,21 @@
       </q-item-section>
     </div>
 
-    <!-- Active/Read Reports (Mobile Only) -->
+    <span
+      v-if="this.auth.userDetails.role === 'Staff'"
+      class="text-overline text-bold text-center"
+      >Are you available to be assigned to a Ticket</span
+    >
+    <q-toggle
+      v-if="this.auth.userDetails.role === 'Staff'"
+      v-model="auth.userDetails.available"
+      checked-icon="check"
+      size="xl"
+      unchecked-icon="clear"
+      val="150px"
+    />
+
+    <!-- Active/Read Reports -->
     <div class="q-pa-sm q-pl-xs row justify-evenly full-width q-mb-lg">
       <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
@@ -131,16 +145,24 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { authStore } from "src/stores/store_Auth";
+import { userStore } from "src/stores/store_User";
 
 export default defineComponent({
   setup() {
     const auth = authStore();
-    return { auth };
+    const users = userStore();
+    return { auth, users };
   },
   data() {
     return {
       createBtn: ref(false),
+      available: ref(null),
     };
+  },
+  watch: {
+    "auth.userDetails.available"() {
+      this.users.available();
+    },
   },
   name: "PageHome",
 });
