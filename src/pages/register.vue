@@ -47,7 +47,6 @@
                 color="primary"
                 @click="alert = true"
               />
-              :disable="customModel == 'no'"
               <q-dialog v-model="alert">
                 <q-card>
                   <q-card-section>
@@ -115,6 +114,13 @@
           </div>
           <div class="q-pa-sm">
             <q-btn
+              :disable="
+                customModel == 'no' ||
+                regData.fName == '' ||
+                regData.lName == '' ||
+                regData.email == '' ||
+                regData.password == ''
+              "
               class="full-width"
               @click="register"
               unelevated
