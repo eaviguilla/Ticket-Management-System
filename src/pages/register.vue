@@ -39,10 +39,78 @@
                 color="primary"
                 true-value="yes"
                 false-value="no"
+                size="lg"
               />
+
+              <q-btn
+                label="Terms & Conditions"
+                color="primary"
+                @click="alert = true"
+              />
+              :disable="customModel == 'no'"
+              <q-dialog v-model="alert">
+                <q-card>
+                  <q-card-section>
+                    <div class="text-h6">
+                      Data Privacy Act Notice for RAMaintenance Users
+                    </div>
+                  </q-card-section>
+
+                  <q-card-section class="q-pt-none">
+                    At RAMaintenance, we value your privacy and are committed to
+                    protecting your personal information. We are governed by the
+                    National Privacy Commission of the Republic of the
+                    Philippines and comply with the Data Privacy Act of 2012.
+                    <br />
+                    <br />
+                    What information we collect when you sign up for an account
+                    with RAMaintenance, we collect your first name, last name,
+                    school email, and a password to create and manage your
+                    account. This information is necessary for us to provide you
+                    with access to our services.
+                    <br />
+                    <br />
+                    How we use your information we use your information to
+                    provide you with access to our services and to improve our
+                    services. We will not share your personal information with
+                    any third parties without your consent unless required by
+                    law.
+                    <br />
+                    <br />
+                    How we protect your information we have implemented security
+                    measures to protect your personal information from
+                    unauthorized access, use, or disclosure. We use encryption
+                    to protect your data and restrict access to your personal
+                    information to only those employees who need it to provide
+                    you with our services.
+                    <br />
+                    <br />
+                    Your rights as a user, you have the right to access, update,
+                    and delete your personal information. You may also request a
+                    copy of the personal information we hold about you. If you
+                    have any concerns about how we use your personal
+                    information, you may contact us at
+                    ecviguilla@student.apc.edu.ph
+                    <br />
+                    <br />
+                    By using our services and providing us with your personal
+                    information, you agree to our data privacy policy. We may
+                    update this policy from time to time, and we will notify you
+                    of any changes. Thank you for choosing RAMaintenance.
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="OK" color="primary" v-close-popup />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </div>
+
             <div class="q-px-sm text-black">
-              Do you agree with the terms & conditions?
+              By signing up for a RAMaintenance account, you agree to our terms
+              and conditions regarding the collection, use, and protection of
+              your personal information in accordance with the Data Privacy Act
+              of the Philippines.
             </div>
           </div>
           <div class="q-pa-sm">
@@ -92,6 +160,7 @@ export default defineComponent({
         password: ref(""),
       },
       customModel: ref("no"),
+      alert: ref(false),
     };
   },
   methods: {
