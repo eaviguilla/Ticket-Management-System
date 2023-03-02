@@ -70,7 +70,11 @@
         </q-btn>
       </div>
 
-      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
+      <div
+        v-if="this.auth.userDetails.office"
+        class="q-ma-sm q-pb-lg"
+        style="width: 140px; height: 140px"
+      >
         <q-btn
           color="deep-orange-4"
           rounded
@@ -88,7 +92,11 @@
         </q-btn>
       </div>
 
-      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
+      <div
+        v-if="this.auth.userDetails.office"
+        class="q-ma-sm q-pb-lg"
+        style="width: 140px; height: 140px"
+      >
         <q-btn
           color="cyan-6"
           rounded
@@ -106,7 +114,11 @@
         </q-btn>
       </div>
 
-      <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
+      <div
+        v-if="this.auth.userDetails.office"
+        class="q-ma-sm q-pb-lg"
+        style="width: 140px; height: 140px"
+      >
         <q-btn
           color="blue-grey-7"
           rounded
