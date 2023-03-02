@@ -20,6 +20,7 @@
 
           <div class="q-pa-sm">
             <q-btn
+              :disable="logData.email == '' || logData.password == ''"
               @click="login"
               class="full-width"
               unelevated
