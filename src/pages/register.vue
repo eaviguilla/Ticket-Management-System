@@ -24,6 +24,21 @@
             suffix=".apc.edu.ph"
             label="Email"
           />
+          <div class="q-pa-md">
+            <div class="q-gutter-sm">
+              <q-checkbox
+                v-model="customModel"
+                color="primary"
+                label="Do you agree with the terms & conditions?"
+                true-value="yes"
+                false-value="no"
+              />
+            </div>
+
+            <div class="q-px-sm">
+              The model data: <strong>'{{ customModel }}'</strong>
+            </div>
+          </div>
           <q-input
             class="q-pa-md"
             outlined
@@ -31,6 +46,7 @@
             type="password"
             label="Password"
           />
+
           <div class="q-pa-sm">
             <q-btn
               class="full-width"
@@ -76,6 +92,7 @@ export default defineComponent({
         lName: ref(""),
         email: ref(""),
         password: ref(""),
+        customModel: ref("no"),
       },
     };
   },
