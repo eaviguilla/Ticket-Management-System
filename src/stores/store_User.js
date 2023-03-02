@@ -119,8 +119,10 @@ export const userStore = defineStore("userS", {
         available: authStore().userDetails.available,
       });
     },
-    getStaffOnly() {
-      this.staff = this.users.filter((user) => user.role === "Staff");
+    getAvailableStaff() {
+      this.staff = this.users.filter(
+        (user) => user.role === "Staff" && user.available
+      );
       return this.staff;
     },
   },
