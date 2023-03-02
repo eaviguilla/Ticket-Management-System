@@ -34,7 +34,9 @@ export default defineComponent({
   },
   watch: {
     "authS.userDetails"() {
-      this.tickS.getTickets();
+      if (Object.keys(this.authS.userDetails).length != 0) {
+        this.tickS.getTickets();
+      }
     },
   },
   mounted() {

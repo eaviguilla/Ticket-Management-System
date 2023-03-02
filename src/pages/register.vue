@@ -38,13 +38,11 @@
               unelevated
               color="primary"
               label="Register Account"
-              to="/"
             />
           </div>
           <div class="q-pa-sm">
             <q-btn
               class="full-width"
-              @click="login"
               unelevated
               color="grey-9"
               label="Head Back to Login Page"

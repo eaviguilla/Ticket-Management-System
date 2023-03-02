@@ -78,14 +78,6 @@ export const tickStore = defineStore("tickS", {
       });
     },
     getTickets() {
-      // const q = query(ticketsRef, where("status", "!=", "Resolved"));
-      // getDocs(q).then((querySnapshot) => {
-      //   querySnapshot.forEach((response) => {
-      //     const ticketDetails = response.data();
-      //     ticketDetails.ticketID = response.id;
-      //     this.tickets.push(ticketDetails);
-      //   });
-      // });
       const q = query(ticketsRef, where("status", "!=", "Resolved"));
       onSnapshot(q, (querySnapshot) => {
         this.tickets = [];
@@ -99,27 +91,26 @@ export const tickStore = defineStore("tickS", {
       });
     },
     getTicket(payload) {
-      // const docRef = doc(db, "tickets", payload);
-      // getDoc(docRef).then((docSnap) => {
-      //   const ticketDetails = docSnap.data();
-      //   ticketDetails.ticketID = docSnap.id;
-      //   this.ticket = ticketDetails;
-      //   console.log(this.ticket);
-      //   locsStore().getRoom(ticketDetails.roomID);
-      // });
       const specificTicket = this.tickets.find(
         (specificTicket) => specificTicket.ticketID === payload
       );
       locsStore().getRoom(specificTicket.roomID);
       this.ticket = specificTicket;
     },
+
+    getSubs(uID) {
+      onSnapshot(doc(db, "subscribed", uID), (response) => {
+        this.subscribed = response.data().subscribed;
+      });
+    },
+
     subTicket(payload) {
-      updateDoc(doc(db, "users", authStore().userDetails.userID), {
+      updateDoc(doc(db, "subscribed", authStore().userDetails.userID), {
         subscribed: arrayUnion(payload),
       });
     },
     unsubTicket(payload) {
-      updateDoc(doc(db, "users", authStore().userDetails.userID), {
+      updateDoc(doc(db, "subscribed", authStore().userDetails.userID), {
         subscribed: arrayRemove(payload),
       });
     },

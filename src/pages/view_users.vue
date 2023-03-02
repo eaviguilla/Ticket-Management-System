@@ -54,7 +54,7 @@
                       </q-item-label>
                     </q-item-section>
                   </div>
-                  <div v-if="auth.userDetails.admin">
+                  <div v-if="auth.userDetails.role === 'Admin'">
                     <q-btn flat rounded @click="editUser(user.userID)"
                       ><q-icon name="mdi-square-edit-outline"></q-icon
                     ></q-btn>
@@ -110,7 +110,10 @@
                       </q-item-label>
                     </q-item-section>
                     <!-- specializations button -->
-                    <q-item-section class="q-pa-xs">
+                    <q-item-section
+                      class="q-pa-xs"
+                      v-if="auth.userDetails.role === 'Admin'"
+                    >
                       <q-btn
                         @click="viewSpec(user)"
                         class="text-white bg-primary"
@@ -124,7 +127,7 @@
                     ></q-item-section>
                   </div>
                   <!-- edit staff role button -->
-                  <div v-if="auth.userDetails.admin">
+                  <div v-if="auth.userDetails.role === 'Admin'">
                     <q-btn flat rounded @click="editUser(user.userID)"
                       ><q-icon name="mdi-square-edit-outline"></q-icon
                     ></q-btn>
@@ -147,13 +150,54 @@
                       />
                     </q-card-section>
 
-                    <q-card-actions align="right" class="text-primary">
-                      <q-btn flat label="Cancel" v-close-popup />
+                    <q-card-actions
+                      align="right"
+                      class="text-primary row justify-between"
+                    >
+                      <div>
+                        <q-btn
+                          flat
+                          @click="confirmDel = true"
+                          class="text-red"
+                          label="delete"
+                          icon="mdi-delete-outline"
+                        />
+                      </div>
+                      <div>
+                        <q-btn flat label="Cancel" v-close-popup />
+                        <q-btn
+                          v-close-popup
+                          @click="updateRole"
+                          label="Confirm"
+                          flat
+                        />
+                      </div>
+                    </q-card-actions>
+                  </q-card>
+                </q-dialog>
+
+                <!-- delete role dialog -->
+                <q-dialog v-model="confirmDel" persistent>
+                  <q-card>
+                    <q-card-section class="row items-center">
+                      <span class="q-ml-sm"
+                        >Are you sure you want to remove his Role?
+                      </span>
+                    </q-card-section>
+
+                    <q-card-actions align="right">
+                      <q-btn
+                        flat
+                        label="Cancel"
+                        color="primary"
+                        v-close-popup
+                      />
                       <q-btn
                         v-close-popup
-                        @click="updateRole"
-                        label="Confirm"
+                        color="secondary"
+                        label="Delete Role"
                         flat
+                        @click="delRoleConfirm()"
                       />
                     </q-card-actions>
                   </q-card>
@@ -179,7 +223,6 @@
                       >
                       <!-- delete spec button -->
                       <q-btn
-                        v-if="auth.userDetails.admin"
                         class="bg-secondary"
                         color="white"
                         icon="mdi-trash-can-outline"
@@ -190,7 +233,6 @@
                     <!-- add spec button -->
                     <q-card-section class="text-center"
                       ><q-btn
-                        v-if="auth.userDetails.admin"
                         @click="addSpecDial = true"
                         class="bg-primary text-white"
                         icon="mdi-star-plus-outline"
@@ -299,7 +341,7 @@
                     </q-item-section>
                   </div>
                   <!-- edit role button -->
-                  <div v-if="auth.userDetails.admin">
+                  <div v-if="auth.userDetails.role == 'Admin'">
                     <q-btn flat rounded @click="editUser(user.userID)"
                       ><q-icon name="mdi-square-edit-outline"></q-icon
                     ></q-btn>
@@ -359,11 +401,12 @@ export default {
     return {
       editRole: {
         userID: ref(""),
-        admin: false,
+        role: ref(""),
       },
       role: ref(""),
-      roleOptions: ["None", "Staff", "Admin"],
+      roleOptions: ["Staff", "Admin"],
       edit: false,
+      confirmDel: false,
       tab: ref("apc"),
       specDial: false,
       userSpec: {
@@ -379,9 +422,14 @@ export default {
       filteredCategs: [],
     };
   },
+  watch: {
+    role() {
+      this.editRole.role = this.role;
+    },
+  },
   mounted() {
     this.users.getUsers();
-    this.categs.getCategs();
+    this.users.getSpecs();
   },
   methods: {
     // editing user role dialog
@@ -389,12 +437,16 @@ export default {
       this.edit = true;
       this.editRole.userID = id;
     },
+    delRoleConfirm() {
+      this.edit = false;
+      this.users.deleteRole(this.editRole);
+    },
     // viewing specialization of staff
     viewSpec(specs) {
-      this.specDial = true;
       this.userSpec.userID = specs.userID;
       this.userSpec.fName = specs.fName;
-      this.userSpec.spec = specs.specializations;
+      this.userSpec.spec = this.users.getUserSpec(specs.userID);
+      this.specDial = true;
       this.addSpecFilter();
     },
     // deleting specialization confirmation dialog
@@ -425,35 +477,29 @@ export default {
     },
     // updating user role
     updateRole() {
-      if (this.role == "") {
-        this.role = "";
+      if (this.editRole.role == "") {
+        this.editRole.role = "";
         this.edit = false;
         return;
-      }
-      if (this.role == "None") {
-        this.users.deleteRole(this.editRole);
-        this.role = "";
-        this.edit = false;
-        return;
-      }
-      if (this.role == "Admin") {
-        this.editRole.admin = true;
-        this.users.userRole(this.editRole, this.auth.userDetails.office);
-        this.role = "";
-        this.edit = false;
-        return;
-      } else this.users.userRole(this.editRole, this.auth.userDetails.office);
+      } else this.users.editRole(this.editRole, this.auth.userDetails.office);
+      this.role = "";
       this.edit = false;
     },
     // filtering categories so it only shows categories that are not already in the users specializations array
     addSpecFilter() {
-      this.filteredCategs = this.categs.filterCategs.filter((c) => {
-        return !this.userSpec.spec.some((categID) => categID === c.categID);
-      });
+      const len = this.userSpec.spec;
+      if (len == undefined) {
+        this.filteredCategs = this.categs.filterCategs;
+      } else {
+        this.filteredCategs = this.categs.filterCategs.filter((c) => {
+          return !this.userSpec.spec.some((categID) => categID === c.categID);
+        });
+      }
     },
   },
   beforeUnmount() {
-    this.users.unsub();
+    this.users.unsubUsers();
+    this.users.unsubSpecs();
   },
 };
 </script>
