@@ -120,12 +120,12 @@
         style="width: 140px; height: 140px"
       >
         <q-btn
-          color="blue-grey-7"
-          rounded
-          bordered
           class="q-card full-width column content-center"
+          color="blue-grey-7"
           style="max-width: 140px; height: 140px"
           to="/view_users"
+          bordered
+          rounded
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-account-circle" size="lg" class="q-pa-xs">

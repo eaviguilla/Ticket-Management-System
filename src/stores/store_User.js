@@ -49,6 +49,12 @@ export const userStore = defineStore("userS", {
         );
       }
     },
+    getAvailableStaff() {
+      this.staff = this.users.filter(
+        (user) => user.role === "Staff" && user.available
+      );
+      return this.staff;
+    },
   },
   actions: {
     getUsers() {
@@ -70,6 +76,7 @@ export const userStore = defineStore("userS", {
       });
       if (payload.role === "Staff") {
         updateDoc(userRef, {
+          assignedCount: 0,
           available: false,
         });
         setDoc(doc(db, "specializations", payload.userID), {
@@ -118,12 +125,6 @@ export const userStore = defineStore("userS", {
       updateDoc(userRef, {
         available: authStore().userDetails.available,
       });
-    },
-    getAvailableStaff() {
-      this.staff = this.users.filter(
-        (user) => user.role === "Staff" && user.available
-      );
-      return this.staff;
     },
   },
 });
