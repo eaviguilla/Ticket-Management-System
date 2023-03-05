@@ -64,15 +64,11 @@
 import { defineComponent, ref } from "vue";
 import active_tickets from "src/components/active_tickets.vue";
 import subscribed_tickets from "src/components/subscribed_tickets.vue";
-import { tickStore } from "src/stores/store_Ticket";
-import { categStore } from "src/stores/store_Categ";
 
 export default defineComponent({
   components: { active_tickets, subscribed_tickets },
   setup() {
-    const ticks = tickStore();
-    const categs = categStore();
-    return { ticks, categs };
+    return {};
   },
   data() {
     return {
@@ -80,9 +76,7 @@ export default defineComponent({
       createBtn: ref(false),
     };
   },
-  mounted() {
-    this.categs.getCategs();
-  },
+  mounted() {},
   methods: {},
 });
 </script>

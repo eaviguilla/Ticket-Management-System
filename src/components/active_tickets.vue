@@ -10,6 +10,7 @@
           :key="ticket.ticketID"
           v-ripple
           :to="'/view_ticket/' + ticket.ticketID"
+          @click="tick.getTicket(ticket.ticketID)"
           class="rounded-borders q-my-md q-card column full-width"
           bordered
           clickable
@@ -59,7 +60,6 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
         <br />
         <br />
       </div>
@@ -88,15 +88,7 @@ export default defineComponent({
     };
   },
   mounted() {},
-  methods: {
-    getName(id) {
-      if (id === "None") {
-        return id;
-      } else {
-        return this.users.getStaffName(id);
-      }
-    },
-  },
+  methods: {},
   computed: {},
 });
 </script>

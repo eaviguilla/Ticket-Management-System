@@ -32,12 +32,18 @@ export default defineComponent({
     });
     return { authS, tickS, locs, categs };
   },
+  data() {
+    return {
+      init: false,
+    };
+  },
   watch: {
     "authS.userDetails"() {
-      if (Object.keys(this.authS.userDetails).length != 0) {
+      if (Object.keys(this.authS.userDetails).length !== 0 && !this.init) {
         this.tickS.getTickets();
         this.categs.getCategs();
         this.locs.getLocs();
+        this.init = true;
       }
     },
   },

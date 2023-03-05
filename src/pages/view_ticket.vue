@@ -27,7 +27,7 @@
                   >Assigned to:
                 </span>
                 <span class="col text-right text-caption text-white text-bold"
-                  >{{ this.users.getStaffName(this.tick.ticket.assigned) }}
+                  >{{ this.ticketDetails.assigned }}
                 </span>
               </q-card-section></q-card
             >
@@ -80,14 +80,14 @@
             </div>
           </q-card>
           <!-- office and category -->
-          <div class="q-ma-md">
+          <div class="q-ma-sm">
             <q-card bordered flat class="row items-center"
               ><q-card-section class="col row items-center">
-                <span class="col text-subtitle1 text-primary text-bold"
+                <span class="col text-body2 text-primary text-bold"
                   >Office:
                 </span>
                 <span class="col text-right text-caption text-bold">{{
-                  tick.ticket.office
+                  this.ticketDetails.office
                 }}</span>
               </q-card-section>
               <q-separator vertical />
@@ -97,7 +97,7 @@
                   >Category:
                 </span>
                 <span class="col text-right text-caption text-bold">{{
-                  categ.displayCateg(tick.ticket.categID)
+                  this.categName
                 }}</span>
               </q-card-section>
             </q-card>
@@ -110,7 +110,7 @@
                   >Floor / Location:
                 </span>
                 <span class="col text-right text-caption text-bold">{{
-                  locs.floor.floor
+                  this.floorName
                 }}</span>
               </q-card-section>
               <q-separator vertical />
@@ -120,7 +120,7 @@
                   >Specific Area / Room:
                 </span>
                 <span class="col text-right text-caption text-bold">{{
-                  locs.room.area_room
+                  this.roomName
                 }}</span>
               </q-card-section>
             </q-card>
@@ -133,7 +133,7 @@
               >
                 Description: </q-card-section
               ><q-card-section class="col text-subtitle2">{{
-                tick.ticket.description
+                this.ticketDetails.description
               }}</q-card-section>
               <q-separator />
             </q-card>
@@ -192,27 +192,50 @@ export default {
 
     return { tick, locs, categ, users, auth };
   },
+
   data() {
     return {
       note: ref(false),
       ticketID: ref(""),
-      assigned: ref(""),
+      ticketDetails: {
+        assigned: ref(null),
+        categID: ref(""),
+        office: ref(""),
+        roomID: ref(""),
+        description: ref(""),
+      },
+      categName: ref(""),
+      floorName: ref(""),
+      roomName: ref(""),
     };
   },
 
   watch: {
-    "this.locs.floors"() {
+    "locs.rooms"() {
       this.tick.getTicket(this.$route.params.ticketID);
     },
-    // "tick.ticket"() {
-    //   this.assigned = this.users.getStaffName(tick.ticket.assigned);
-    // },
+    "tick.ticket"() {
+      this.assignTicketDetails();
+    },
   },
+
   mounted() {
-    this.tick.getTicket(this.$route.params.ticketID);
+    // this.tick.getTicket(this.$route.params.ticketID);
+    this.assignTicketDetails();
     console.log("from vue", this.ticketDetails);
   },
-  methods: {},
+  methods: {
+    assignTicketDetails() {
+      this.ticketDetails.assigned = this.tick.ticket.assigned;
+      this.ticketDetails.categID = this.tick.ticket.categID;
+      this.ticketDetails.office = this.tick.ticket.office;
+      this.ticketDetails.roomID = this.tick.ticket.roomID;
+      this.ticketDetails.description = this.tick.ticket.description;
+      this.categName = this.categ.displayCateg(this.tick.ticket.categID);
+      this.floorName = this.locs.floor.floor;
+      this.roomName = this.locs.room.area_room;
+    },
+  },
   computed: {
     isSubscribed() {
       if (this.tick.subscribe != undefined) {

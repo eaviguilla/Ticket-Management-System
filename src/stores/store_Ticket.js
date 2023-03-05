@@ -26,6 +26,7 @@ export const tickStore = defineStore("tickS", {
     tickets: [],
     ticket: {},
     subscribed: [],
+    assigned: null,
   }),
   getters: {
     filterSub() {
@@ -82,12 +83,6 @@ export const tickStore = defineStore("tickS", {
         categID: payload.categID,
         roomID: payload.roomID,
         status: "Submitted",
-        statusTimestamps: [
-          {
-            status: "Submitted",
-            timestamp: payload.timestamp,
-          },
-        ],
       }).then((docRef) => {
         const ticketDetails = {
           description: payload.description,
@@ -95,16 +90,13 @@ export const tickStore = defineStore("tickS", {
           categID: payload.categID,
           roomID: payload.roomID,
           status: "Submitted",
-          statusTimestamps: [
-            {
-              status: "Submitted",
-              timestamp: payload.timestamp,
-            },
-          ],
         };
         ticketDetails.ticketID = docRef.id;
         console.log("From add: ", ticketDetails.ticketID);
         this.ticket = ticketDetails;
+        setDoc(doc(db, "status", docRef.id), {
+          Submitted: payload.timestamp,
+        });
         locsStore().getRoom(this.ticket.roomID);
         this.assignTicket(docRef.id, payload.categID);
       });
@@ -134,6 +126,9 @@ export const tickStore = defineStore("tickS", {
         updateDoc(doc(db, "reports", lowestAssigned), {
           assignedCount: increment(1),
         });
+        updateDoc(doc(db, "status", tID), {
+          Assigned: Date.now(),
+        });
         console.log("Specialized staff: ", lowestAssigned);
       } else {
         console.log("no staff with spec");
@@ -162,6 +157,7 @@ export const tickStore = defineStore("tickS", {
       );
       locsStore().getRoom(specificTicket.roomID);
       this.ticket = specificTicket;
+      this.assigned = userStore().getStaffName(specificTicket.assigned);
     },
 
     getSubs(uID) {
