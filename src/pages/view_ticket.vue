@@ -24,14 +24,29 @@
             <q-card class="row items-center bg-primary" bordered flat>
               <q-card-section class="col row items-center">
                 <span class="col text-subtitle2 text-white text-bold"
-                  >ID:
+                  >Assigned to:
                 </span>
                 <span class="col text-right text-caption text-white text-bold"
-                  >{{ tick.ticket.ticketID }}
+                  >{{ this.users.getStaffName(this.tick.ticket.assigned) }}
                 </span>
               </q-card-section></q-card
             >
           </div>
+          <!-- edit ticket -->
+          <q-card
+            v-if="this.tick.ticket.assigned === this.auth.userDetails.userID"
+            v-ripple
+            class="row justify-center q-ma-md bg-primary text-white"
+            clickable
+            rounded
+            @click="tick.subTicket(tick.ticket.ticketID)"
+            ><div class="row items-center">
+              <q-icon class="col" name="mdi-file-document-edit-outline" />
+
+              <div class="col q-pr-lg text-overline">Edit</div>
+            </div>
+          </q-card>
+
           <!-- subscribe ticket -->
           <q-card
             v-if="!isSubscribed"
@@ -49,7 +64,10 @@
 
           <!-- unsubscribe ticket -->
           <q-card
-            v-if="isSubscribed"
+            v-if="
+              isSubscribed &&
+              this.tick.ticket.assigned !== this.auth.userDetails.userID
+            "
             v-ripple
             class="row justify-center q-ma-md bg-secondary text-white"
             clickable
@@ -161,30 +179,37 @@ import { ref } from "vue";
 import { tickStore } from "src/stores/store_Ticket";
 import { locsStore } from "src/stores/store_Loc";
 import { categStore } from "src/stores/store_Categ";
+import { userStore } from "src/stores/store_User";
+import { authStore } from "src/stores/store_Auth";
 
 export default {
   setup() {
     const tick = tickStore();
     const locs = locsStore();
     const categ = categStore();
+    const users = userStore();
+    const auth = authStore();
 
-    return { tick, locs, categ };
+    return { tick, locs, categ, users, auth };
   },
   data() {
     return {
       note: ref(false),
       ticketID: ref(""),
+      assigned: ref(""),
     };
   },
+
   watch: {
-    "locs.floors"() {
+    "this.locs.floors"() {
       this.tick.getTicket(this.$route.params.ticketID);
     },
+    // "tick.ticket"() {
+    //   this.assigned = this.users.getStaffName(tick.ticket.assigned);
+    // },
   },
   mounted() {
     this.tick.getTicket(this.$route.params.ticketID);
-    this.categ.getCategs();
-    this.ticketID = this.$route.params.ticketID;
     console.log("from vue", this.ticketDetails);
   },
   methods: {},

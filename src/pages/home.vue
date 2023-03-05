@@ -3,12 +3,15 @@
     <!-- Profile Header -->
 
     <!-- Profile Card -->
-    <div class="q-pa-md full-width content-center" style="max-width: 700px">
-      <q-item-section class="q-pl-xs">
-        <div class="text-h4 text-center text-bold q-pb-md">
+    <div
+      class="q-px-md full-width content-center justify-around"
+      style="max-width: 700px"
+    >
+      <q-item-section class="text-center">
+        <div class="text-h4 text-center text-bold">
           Welcome to RAMaintenance
         </div>
-        <div class="text-h6 text-center text-weight-light q-pb-xs text-grey-7">
+        <div class="text-h6 text-center text-weight-light text-grey-7">
           Good Day {{ auth.userDetails.fName }}!
         </div>
       </q-item-section>
@@ -98,12 +101,12 @@
         style="width: 140px; height: 140px"
       >
         <q-btn
-          color="cyan-6"
-          rounded
-          bordered
           class="q-card full-width column content-center"
+          color="cyan-6"
           style="max-width: 140px; height: 140px"
           to="/view_locations"
+          bordered
+          rounded
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-map-marker-outline" size="lg" class="q-pa-xs">

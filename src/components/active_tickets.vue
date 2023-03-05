@@ -50,44 +50,14 @@
                   size="sm"
                   :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
                 />
+                <span>
+                  Assigned to: {{ users.getStaffName(ticket.assigned) }}
+                </span>
               </div>
-
-              <div class="text-caption text-grey q-pt-sm">
-                ID: {{ ticket.ticketID }}
-              </div>
+              <!-- time here -->
+              <div class="text-caption text-grey q-pt-sm"></div>
             </q-item-label>
           </q-item-section>
-          <!-- <q-item-section
-            ><div flat class="q-mt-md row justify-betweem" style="width: 100%">
-              <q-btn
-                flat
-                rounded
-                size="sm"
-                class="text-white bg-secondary"
-                style="
-                  width: 50%;
-                  border-bottom-right-radius: 0;
-                  border-top-right-radius: 0;
-                "
-                label="Assist"
-                icon="mdi-account-multiple-plus-outline"
-              >
-              </q-btn>
-              <q-btn
-                flat
-                rounded
-                size="sm"
-                class="text-white bg-primary"
-                style="
-                  width: 50%;
-                  border-bottom-left-radius: 0;
-                  border-top-left-radius: 0;
-                "
-                label="Subscribe"
-                icon="mdi-bell-plus-outline"
-              >
-              </q-btn></div
-          ></q-item-section> -->
         </q-item>
 
         <br />
@@ -101,14 +71,16 @@ import { defineComponent, ref } from "vue";
 import { tickStore } from "src/stores/store_Ticket";
 import { categStore } from "src/stores/store_Categ";
 import { locsStore } from "src/stores/store_Loc";
+import { userStore } from "src/stores/store_User";
 
 export default defineComponent({
   setup() {
     const tick = tickStore();
     const categs = categStore();
     const locs = locsStore();
+    const users = userStore();
 
-    return { tick, categs, locs };
+    return { tick, categs, locs, users };
   },
   data() {
     return {
@@ -116,7 +88,15 @@ export default defineComponent({
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    getName(id) {
+      if (id === "None") {
+        return id;
+      } else {
+        return this.users.getStaffName(id);
+      }
+    },
+  },
   computed: {},
 });
 </script>

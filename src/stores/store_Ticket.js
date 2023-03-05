@@ -30,15 +30,43 @@ export const tickStore = defineStore("tickS", {
   getters: {
     filterSub() {
       if (this.subscribed != undefined) {
-        return this.tickets.filter((ticket) =>
+        const subs = this.tickets.filter((ticket) =>
           this.subscribed.includes(ticket.ticketID)
         );
+        return subs.filter((ticket) => ticket.status !== "Resolved");
+      }
+    },
+    filterSubResolved() {
+      if (this.subscribed != undefined) {
+        const subs = this.tickets.filter((ticket) =>
+          this.subscribed.includes(ticket.ticketID)
+        );
+        return subs.filter((ticket) => ticket.status === "Resolved");
       }
     },
     filterActive() {
       if (this.subscribed != undefined) {
-        return this.tickets.filter(
+        const actives = this.tickets.filter(
           (ticket) => !this.subscribed.includes(ticket.ticketID)
+        );
+        return actives.filter(
+          (ticket) =>
+            ticket.assigned !== authStore().userDetails.userID &&
+            ticket.status !== "Resolved"
+        );
+      } else {
+        return this.tickets;
+      }
+    },
+    filterActiveAssigned() {
+      if (this.subscribed != undefined) {
+        const actives = this.tickets.filter(
+          (ticket) => !this.subscribed.includes(ticket.ticketID)
+        );
+        return actives.filter(
+          (ticket) =>
+            ticket.assigned === authStore().userDetails.userID &&
+            ticket.status !== "Resolved"
         );
       } else {
         return this.tickets;
@@ -95,22 +123,22 @@ export const tickStore = defineStore("tickS", {
         .specs.filter((spec) => spec.specializations.includes(cID))
         .map((spec) => spec.userID);
 
-      const lowestAssigned = this.getLowestAssigned(
-        userStore().getAvailableStaff,
-        staffSpec
-      );
-      if (staffSpec.length != 0) {
+      const available = userStore().getAvailableStaff;
+
+      console.log("available: ", available);
+      if (staffSpec.length !== 0 && available.length !== 0) {
+        const lowestAssigned = this.getLowestAssigned(available, staffSpec);
         updateDoc(doc(db, "tickets", tID), {
-          Assigned: lowestAssigned,
+          assigned: lowestAssigned,
         });
-        updateDoc(doc(db, "users", lowestAssigned), {
+        updateDoc(doc(db, "reports", lowestAssigned), {
           assignedCount: increment(1),
         });
         console.log("Specialized staff: ", lowestAssigned);
       } else {
         console.log("no staff with spec");
-        updateDoc(doc(db, "Tickets", tID), {
-          Assigned: "None",
+        updateDoc(doc(db, "tickets", tID), {
+          assigned: "None",
         });
       }
     },

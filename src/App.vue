@@ -36,13 +36,13 @@ export default defineComponent({
     "authS.userDetails"() {
       if (Object.keys(this.authS.userDetails).length != 0) {
         this.tickS.getTickets();
+        this.categs.getCategs();
+        this.locs.getLocs();
       }
     },
   },
   mounted() {
     this.authS.handleAuthStateChanged();
-    this.categs.getCategs();
-    this.locs.getLocs();
   },
 });
 </script>

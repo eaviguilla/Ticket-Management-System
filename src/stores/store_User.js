@@ -11,6 +11,7 @@ import {
   arrayUnion,
   setDoc,
   query,
+  deleteDoc,
 } from "firebase/firestore";
 
 const usersRef = collection(db, "users");
@@ -70,18 +71,30 @@ export const userStore = defineStore("userS", {
     },
     editRole(payload, adminOffice) {
       const userRef = doc(usersRef, payload.userID);
-      updateDoc(userRef, {
-        office: adminOffice,
-        role: payload.role,
-      });
-      if (payload.role === "Staff") {
+      const user = this.users.find((u) => u.userID === payload.userID);
+      if (user.role !== payload.role) {
         updateDoc(userRef, {
-          assignedCount: 0,
-          available: false,
+          office: adminOffice,
+          role: payload.role,
         });
-        setDoc(doc(db, "specializations", payload.userID), {
-          specializations: [],
-        });
+        if (payload.role === "Staff") {
+          updateDoc(userRef, {
+            available: false,
+          });
+          setDoc(doc(db, "specializations", payload.userID), {
+            specializations: [],
+          });
+          setDoc(doc(db, "reports", payload.userID), {
+            assignedCount: 0,
+            assistCount: 0,
+            finishedCount: 0,
+          });
+        } else if (user.role === "Staff") {
+          deleteDoc(doc(db, "specializations", payload.userID));
+          deleteDoc(doc(db, "reports", payload.userID));
+        }
+      } else {
+        return;
       }
     },
     deleteRole(payload) {
@@ -125,6 +138,14 @@ export const userStore = defineStore("userS", {
       updateDoc(userRef, {
         available: authStore().userDetails.available,
       });
+    },
+    getStaffName(id) {
+      if (id === "None") {
+        return id;
+      } else {
+        const staff = this.users.find((u) => u.userID === id);
+        return staff.fName;
+      }
     },
   },
 });
