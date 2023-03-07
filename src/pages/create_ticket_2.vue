@@ -99,14 +99,23 @@ export default {
     "addTicketForm.office"() {
       this.addTicketForm.categID = "";
     },
-    "tick.ticket"() {
-      this.tick.subTicket(this.tick.ticket.ticketID);
-      this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
+
+    "tick.ticket.assigned"() {
+      if (this.tick.ticket.assigned !== this.auth.userDetails.userID) {
+        this.tick.getTicketStatus(this.tick.ticket.ticketID);
+        this.tick.subTicket(this.tick.ticket.ticketID);
+        this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
+      } else if (
+        this.tick.ticket.assigned == this.auth.userDetails.userID ||
+        this.tick.ticket.assigned == "None"
+      ) {
+        this.tick.getTicketStatus(this.tick.ticket.ticketID);
+        this.router.replace("/view_ticket/" + this.tick.ticket.ticketID);
+      }
     },
   },
   mounted() {
     this.addTicketForm.roomID = this.$route.params.roomID;
-    this.categ.getCategs();
   },
 };
 </script>

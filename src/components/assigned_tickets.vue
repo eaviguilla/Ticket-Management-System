@@ -3,10 +3,10 @@
     <div class="column items-center">
       <div class="full-width q-px-md q-pb-xl" style="max-width: 750px">
         <div class="q-pt-md q-pl-md text-weight-bolder text-primary text-h6">
-          Active Tickets
+          Assigned to me
         </div>
         <q-item
-          v-for="ticket in tick.filterActive"
+          v-for="ticket in tick.filterActiveAssigned"
           :key="ticket.ticketID"
           v-ripple
           :to="'/view_ticket/' + ticket.ticketID"
@@ -83,6 +83,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
         <br />
         <br />
       </div>

@@ -11,55 +11,62 @@
         >
       </q-toolbar>
     </q-header>
-    <div class="q-pt-xl column items-center">
+    <div class="q-pt-lg column items-center">
       <div class="full-width q-px-md q-pb-xl" style="max-width: 750px">
         <h5 class="text-weight-bolder text-primary">Resolved Tickets</h5>
-        <q-list class="">
-          <q-item
-            class="rounded-borders q-my-md q-card column"
-            bordered
-            clickable
-            v-ripple
-          >
-            <q-item-section class="col">
-              <!-- details, category, and status -->
-              <q-item-label class="row items-center justify-between"
-                ><div>
-                  <span class="text-weight-bolder text-body1 q-pr-sm"
-                    >bfiwfiwffniownfwefwefnwijfnwef</span
-                  ><span class="text-bold text-grey-7">·</span
-                  ><span class="text-bold text-grey-7 text-caption q-pl-sm">
-                    boogaloo</span
-                  >
-                </div>
-              </q-item-label>
-              <!-- location -->
-              <q-item-label class="text-caption">Floor 3 | 302 </q-item-label>
-              <!-- date and ticket id -->
-              <q-item-label class="row items-center justify-between">
-                <div class="text-caption text-grey-7 q-pt-lg">
-                  Resolved: 5mins ago
-                </div>
-                <div class="text-caption text-grey-7 q-pt-lg">
-                  ID: 11181561561564
-                </div>
-              </q-item-label>
-              <div flat class="q-mt-md row justify-betweem" style="width: 100%">
-                <q-btn
-                  flat
-                  rounded
-                  size="sm"
-                  class="text-white bg-primary"
-                  style="width: 100%"
-                  label="View Ticket"
-                  icon="mdi-file-search-outline"
-                  to="/view_ticket"
-                >
-                </q-btn>
+        <q-item
+          v-for="ticket in tick.filterSubResolved"
+          :key="ticket.ticketID"
+          v-ripple
+          :to="'/view_ticket/' + ticket.ticketID"
+          class="rounded-borders q-my-md q-card column full-width"
+          bordered
+          clickable
+        >
+          <q-item-section class="col">
+            <!-- details, category, and status -->
+            <q-item-label class="row justify-between items-center">
+              <span class="text-bold text-grey text-caption">
+                Â· {{ categs.displayCateg(ticket.categID) }}
+              </span>
+              <span
+                class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"
+                >{{ ticket.status }}</span
+              >
+            </q-item-label>
+            <q-item-label class="row items-center justify-between"
+              ><div class="text-weight-bolder text-body1">
+                {{ ticket.description }}
               </div>
-            </q-item-section>
-          </q-item>
-        </q-list>
+            </q-item-label>
+
+            <!-- location -->
+            <q-item-label class="text-caption q-pb-sm"
+              ><span class="text-bold">Floor/Location: </span
+              >{{ locs.displayFloor(ticket.roomID) }} |
+              {{ locs.displayRoom(ticket.roomID) }}
+            </q-item-label>
+            <q-separator
+              :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
+            />
+            <!-- date and ticket id -->
+            <q-item-label class="row items-center justify-between">
+              <div class="text-caption text-grey q-pt-sm">
+                <q-icon
+                  :name="
+                    ticket.office == 'BMO' ? 'mdi-tools' : 'mdi-desktop-classic'
+                  "
+                  size="sm"
+                  :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
+                />
+              </div>
+
+              <div class="text-caption text-grey q-pt-sm">
+                ID: {{ ticket.ticketID }}
+              </div>
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
         <br />
         <br />
@@ -68,9 +75,24 @@
   </q-layout>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { tickStore } from "src/stores/store_Ticket";
+import { categStore } from "src/stores/store_Categ";
+import { locsStore } from "src/stores/store_Loc";
 
 export default defineComponent({
-  setup() {},
+  setup() {
+    const tick = tickStore();
+    const categs = categStore();
+    const locs = locsStore();
+
+    return { tick, categs, locs };
+  },
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {},
+  computed: {},
 });
 </script>

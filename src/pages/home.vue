@@ -57,12 +57,12 @@
 
       <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
-          color="teal-4"
-          rounded
-          bordered
           class="q-card full-width column content-center"
+          color="teal-4"
           style="max-width: 140px; height: 140px"
           to="/resolved_tickets"
+          bordered
+          rounded
         >
           <q-item-section class="column items-center">
             <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
@@ -72,14 +72,34 @@
           </q-item-section>
         </q-btn>
       </div>
-
       <div
         v-if="this.auth.userDetails.office"
         class="q-ma-sm q-pb-lg"
         style="width: 140px; height: 140px"
       >
         <q-btn
+          class="q-card full-width column content-center"
           color="deep-orange-4"
+          style="max-width: 140px; height: 140px"
+          to="/assignment_tickets"
+          bordered
+          rounded
+        >
+          <q-item-section class="column items-center">
+            <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
+            </q-icon>
+            <div class="text-h6 text-center text-bold">Assigned</div>
+            <div class="text-caption text-bold">15 Tickets</div>
+          </q-item-section>
+        </q-btn>
+      </div>
+      <div
+        v-if="this.auth.userDetails.office"
+        class="q-ma-sm q-pb-lg"
+        style="width: 140px; height: 140px"
+      >
+        <q-btn
+          color="yellow-7"
           rounded
           bordered
           class="q-card full-width column content-center"

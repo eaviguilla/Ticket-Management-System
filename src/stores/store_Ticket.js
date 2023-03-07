@@ -5,6 +5,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -24,7 +25,9 @@ const ticketsRef = collection(db, "tickets");
 export const tickStore = defineStore("tickS", {
   state: () => ({
     tickets: [],
+    status: [],
     ticket: {},
+    ticketStatus: {},
     subscribed: [],
     assigned: null,
   }),
@@ -39,10 +42,14 @@ export const tickStore = defineStore("tickS", {
     },
     filterSubResolved() {
       if (this.subscribed != undefined) {
-        const subs = this.tickets.filter((ticket) =>
-          this.subscribed.includes(ticket.ticketID)
-        );
-        return subs.filter((ticket) => ticket.status === "Resolved");
+        if (!authStore().userDetails.office) {
+          const subs = this.tickets.filter((ticket) =>
+            this.subscribed.includes(ticket.ticketID)
+          );
+          return subs.filter((ticket) => ticket.status === "Resolved");
+        } else {
+          return this.tickets.filter((ticket) => ticket.status === "Resolved");
+        }
       }
     },
     filterActive() {
@@ -73,6 +80,18 @@ export const tickStore = defineStore("tickS", {
         return this.tickets;
       }
     },
+    filterActiveUnassigned() {
+      if (this.subscribed != undefined) {
+        const actives = this.tickets.filter(
+          (ticket) => !this.subscribed.includes(ticket.ticketID)
+        );
+        return actives.filter(
+          (ticket) => ticket.assigned === "None" && ticket.status !== "Resolved"
+        );
+      } else {
+        return this.tickets;
+      }
+    },
   },
   actions: {
     // adding a new ticket
@@ -83,6 +102,7 @@ export const tickStore = defineStore("tickS", {
         categID: payload.categID,
         roomID: payload.roomID,
         status: "Submitted",
+        criticality: "None",
       }).then((docRef) => {
         const ticketDetails = {
           description: payload.description,
@@ -90,6 +110,7 @@ export const tickStore = defineStore("tickS", {
           categID: payload.categID,
           roomID: payload.roomID,
           status: "Submitted",
+          criticality: "None",
         };
         ticketDetails.ticketID = docRef.id;
         console.log("From add: ", ticketDetails.ticketID);
@@ -98,7 +119,7 @@ export const tickStore = defineStore("tickS", {
           Submitted: payload.timestamp,
         });
         locsStore().getRoom(this.ticket.roomID);
-        this.assignTicket(docRef.id, payload.categID);
+        this.autoAssignTicket(docRef.id, payload.categID);
       });
     },
 
@@ -110,17 +131,18 @@ export const tickStore = defineStore("tickS", {
       return filteredUsers[0].userID;
     },
 
-    assignTicket(tID, cID) {
+    autoAssignTicket(tID, cID) {
       const staffSpec = userStore()
         .specs.filter((spec) => spec.specializations.includes(cID))
         .map((spec) => spec.userID);
-
       const available = userStore().getAvailableStaff;
-
       console.log("available: ", available);
       if (staffSpec.length !== 0 && available.length !== 0) {
         const lowestAssigned = this.getLowestAssigned(available, staffSpec);
+        this.ticket.status = "Assigned";
+        this.ticket.assigned = lowestAssigned;
         updateDoc(doc(db, "tickets", tID), {
+          status: "Assigned",
           assigned: lowestAssigned,
         });
         updateDoc(doc(db, "reports", lowestAssigned), {
@@ -132,6 +154,7 @@ export const tickStore = defineStore("tickS", {
         console.log("Specialized staff: ", lowestAssigned);
       } else {
         console.log("no staff with spec");
+        this.ticket.assigned = "None";
         updateDoc(doc(db, "tickets", tID), {
           assigned: "None",
         });
@@ -139,25 +162,120 @@ export const tickStore = defineStore("tickS", {
     },
 
     getTickets() {
-      const q = query(ticketsRef, where("status", "!=", "Resolved"));
-      onSnapshot(q, (querySnapshot) => {
+      // const q = query(ticketsRef, where("status", "!=", "Resolved"));
+      onSnapshot(collection(db, "tickets"), (querySnapshot) => {
         this.tickets = [];
-        console.log("hasbeencalled");
         querySnapshot.forEach((response) => {
           const ticketDetails = response.data();
           ticketDetails.ticketID = response.id;
           this.tickets.push(ticketDetails);
+          console.log("deets", ticketDetails);
         });
-        console.log(this.tickets);
       });
     },
-    getTicket(payload) {
+
+    getTicket(id) {
       const specificTicket = this.tickets.find(
-        (specificTicket) => specificTicket.ticketID === payload
+        (specificTicket) => specificTicket.ticketID === id
       );
       locsStore().getRoom(specificTicket.roomID);
       this.ticket = specificTicket;
       this.assigned = userStore().getStaffName(specificTicket.assigned);
+      this.getTicketStatus(id);
+    },
+
+    updateTicketDetails(payload) {
+      updateDoc(doc(db, "tickets", payload.ticketID), {
+        description: payload.description,
+        categID: payload.categID,
+        roomID: payload.roomID,
+      });
+    },
+
+    updateCriticality(tID, crit) {
+      updateDoc(doc(db, "tickets", tID), {
+        criticality: crit,
+      });
+    },
+
+    manualAssignTicket(tID, uID) {
+      if (this.ticket.assigned !== "None") {
+        updateDoc(doc(db, "tickets", tID), {
+          status: "Assigned",
+          assigned: uID,
+        });
+        updateDoc(doc(db, "reports", this.ticket.assigned), {
+          assignedCount: increment(-1),
+        });
+        updateDoc(doc(db, "reports", uID), {
+          assignedCount: increment(1),
+        });
+        updateDoc(doc(db, "status", tID), {
+          Assigned: Date.now(),
+        });
+      } else {
+        updateDoc(doc(db, "tickets", tID), {
+          status: "Assigned",
+          assigned: uID,
+        });
+        updateDoc(doc(db, "reports", uID), {
+          assignedCount: increment(1),
+        });
+        updateDoc(doc(db, "status", tID), {
+          Assigned: Date.now(),
+        });
+      }
+    },
+
+    getTicketStatus(id) {
+      this.ticketStatus = this.status.find((status) => status.ticketID === id);
+    },
+
+    getStatus() {
+      // const q = query(collection(db, "status"), !where("Resolved"));
+      onSnapshot(collection(db, "status"), (querySnapshot) => {
+        this.status = [];
+        querySnapshot.forEach((response) => {
+          const statusDetails = response.data();
+          statusDetails.ticketID = response.id;
+          this.status.push(statusDetails);
+        });
+      });
+    },
+
+    updateStatus(tID, status) {
+      updateDoc(doc(db, "tickets", tID), {
+        status: status,
+      });
+      if (status === "In Progress" && "Resolved" in this.ticketStatus) {
+        updateDoc(doc(db, "status", tID), {
+          In_Progress: Date.now(),
+          Resolved: deleteField(),
+        });
+        return;
+      }
+      if (status === "In Progress") {
+        updateDoc(doc(db, "status", tID), {
+          In_Progress: Date.now(),
+        });
+      } else if (!("In_Progress" in this.ticketStatus)) {
+        updateDoc(doc(db, "status", tID), {
+          In_Progress: Date.now(),
+          Resolved: Date.now(),
+        });
+        updateDoc(doc(db, "reports", authStore().userDetails.userID), {
+          assignedCount: increment(1),
+          finishedCount: increment(-1),
+        });
+      } else {
+        updateDoc(doc(db, "status", tID), {
+          Resolved: Date.now(),
+        });
+        updateDoc(doc(db, "reports", authStore().userDetails.userID), {
+          assignedCount: increment(-1),
+          finishedCount: increment(1),
+        });
+      }
     },
 
     getSubs(uID) {

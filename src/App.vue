@@ -41,6 +41,7 @@ export default defineComponent({
     "authS.userDetails"() {
       if (Object.keys(this.authS.userDetails).length !== 0 && !this.init) {
         this.tickS.getTickets();
+        this.tickS.getStatus();
         this.categs.getCategs();
         this.locs.getLocs();
         this.init = true;

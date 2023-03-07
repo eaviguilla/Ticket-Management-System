@@ -64,12 +64,14 @@
 <script>
 import { ref } from "vue";
 import { locsStore } from "src/stores/store_Loc";
+import { tickStore } from "src/stores/store_Ticket";
 
 export default {
   setup() {
     const locs = locsStore();
+    const tick = tickStore();
 
-    return { locs };
+    return { locs, tick };
   },
   data() {
     return {
@@ -84,7 +86,9 @@ export default {
       this.roomsOptions = this.locs.selectRooms(this.floor);
     },
   },
-  mounted() {},
+  mounted() {
+    this.tick.ticket = {};
+  },
   methods: {},
 };
 </script>

@@ -140,8 +140,8 @@ export const userStore = defineStore("userS", {
       });
     },
     getStaffName(id) {
-      if (id == "None") {
-        return id;
+      if (id == "None" || id == "" || id == undefined) {
+        return "None";
       } else {
         const staff = this.users.find((u) => u.userID === id);
         return staff.fName;

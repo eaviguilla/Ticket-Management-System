@@ -15,7 +15,7 @@
           bordered
           clickable
         >
-          <q-item-section class="col">
+        <q-item-section class="col">
             <!-- details, category, and status -->
             <q-item-label class="row justify-between items-center">
               <span class="text-bold text-grey text-caption">
@@ -56,7 +56,30 @@
                 </span>
               </div>
               <!-- time here -->
-              <div class="text-caption text-grey q-pt-sm"></div>
+              <div
+                v-if="ticket.criticality === 'None'"
+                class="text-caption text-grey text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
+              <div
+                v-if="ticket.criticality === 'Low'"
+                class="text-caption text-primary text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
+              <div
+                v-if="ticket.criticality === 'Medium'"
+                class="text-caption text-orange text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
+              <div
+                v-if="ticket.criticality === 'High'"
+                class="text-caption text-secondary text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -83,9 +106,7 @@ export default defineComponent({
     return { tick, categs, locs, users };
   },
   data() {
-    return {
-      title: ref("bfiwfiwffniownfwefwefnwijfnwef"),
-    };
+    return {};
   },
   mounted() {},
   methods: {},

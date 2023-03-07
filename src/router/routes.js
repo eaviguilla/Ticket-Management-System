@@ -66,6 +66,10 @@ const routes = [
     component: () => import("src/pages/create_ticket_2.vue"),
   },
   {
+    path: "/assignment_tickets",
+    component: () => import("src/pages/assignment_tickets.vue"),
+  },
+  {
     path: "/resolved_tickets",
     component: () => import("src/components/resolved_tickets.vue"),
   },
