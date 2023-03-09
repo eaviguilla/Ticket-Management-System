@@ -50,7 +50,7 @@
             >
             </q-icon>
             <div class="text-h5 text-bold">Active</div>
-            <div class="text-caption text-bold">15 Tickets</div>
+            <div class="text-caption text-bold">{{ activeCount }} Tickets</div>
           </q-item-section>
         </q-btn>
       </div>
@@ -68,7 +68,12 @@
             <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
             </q-icon>
             <div class="text-h6 text-center text-bold">Resolved</div>
-            <div class="text-caption text-bold">15 Tickets</div>
+            <div v-if="!auth.userDetails.office" class="text-caption text-bold">
+              {{ subResolvedCount }} Tickets
+            </div>
+            <div v-else class="text-caption text-bold">
+              {{ resolvedCount }} Tickets
+            </div>
           </q-item-section>
         </q-btn>
       </div>
@@ -89,7 +94,9 @@
             <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
             </q-icon>
             <div class="text-h6 text-center text-bold">Assigned</div>
-            <div class="text-caption text-bold">15 Tickets</div>
+            <div class="text-caption text-bold">
+              {{ assignedCount }} Tickets
+            </div>
           </q-item-section>
         </q-btn>
       </div>
@@ -181,12 +188,14 @@
 import { defineComponent, ref } from "vue";
 import { authStore } from "src/stores/store_Auth";
 import { userStore } from "src/stores/store_User";
+import { tickStore } from "src/stores/store_Ticket";
 
 export default defineComponent({
   setup() {
     const auth = authStore();
     const users = userStore();
-    return { auth, users };
+    const tick = tickStore();
+    return { auth, users, tick };
   },
   data() {
     return {
@@ -197,6 +206,24 @@ export default defineComponent({
   watch: {
     "auth.userDetails.available"() {
       this.users.available();
+    },
+  },
+  computed: {
+    activeCount() {
+      const sub = Object.keys(this.tick.filterSub).length;
+      const act = Object.keys(this.tick.filterActive).length;
+      return sub + act;
+    },
+    subResolvedCount() {
+      return Object.keys(this.tick.filterSubResolved).length;
+    },
+    resolvedCount() {
+      return Object.keys(this.tick.filterResolved).length;
+    },
+    assignedCount() {
+      const ass = Object.keys(this.tick.filterActiveAssigned).length;
+      const unass = Object.keys(this.tick.filterActiveUnassigned).length;
+      return ass + unass;
     },
   },
   name: "PageHome",

@@ -52,6 +52,11 @@ export const tickStore = defineStore("tickS", {
         }
       }
     },
+    filterResolved() {
+      if (this.subscribed != undefined) {
+        return this.tickets.filter((ticket) => ticket.status === "Resolved");
+      }
+    },
     filterActive() {
       if (this.subscribed != undefined) {
         const actives = this.tickets.filter(
