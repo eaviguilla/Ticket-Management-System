@@ -91,7 +91,11 @@
           rounded
         >
           <q-item-section class="column items-center">
-            <q-icon name="mdi-check-outline" size="lg" class="q-pa-xs">
+            <q-icon
+              name="mdi-clipboard-account-outline"
+              size="lg"
+              class="q-pa-xs"
+            >
             </q-icon>
             <div class="text-h6 text-center text-bold">Assigned</div>
             <div class="text-caption text-bold">

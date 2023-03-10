@@ -39,7 +39,7 @@
               <div v-else class="text-overline text-red">Disabled</div>
             </q-item-section>
           </div>
-          <div>
+          <div v-if="this.auth.userDetails.role === 'Admin'">
             <!-- edit room button -->
             <q-btn
               class="bg-secondary text-lowercase"
@@ -53,7 +53,12 @@
           </div>
         </q-item>
         <!-- add area/room button -->
-        <q-page-sticky expand position="bottom" class="q-pa-md">
+        <q-page-sticky
+          expand
+          position="bottom"
+          class="q-pa-md"
+          v-if="this.auth.userDetails.role === 'Admin'"
+        >
           <q-btn
             @click="locAdd = true"
             class="full-width q-pa-md bg-secondary text-white"

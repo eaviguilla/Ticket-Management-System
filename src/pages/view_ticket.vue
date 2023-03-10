@@ -67,7 +67,7 @@
                 </div>
               </div>
             </div>
-            <!-- ticket id -->
+            <!-- assigned to -->
             <q-card class="row items-center bg-primary" bordered flat>
               <q-card-section class="col row items-center">
                 <span class="col text-subtitle2 text-white text-bold"
@@ -80,9 +80,11 @@
             >
           </div>
           <!-- edit ticket -->
-          <div class="row q-ma-md">
+          <div
+            v-if="this.tick.ticket.assigned === this.auth.userDetails.userID"
+            class="row q-ma-md"
+          >
             <q-card
-              v-if="this.tick.ticket.assigned === this.auth.userDetails.userID"
               v-ripple
               @click="editDetails = true"
               class="col justify-center bg-primary text-white q-mr-sm"
@@ -123,9 +125,15 @@
             rounded
             @click="editAssign = true"
             ><div class="row items-center">
-              <q-icon class="col" name="mdi-account-arrow-right-outline" />
+              <q-icon class="q-pr-sm" name="mdi-account-arrow-right-outline" />
 
-              <div class="col q-pr-lg text-overline">Assign a Staff</div>
+              <div
+                v-if="this.ticketDetails.assigned === 'None'"
+                class="q-pl-sm text-overline"
+              >
+                Assign
+              </div>
+              <div v-else class="q-pl-sm text-overline">Re assign</div>
             </div>
           </q-card>
 
@@ -141,9 +149,9 @@
             rounded
             @click="tick.subTicket(tick.ticket.ticketID)"
             ><div class="row items-center">
-              <q-icon class="col" name="mdi-bell-ring-outline" />
+              <q-icon class="q-pr-sm" name="mdi-bell-ring-outline" />
 
-              <div class="col q-pr-lg text-overline">Subscribe</div>
+              <div class="q-pl-sm text-overline">Subscribe</div>
             </div>
           </q-card>
 
@@ -156,9 +164,9 @@
             rounded
             @click="tick.unsubTicket(tick.ticket.ticketID)"
             ><div class="row items-center">
-              <q-icon class="col" name="mdi-bell-off-outline" />
+              <q-icon class="q-pr-sm" name="mdi-bell-off-outline" />
 
-              <div class="col q-pr-xl text-overline">Unsubscribe</div>
+              <div class="q-pl-sm text-overline">Unsubscribe</div>
             </div>
           </q-card>
 
@@ -296,6 +304,7 @@
 
               <q-card-section class="q-pt-none">
                 <q-select
+                  class="q-pb-sm"
                   v-model="floor"
                   :options="this.locs.selectFloors"
                   label="Select Floor/Location"
@@ -306,6 +315,7 @@
                   outlined
                 />
                 <q-select
+                  class="q-pb-sm"
                   v-model="ticketDetails.roomID"
                   :options="this.roomsOptions"
                   label="Select Specific Area/Room"
@@ -316,6 +326,7 @@
                   outlined
                 />
                 <q-select
+                  class="q-pb-sm"
                   v-model="ticketDetails.categID"
                   :options="categ.selectCategs(this.ticketDetails.office)"
                   label="Ticket Category"

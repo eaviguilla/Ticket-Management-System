@@ -39,24 +39,12 @@
                 categ.description
               }}</q-item-label>
 
-              <div class="q-mt-md row justify-betweem" style="width: 100%" flat>
-                <!-- Category deletion button -->
-                <!-- <q-btn
-                  flat
-                  rounded
-                  @click="delDialog(categ.categID)"
-                  size="sm"
-                  class="text-white bg-secondary"
-                  style="
-                    width: 50%;
-                    border-bottom-right-radius: 0;
-                    border-top-right-radius: 0;
-                  "
-                  label="delete"
-                  icon="mdi-delete-outline"
-                /> -->
-
-                <!-- Category edit button -->
+              <div
+                v-if="this.auth.userDetails.role === 'Admin'"
+                class="q-mt-md row justify-betweem"
+                style="width: 100%"
+                flat
+              >
                 <q-btn
                   flat
                   rounded
@@ -97,7 +85,12 @@
       </div>
       <div>
         <!-- Add category button -->
-        <q-page-sticky expand position="bottom" class="q-pa-sm">
+        <q-page-sticky
+          expand
+          position="bottom"
+          class="q-pa-sm"
+          v-if="this.auth.userDetails.role === 'Admin'"
+        >
           <q-btn
             @click="categAdd = true"
             class="full-width q-pa-md bg-secondary text-white"

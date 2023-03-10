@@ -121,7 +121,12 @@
         </q-dialog>
       </div>
       <!-- add floor/location button -->
-      <q-page-sticky expand position="bottom" class="q-pa-sm">
+      <q-page-sticky
+        expand
+        position="bottom"
+        class="q-pa-sm"
+        v-if="this.auth.userDetails.role === 'Admin'"
+      >
         <q-btn
           @click="locAdd = true"
           class="full-width q-pa-md bg-secondary text-white"
