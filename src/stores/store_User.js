@@ -85,9 +85,9 @@ export const userStore = defineStore("userS", {
             specializations: [],
           });
           setDoc(doc(db, "reports", payload.userID), {
-            assignedCount: 0,
-            assistCount: 0,
-            finishedCount: 0,
+            assigned: [],
+            assist: [],
+            finished: [],
           });
         } else if (user.role === "Staff") {
           deleteDoc(doc(db, "specializations", payload.userID));

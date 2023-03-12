@@ -19,6 +19,7 @@
           :key="ticket.ticketID"
           v-ripple
           :to="'/view_ticket/' + ticket.ticketID"
+          @click="tick.getTicket(ticket.ticketID)"
           class="rounded-borders q-my-md q-card column full-width"
           bordered
           clickable
@@ -27,7 +28,7 @@
             <!-- details, category, and status -->
             <q-item-label class="row justify-between items-center">
               <span class="text-bold text-grey text-caption">
-                Â· {{ categs.displayCateg(ticket.categID) }}
+                · {{ categs.displayCateg(ticket.categID) }}
               </span>
               <span
                 class="rounded-borders bg-yellow-4 q-pa-xs text-caption text-weight-medium text-black"

@@ -137,6 +137,45 @@
             </div>
           </q-card>
 
+          <!-- asssist ticket -->
+          <q-card
+            v-if="
+              this.auth.userDetails.role === 'Staff' &&
+              !isSubscribed &&
+              this.tick.ticket.assigned !== this.auth.userDetails.userID &&
+              this.tick.ticket.assigned !== 'None'
+            "
+            v-ripple
+            class="row justify-center q-ma-md bg-indigo text-white"
+            clickable
+            rounded
+            ><div class="row items-center">
+              <q-icon
+                class="q-pr-sm"
+                name="mdi-account-multiple-plus-outline"
+              />
+
+              <div class="q-pl-sm text-overline">Assist</div>
+            </div>
+          </q-card>
+
+          <!-- unassist ticket -->
+          <q-card
+            v-if="this.auth.userDetails.role === 'Staff' && isSubscribed"
+            v-ripple
+            class="row justify-center q-ma-md bg-secondary text-white"
+            clickable
+            rounded
+            ><div class="row items-center">
+              <q-icon
+                class="q-pr-sm"
+                name="mdi-account-multiple-minus-outline"
+              />
+
+              <div class="q-pl-sm text-overline">Unassist</div>
+            </div>
+          </q-card>
+
           <!-- subscribe ticket -->
           <q-card
             v-if="

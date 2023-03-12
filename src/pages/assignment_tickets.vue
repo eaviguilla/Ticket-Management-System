@@ -24,14 +24,22 @@
               align="justify"
               narrow-indicator
             >
-              <q-tab name="assigned" label="Assigned to me" />
+              <q-tab
+                v-if="this.auth.userDetails.role === 'Staff'"
+                name="assigned"
+                label="Assigned to me"
+              />
               <q-tab name="unassigned" label="Unassigned Tickets" />
             </q-tabs>
 
             <q-separator />
 
             <q-tab-panels v-model="tab" animated>
-              <q-tab-panel name="assigned" style="padding: 0%">
+              <q-tab-panel
+                v-if="this.auth.userDetails.role === 'Staff'"
+                name="assigned"
+                style="padding: 0%"
+              >
                 <assigned_tickets />
               </q-tab-panel>
 
@@ -64,11 +72,13 @@
 import { ref } from "vue";
 import assigned_tickets from "src/components/assigned_tickets.vue";
 import unassigned_tickets from "src/components/unassigned_tickets.vue";
+import { authStore } from "src/stores/store_Auth";
 
 export default {
   components: { assigned_tickets, unassigned_tickets },
   setup() {
-    return {};
+    const auth = authStore();
+    return { auth };
   },
   data() {
     return {
@@ -76,7 +86,11 @@ export default {
       createBtn: ref(false),
     };
   },
-  mounted() {},
+  mounted() {
+    if (this.auth.userDetails.role === "Admin") {
+      this.tab = "unassigned";
+    }
+  },
   methods: {},
 };
 </script>
