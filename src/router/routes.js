@@ -74,6 +74,10 @@ const routes = [
     component: () => import("src/components/resolved_tickets.vue"),
   },
   {
+    path: "/area_tickets",
+    component: () => import("src/pages/area_tickets.vue"),
+  },
+  {
     path: "/tes",
     component: () => import("src/pages/tes_tes.vue"),
   },
