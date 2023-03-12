@@ -165,9 +165,24 @@ export default defineComponent({
         email: ref(""),
         password: ref(""),
       },
+      check: {
+        fName: ref(false),
+        lName: ref(false),
+        email: ref(false),
+        password: ref(false),
+      },
       customModel: ref("no"),
       alert: ref(false),
     };
+  },
+  watch: {
+    "regData.fName"() {
+      if (this.regData.fName === "") {
+        this.check.fName = false;
+      } else {
+        this.check.fName = true;
+      }
+    },
   },
   methods: {
     register() {
