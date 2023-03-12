@@ -207,10 +207,19 @@ export const tickStore = defineStore("tickS", {
     // manual assigning of ticket
     manualAssignTicket(tID, uID) {
       if (this.ticket.assigned !== "None") {
-        updateDoc(doc(db, "tickets", tID), {
-          status: "Assigned",
-          assigned: uID,
-        });
+        if (
+          this.ticket.status === "In Progress" ||
+          this.ticket.status === "Resolved"
+        ) {
+          updateDoc(doc(db, "tickets", tID), {
+            assigned: uID,
+          });
+        } else {
+          updateDoc(doc(db, "tickets", tID), {
+            status: "Assigned",
+            assigned: uID,
+          });
+        }
         updateDoc(doc(db, "reports", this.ticket.assigned), {
           assigned: arrayRemove(tID),
         });

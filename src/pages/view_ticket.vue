@@ -580,12 +580,15 @@ export default {
       this.room = "";
       this.roomsOptions = this.locs.selectRooms(this.floor);
     },
-    "ticketDetails.criticality"() {
-      this.tick.updateCriticality(
-        this.ticketDetails.ticketID,
-        this.ticketDetails.criticality
-      );
-      console.log(this.ticketDetails.criticality);
+    "ticketDetails.criticality"(newCrit, oldCrit) {
+      if (oldCrit !== "") {
+        this.tick.updateCriticality(
+          this.ticketDetails.ticketID,
+          this.ticketDetails.criticality
+        );
+      }
+
+      console.log("crit", this.ticketDetails.criticality);
     },
   },
 
