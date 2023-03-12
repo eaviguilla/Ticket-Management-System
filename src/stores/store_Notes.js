@@ -10,6 +10,7 @@ import {
   updateDoc,
   onSnapshot,
 } from "firebase/firestore";
+import { userStore } from "./store_User";
 
 const notesRef = collection(db, "notes");
 
@@ -19,6 +20,10 @@ export const noteStore = defineStore("noteS", {
   }),
   getters: {},
   actions: {
+    // getting all notes
+    getNotes() {},
+
+    // sending a note
     sendNote(payload) {},
   },
 });
