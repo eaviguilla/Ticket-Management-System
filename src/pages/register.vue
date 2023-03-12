@@ -8,12 +8,16 @@
             outlined
             v-model="regData.fName"
             label="First Name"
+            :rules="[(val) => !!val || 'Field is required']"
+            lazy-rules
           />
           <q-input
             class="q-pa-md"
             outlined
             v-model="regData.lName"
             label="Last Name"
+            :rules="[(val) => !!val || 'Field is required']"
+            lazy-rules
           />
 
           <q-input
@@ -21,8 +25,12 @@
             outlined
             v-model="regData.email"
             type="email"
-            suffix=".apc.edu.ph"
             label="Email"
+            :rules="[
+              (val) => !!val || 'APC Email is required',
+              (val) => this.check.email || 'It must end with apc.edu.ph',
+            ]"
+            lazy-rules
           />
 
           <q-input
@@ -31,6 +39,23 @@
             v-model="regData.password"
             type="password"
             label="Password"
+            :rules="[
+              (val) => !!val || 'Field is required',
+              (val) => this.check.password || 'More than 8 characters required',
+            ]"
+            lazy-rules
+          />
+          <q-input
+            class="q-pa-md"
+            outlined
+            v-model="regData.confirm_password"
+            type="password"
+            label="Confirm Password"
+            :rules="[
+              (val) => !!val || 'Field is required',
+              (val) => this.check.confirm_password || 'Password does not match',
+            ]"
+            lazy-rules
           />
           <div class="q-px-md">
             <div class="q-gutter-sm">
@@ -164,13 +189,16 @@ export default defineComponent({
         lName: ref(""),
         email: ref(""),
         password: ref(""),
+        confirm_password: ref(""),
       },
       check: {
         fName: ref(false),
         lName: ref(false),
         email: ref(false),
         password: ref(false),
+        confirm_password: ref(false),
       },
+      apc_email: /^[^\s@]+@(student.)?apc.edu.ph$/,
       customModel: ref("no"),
       alert: ref(false),
     };
@@ -183,10 +211,52 @@ export default defineComponent({
         this.check.fName = true;
       }
     },
+    "regData.lName"() {
+      if (this.regData.lName === "") {
+        this.check.lName = false;
+      } else {
+        this.check.lName = true;
+      }
+    },
+    "regData.email"() {
+      if (this.apc_email.test(this.regData.email)) {
+        this.check.email = true;
+        console.log("Correct");
+      } else {
+        this.check.email = false;
+      }
+    },
+    "regData.password"() {
+      if (this.regData.password === "") {
+        this.check.password = false;
+      } else if (this.regData.password.length < 8) {
+        this.check.password = false;
+        console.log("Less than 8");
+      } else {
+        this.check.password = true;
+      }
+    },
+    "regData.confirm_password"() {
+      if (this.regData.confirm_password === this.regData.password) {
+        this.check.confirm_password = true;
+        console.log("Correct");
+      } else {
+        this.check.confirm_password = false;
+      }
+    },
   },
   methods: {
     register() {
-      this.auth.registerUser(this.regData);
+      if (
+        this.check.fName &&
+        this.check.lName &&
+        this.check.email &&
+        this.check.password &&
+        this.check.confirm_password
+      ) {
+        this.auth.registerUser(this.regData);
+      } else {
+      }
     },
   },
 });
