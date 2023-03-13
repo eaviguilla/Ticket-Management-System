@@ -98,6 +98,12 @@ export const tickStore = defineStore("tickS", {
         return this.tickets;
       }
     },
+    filterAssisting() {
+      const assisting = this.tickets.filter((ticket) =>
+        this.assist.includes(ticket.ticketID)
+      );
+      return assisting.filter((ticket) => ticket.status !== "Resolved");
+    },
   },
   actions: {
     // adding a new ticket
@@ -252,6 +258,20 @@ export const tickStore = defineStore("tickS", {
       }
     },
 
+    // self assign
+    selfAssignTicket(tID) {
+      updateDoc(doc(db, "tickets", tID), {
+        status: "Assigned",
+        assigned: authStore().userDetails.userID,
+      });
+      updateDoc(doc(db, "reports", authStore().userDetails.userID), {
+        assigned: arrayUnion(tID),
+      });
+      updateDoc(doc(db, "status", tID), {
+        Assigned: Date.now(),
+      });
+    },
+
     // getting specific ticket status
     getTicketStatus(id) {
       this.ticketStatus = this.status.find((status) => status.ticketID === id);
@@ -329,14 +349,26 @@ export const tickStore = defineStore("tickS", {
     },
 
     // subscribing/unsubscribing to a ticket
-    subTicket(payload) {
+    subTicket(tID) {
       updateDoc(doc(db, "subscribed", authStore().userDetails.userID), {
-        subscribed: arrayUnion(payload),
+        subscribed: arrayUnion(tID),
       });
     },
-    unsubTicket(payload) {
+    unsubTicket(tID) {
       updateDoc(doc(db, "subscribed", authStore().userDetails.userID), {
-        subscribed: arrayRemove(payload),
+        subscribed: arrayRemove(tID),
+      });
+    },
+
+    // assisting a ticket
+    assistTicket(tID) {
+      updateDoc(doc(db, "reports", authStore().userDetails.userID), {
+        assist: arrayUnion(tID),
+      });
+    },
+    unassistTicket(tID) {
+      updateDoc(doc(db, "reports", authStore().userDetails.userID), {
+        assist: arrayRemove(tID),
       });
     },
 

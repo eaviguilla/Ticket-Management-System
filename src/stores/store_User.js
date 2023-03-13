@@ -56,6 +56,16 @@ export const userStore = defineStore("userS", {
       );
       return this.staff;
     },
+    getBMOS() {
+      return this.users.filter(
+        (u) => (u.office == "BMO") & (u.role == "Staff")
+      );
+    },
+    getITROS() {
+      return this.users.filter(
+        (u) => (u.office == "ITRO") & (u.role == "Staff")
+      );
+    },
   },
   actions: {
     getUsers() {

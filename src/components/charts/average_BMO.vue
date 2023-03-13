@@ -20,8 +20,15 @@
   </div>
 </template>
 <script>
+import { userStore } from "src/stores/store_User";
+
 export default {
   name: "timeline_ticket",
+  setup() {
+    const users = userStore();
+
+    return { users };
+  },
   data() {
     return {
       staffs: [

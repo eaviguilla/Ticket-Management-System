@@ -137,18 +137,39 @@
             </div>
           </q-card>
 
+          <!-- self assign ticket -->
+          <q-card
+            v-if="
+              this.auth.userDetails.role === 'Staff' &&
+              !isSubscribed &&
+              this.tick.ticket.assigned === 'None'
+            "
+            v-ripple
+            class="row justify-center q-ma-md bg-indigo text-white"
+            clickable
+            rounded
+            @click="selfAssign = true"
+            ><div class="row items-center">
+              <q-icon class="q-pr-sm" name="mdi-account-arrow-right-outline" />
+
+              <div class="q-pl-sm text-overline">Assign to Self</div>
+            </div>
+          </q-card>
+
           <!-- asssist ticket -->
           <q-card
             v-if="
               this.auth.userDetails.role === 'Staff' &&
               !isSubscribed &&
               this.tick.ticket.assigned !== this.auth.userDetails.userID &&
-              this.tick.ticket.assigned !== 'None'
+              this.tick.ticket.assigned !== 'None' &&
+              !isAssisting
             "
             v-ripple
             class="row justify-center q-ma-md bg-indigo text-white"
             clickable
             rounded
+            @click="tick.assistTicket(tick.ticket.ticketID)"
             ><div class="row items-center">
               <q-icon
                 class="q-pr-sm"
@@ -161,11 +182,17 @@
 
           <!-- unassist ticket -->
           <q-card
-            v-if="this.auth.userDetails.role === 'Staff' && isSubscribed"
+            v-if="
+              this.auth.userDetails.role === 'Staff' &&
+              isSubscribed &&
+              this.tick.ticket.assigned !== 'None' &&
+              isAssisting
+            "
             v-ripple
             class="row justify-center q-ma-md bg-secondary text-white"
             clickable
             rounded
+            @click="tick.unassistTicket(tick.ticket.ticketID)"
             ><div class="row items-center">
               <q-icon
                 class="q-pr-sm"
@@ -473,6 +500,30 @@
             </q-card>
           </q-dialog>
 
+          <!-- self assign dialog -->
+          <q-dialog v-model="selfAssign" persistent>
+            <q-card>
+              <q-card-section class="row items-center">
+                <span class="q-ml-sm"
+                  >Are you sure you want to assign ticket to yourself? <br />
+                  You cannot remove this and will need the Admin to change the
+                  staff assigned.</span
+                >
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="Cancel" color="secondary" v-close-popup />
+                <q-btn
+                  flat
+                  label="Assign"
+                  color="primary"
+                  @click="tick.selfAssignTicket(tick.ticket.ticketID)"
+                  v-close-popup
+                />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+
           <!-- notes dialog -->
           <q-dialog
             v-model="note"
@@ -529,6 +580,7 @@ export default {
 
   data() {
     return {
+      selfAssign: ref(false),
       progress: ref(0),
       note: ref(false),
       ticketDetails: {
@@ -645,6 +697,13 @@ export default {
         return false;
       } else {
         return this.tick.subscribed.includes(this.tick.ticket.ticketID);
+      }
+    },
+    isAssisting() {
+      if (this.tick.assist != undefined) {
+        return false;
+      } else {
+        return this.tick.assist.includes(this.tick.ticket.ticketID);
       }
     },
   },
