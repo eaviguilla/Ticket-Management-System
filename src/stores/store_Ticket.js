@@ -333,21 +333,22 @@ export const tickStore = defineStore("tickS", {
         this.subscribed = response.data().subscribed;
       });
       repStore().getReports();
-      // if (authStore().userDetails.role === "Staff") {
-      //   onSnapshot(doc(db, "reports", uID), (response) => {
-      //     this.assist = response.data().assist;
-      //     this.assigned = response.data().assigned;
-      //     this.finished = response.data().finished;
-      //     this.all = [
-      //       ...new Set([
-      //         ...this.subscribed,
-      //         ...this.assist,
-      //         ...this.assigned,
-      //         ...this.finished,
-      //       ]),
-      //     ];
-      //   });
-      // }
+
+      if (authStore().userDetails.role === "Staff") {
+        onSnapshot(doc(db, "reports", uID), (response) => {
+          this.assist = response.data().assist;
+          this.assigned = response.data().assigned;
+          this.finished = response.data().finished;
+          this.all = [
+            ...new Set([
+              ...this.subscribed,
+              ...this.assist,
+              ...this.assigned,
+              ...this.finished,
+            ]),
+          ];
+        });
+      }
     },
 
     // subscribing/unsubscribing to a ticket
