@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { db } from "boot/firebase";
-import { authStore } from "./store_Auth";
 import {
   doc,
   addDoc,
@@ -10,6 +9,8 @@ import {
   updateDoc,
   onSnapshot,
 } from "firebase/firestore";
+import { tickStore } from "./store_Ticket";
+import { authStore } from "./store_Auth";
 import { userStore } from "./store_User";
 
 const notesRef = collection(db, "notes");
@@ -17,13 +18,44 @@ const notesRef = collection(db, "notes");
 export const noteStore = defineStore("noteS", {
   state: () => ({
     notes: [],
+    unsubNotes: null,
   }),
-  getters: {},
+  getters: {
+    sortNotes() {
+      const sorted = this.notes.sort((a, b) => a.timestamp - b.timestamp);
+      return sorted;
+    },
+  },
   actions: {
     // getting all notes
-    getNotes() {},
+    getNotes(tID) {
+      this.unsubNotes = onSnapshot(doc(db, "notes", tID), (querySnapshot) => {
+        const gotNotes = querySnapshot.data();
+        this.notes = Object.keys(gotNotes).map((key) => {
+          return {
+            timestamp: key,
+            note: gotNotes[key].note,
+            userID: gotNotes[key].userID,
+          };
+        });
+
+        // querySnapshot.forEach((response) => {
+        //   const noteDetails = response.data();
+        //   noteDetails.timestamp = response.id;
+        //   this.notes.push(noteDetails);
+        // });
+      });
+    },
 
     // sending a note
-    sendNote(payload) {},
+    sendNote(tID, note) {
+      const nID = Date.now();
+      updateDoc(doc(db, "notes", tID), {
+        [nID]: {
+          note: note,
+          userID: authStore().userDetails.userID,
+        },
+      });
+    },
   },
 });

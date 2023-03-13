@@ -74,7 +74,7 @@ const routes = [
     component: () => import("src/components/resolved_tickets.vue"),
   },
   {
-    path: "/area_tickets",
+    path: "/area_tickets/:roomID",
     component: () => import("src/pages/area_tickets.vue"),
   },
   {

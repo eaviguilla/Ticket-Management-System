@@ -482,16 +482,12 @@
             transition-hide="slide-down"
           >
             <q-card class="bg-grey-2">
-              <q-toolbar>
-                <q-btn flat rounded class="float-left" v-close-popup
-                  ><q-icon color="primary" name="mdi-arrow-left"></q-icon
-                ></q-btn>
-                <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>
-                <q-toolbar-title class="text-primary text-weight-bold"
-                  >RAMaintenance</q-toolbar-title
-                >
-              </q-toolbar>
-              <view_notes :ticketID="this.tick.ticket.ticketID" />
+              <q-card-section class="q-pa-none">
+                <view_notes
+                  :ticketID="this.tick.ticket.ticketID"
+                  @close="closeNotes"
+                />
+              </q-card-section>
             </q-card>
           </q-dialog>
           <q-page-sticky position="bottom-right" :offset="[25, 25]">
@@ -587,8 +583,6 @@ export default {
           this.ticketDetails.criticality
         );
       }
-
-      console.log("crit", this.ticketDetails.criticality);
     },
   },
 
@@ -640,6 +634,9 @@ export default {
       const timeString = date.toLocaleTimeString("en-US", timeOptions);
 
       return `${timeString}`;
+    },
+    closeNotes() {
+      this.note = false;
     },
   },
   computed: {

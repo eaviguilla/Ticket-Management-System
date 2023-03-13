@@ -147,5 +147,16 @@ export const userStore = defineStore("userS", {
         return staff.fName;
       }
     },
+    getName(uID) {
+      const user = this.users.find((u) => u.userID === uID);
+      const fName = user?.fName;
+      const role = user?.role;
+      if (role !== undefined) {
+        const together = fName.concat(" ", role);
+        return together;
+      } else {
+        return fName;
+      }
+    },
   },
 });

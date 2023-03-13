@@ -30,6 +30,9 @@ export const tickStore = defineStore("tickS", {
     ticketStatus: {},
     subscribed: [],
     assist: [],
+    assigned: [],
+    finished: [],
+    all: [],
     assigned: null,
   }),
   getters: {
@@ -121,6 +124,13 @@ export const tickStore = defineStore("tickS", {
         setDoc(doc(db, "status", docRef.id), {
           Submitted: payload.timestamp,
         });
+        const noteID = Date.now();
+        setDoc(doc(db, "notes", docRef.id), {
+          [noteID]: {
+            note: "Here you can ask for questions or say additional informations.",
+            userID: "system",
+          },
+        });
         locsStore().getRoom(this.ticket.roomID);
         this.autoAssignTicket(docRef.id, payload.categID);
       });
@@ -172,7 +182,6 @@ export const tickStore = defineStore("tickS", {
           const ticketDetails = response.data();
           ticketDetails.ticketID = response.id;
           this.tickets.push(ticketDetails);
-          console.log("deets", ticketDetails);
         });
       });
     },
@@ -302,6 +311,21 @@ export const tickStore = defineStore("tickS", {
       onSnapshot(doc(db, "subscribed", uID), (response) => {
         this.subscribed = response.data().subscribed;
       });
+      if (authStore().userDetails.role === "Staff") {
+        onSnapshot(doc(db, "reports", uID), (response) => {
+          this.assist = response.data().assist;
+          this.assigned = response.data().assigned;
+          this.finished = response.data().finished;
+          this.all = [
+            ...new Set([
+              ...this.subscribed,
+              ...this.assist,
+              ...this.assigned,
+              ...this.finished,
+            ]),
+          ];
+        });
+      }
     },
 
     // subscribing/unsubscribing to a ticket
@@ -314,6 +338,14 @@ export const tickStore = defineStore("tickS", {
       updateDoc(doc(db, "subscribed", authStore().userDetails.userID), {
         subscribed: arrayRemove(payload),
       });
+    },
+
+    // getting tickets that are in roomID
+    foundTickets(rID) {
+      const filteredTickets = this.tickets.filter(
+        (tick) => tick.roomID === rID && tick.status !== "Resolved"
+      );
+      return filteredTickets;
     },
   },
 });

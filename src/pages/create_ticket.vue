@@ -50,28 +50,33 @@
               label="Next"
               icon-right="mdi-chevron-right"
               size="md"
+              @click="checkRoomForTickets"
               :disable="!room"
-              :to="'/create_ticket_desc/' + this.room"
               style="max-width: 1400px; border-radius: 20px"
               elevated
               no-caps
             />
+            <!-- :to="'/create_ticket_desc/' + this.room" -->
           </q-page-sticky>
-        </div></div></q-page-container
-  ></q-layout>
+        </div>
+      </div></q-page-container
+    ></q-layout
+  >
 </template>
 
 <script>
 import { ref } from "vue";
 import { locsStore } from "src/stores/store_Loc";
 import { tickStore } from "src/stores/store_Ticket";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const locs = locsStore();
     const tick = tickStore();
+    const router = useRouter();
 
-    return { locs, tick };
+    return { locs, tick, router };
   },
   data() {
     return {
@@ -89,6 +94,15 @@ export default {
   mounted() {
     this.tick.ticket = {};
   },
-  methods: {},
+  methods: {
+    checkRoomForTickets() {
+      const tickets = this.tick.foundTickets(this.room);
+      if (tickets.length === 0) {
+        this.router.replace("/create_ticket_desc/" + this.room);
+      } else {
+        this.router.replace("/area_tickets/" + this.room);
+      }
+    },
+  },
 };
 </script>

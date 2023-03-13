@@ -21,7 +21,7 @@
               Tickets in Specific Area/Room Selected
             </div>
             <q-item
-              v-for="ticket in tick.filterActive"
+              v-for="ticket in tick.foundTickets(this.$route.params.roomID)"
               :key="ticket.ticketID"
               v-ripple
               :to="'/view_ticket/' + ticket.ticketID"
@@ -104,6 +104,18 @@
             <br />
           </div>
         </div>
+        <q-page-sticky expand position="bottom" class="q-pa-md">
+          <q-btn
+            class="full-width q-pa-md bg-secondary text-white"
+            label="Create a New Ticket"
+            icon-right="mdi-chevron-right"
+            size="md"
+            :to="'/create_ticket_desc/' + this.$route.params.roomID"
+            style="max-width: 1400px; border-radius: 20px"
+            elevated
+            no-caps
+          />
+        </q-page-sticky>
       </q-layout>
     </q-page-container>
   </q-layout>
