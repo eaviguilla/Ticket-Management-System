@@ -541,7 +541,17 @@
               </q-card-section>
             </q-card>
           </q-dialog>
-          <q-page-sticky position="bottom-right" :offset="[25, 25]">
+
+          <!-- notes button -->
+          <q-page-sticky
+            position="bottom-right"
+            :offset="[25, 25]"
+            v-if="
+              isSubscribed ||
+              this.tick.ticket.assigned === this.auth.userDetails.userID ||
+              isAssisting
+            "
+          >
             <q-btn
               @click="note = true"
               class="q-pa-md"

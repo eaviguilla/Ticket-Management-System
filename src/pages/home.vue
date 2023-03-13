@@ -33,6 +33,7 @@
 
     <!-- Active/Read Reports -->
     <div class="q-pa-sm q-pl-xs row justify-evenly full-width q-mb-lg">
+      <!-- tickets -->
       <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
           color="green-13"
@@ -49,12 +50,55 @@
               class="q-pa-xs"
             >
             </q-icon>
-            <div class="text-h5 text-bold">Active</div>
-            <div class="text-caption text-bold">{{ activeCount }} Tickets</div>
+            <div class="text-h6 text-bold">Tickets</div>
+            <div class="text-caption text-bold">{{ subCount }} Subscribed</div>
+            <div class="text-caption text-bold">{{ activeCount }} Active</div>
           </q-item-section>
         </q-btn>
       </div>
 
+      <!-- tasks -->
+      <div
+        v-if="this.auth.userDetails.office"
+        class="q-ma-sm q-pb-lg"
+        style="width: 140px; height: 140px"
+      >
+        <q-btn
+          class="q-card full-width column content-center"
+          color="deep-orange-4"
+          style="max-width: 140px; height: 140px"
+          to="/assignment_tickets"
+          bordered
+          rounded
+        >
+          <q-item-section class="column items-center">
+            <q-icon
+              name="mdi-clipboard-account-outline"
+              size="lg"
+              class="q-pa-xs"
+            >
+            </q-icon>
+            <div
+              v-if="this.auth.userDetails.role === 'Admin'"
+              class="text-h6 text-center text-bold"
+            >
+              UNASSIGNED
+            </div>
+            <div v-else class="text-h6 text-center text-bold">MY TASKS</div>
+            <div
+              v-if="this.auth.userDetails.role === 'Staff'"
+              class="text-caption text-bold"
+            >
+              {{ assignedCount }} Assigned
+            </div>
+            <div class="text-caption text-bold">
+              {{ unassignedCount }} Unassigned
+            </div>
+          </q-item-section>
+        </q-btn>
+      </div>
+
+      <!-- resolved -->
       <div class="q-ma-sm q-pb-lg" style="width: 140px; height: 140px">
         <q-btn
           class="q-card full-width column content-center"
@@ -77,33 +121,8 @@
           </q-item-section>
         </q-btn>
       </div>
-      <div
-        v-if="this.auth.userDetails.office"
-        class="q-ma-sm q-pb-lg"
-        style="width: 140px; height: 140px"
-      >
-        <q-btn
-          class="q-card full-width column content-center"
-          color="deep-orange-4"
-          style="max-width: 140px; height: 140px"
-          to="/assignment_tickets"
-          bordered
-          rounded
-        >
-          <q-item-section class="column items-center">
-            <q-icon
-              name="mdi-clipboard-account-outline"
-              size="lg"
-              class="q-pa-xs"
-            >
-            </q-icon>
-            <div class="text-h6 text-center text-bold">Assigned</div>
-            <div class="text-caption text-bold">
-              {{ assignedCount }} Tickets
-            </div>
-          </q-item-section>
-        </q-btn>
-      </div>
+
+      <!-- categories -->
       <div
         v-if="this.auth.userDetails.office"
         class="q-ma-sm q-pb-lg"
@@ -126,6 +145,7 @@
         </q-btn>
       </div>
 
+      <!-- locations -->
       <div
         v-if="this.auth.userDetails.office"
         class="q-ma-sm q-pb-lg"
@@ -148,6 +168,7 @@
         </q-btn>
       </div>
 
+      <!-- user management -->
       <div
         v-if="this.auth.userDetails.office"
         class="q-ma-sm q-pb-lg"
@@ -213,10 +234,11 @@ export default defineComponent({
     },
   },
   computed: {
+    subCount() {
+      return Object.keys(this.tick.filterSub).length;
+    },
     activeCount() {
-      const sub = Object.keys(this.tick.filterSub).length;
-      const act = Object.keys(this.tick.filterActive).length;
-      return sub + act;
+      return Object.keys(this.tick.filterActive).length;
     },
     subResolvedCount() {
       return Object.keys(this.tick.filterSubResolved).length;
@@ -225,9 +247,10 @@ export default defineComponent({
       return Object.keys(this.tick.filterResolved).length;
     },
     assignedCount() {
-      const ass = Object.keys(this.tick.filterActiveAssigned).length;
-      const unass = Object.keys(this.tick.filterActiveUnassigned).length;
-      return ass + unass;
+      return Object.keys(this.tick.filterActiveAssigned).length;
+    },
+    unassignedCount() {
+      return Object.keys(this.tick.filterActiveUnassigned).length;
     },
   },
   name: "PageHome",

@@ -47,27 +47,27 @@ export default {
       },
     };
   },
-  mounted() {
-    this.bmoUIDs = this.users.users
-      .filter((user) => user.office === "BMO")
-      .map((user) => user.userID);
+  // mounted() {
+  //   this.bmoUIDs = this.users.users
+  //     .filter((user) => user.office === "BMO")
+  //     .map((user) => user.userID);
 
-    this.series[0].data = this.bmoUIDs
-      .map((id) => {
-        const user = this.tick.finished.find((user) => user.userID === id);
-        return user ? user.finishedCount : null;
-      })
-      .filter((count) => count !== null)
-      .sort();
+  //   this.series[0].data = this.bmoUIDs
+  //     .map((id) => {
+  //       const user = this.tick.finished.find((user) => user.userID === id);
+  //       return user ? user.finishedCount : null;
+  //     })
+  //     .filter((count) => count !== null)
+  //     .sort();
 
-    this.chartOptions.xaxis.categories = this.users.users
-      .filter((user) => this.bmoUIDs.includes(user.userID))
-      .sort(
-        (a, b) =>
-          this.bmoUIDs.indexOf(a.userID) - this.bmoUIDs.indexOf(b.userID)
-      )
-      .map((user) => user.name);
-  },
+  //   this.chartOptions.xaxis.categories = this.users.users
+  //     .filter((user) => this.bmoUIDs.includes(user.userID))
+  //     .sort(
+  //       (a, b) =>
+  //         this.bmoUIDs.indexOf(a.userID) - this.bmoUIDs.indexOf(b.userID)
+  //     )
+  //     .map((user) => user.name);
+  // },
   methods: {},
 };
 </script>
