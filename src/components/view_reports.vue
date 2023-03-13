@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div>
     <div class="q-gutter-y-md full-width">
       <q-card>
         <q-tabs
@@ -11,21 +11,21 @@
           align="justify"
           narrow-indicator
         >
-          <q-tab name="bmo_staff_report" label="BMO staff report" />
-          <q-tab name="itro_staff_report" label="itro staff report" />
+          <q-tab name="bmo_staff_report" label="BMO reports" />
+          <q-tab name="itro_staff_report" label="ITRO reports" />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="bmo_staff_report">
-            <chart_bmo></chart_bmo>
             <average_bmo></average_bmo>
+            <chart_bmo></chart_bmo>
           </q-tab-panel>
 
           <q-tab-panel name="itro_staff_report">
-            <chart_itro></chart_itro>
             <average_itro></average_itro>
+            <chart_itro></chart_itro>
           </q-tab-panel>
         </q-tab-panels>
       </q-card>

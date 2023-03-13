@@ -38,12 +38,6 @@ export const noteStore = defineStore("noteS", {
             userID: gotNotes[key].userID,
           };
         });
-
-        // querySnapshot.forEach((response) => {
-        //   const noteDetails = response.data();
-        //   noteDetails.timestamp = response.id;
-        //   this.notes.push(noteDetails);
-        // });
       });
     },
 

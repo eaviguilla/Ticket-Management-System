@@ -29,24 +29,24 @@ export const userStore = defineStore("userS", {
     getStaff() {
       if (authStore().userDetails.office === "BMO") {
         return this.users.filter(
-          (u) => (u.office == "BMO") & (u.role == "Staff")
+          (u) => (u.office === "BMO") & (u.role === "Staff")
         );
       }
       if (authStore().userDetails.office === "ITRO") {
         return this.users.filter(
-          (u) => (u.office == "ITRO") & (u.role == "Staff")
+          (u) => (u.office === "ITRO") & (u.role === "Staff")
         );
       }
     },
     getAdmin() {
       if (authStore().userDetails.office === "BMO") {
         return this.users.filter(
-          (u) => (u.office == "BMO") & (u.role == "Admin")
+          (u) => (u.office === "BMO") & (u.role === "Admin")
         );
       }
       if (authStore().userDetails.office === "ITRO") {
         return this.users.filter(
-          (u) => (u.office == "ITRO") & (u.role == "Admin")
+          (u) => (u.office == "ITRO") & (u.role === "Admin")
         );
       }
     },
@@ -58,12 +58,12 @@ export const userStore = defineStore("userS", {
     },
     getBMOS() {
       return this.users.filter(
-        (u) => (u.office == "BMO") & (u.role == "Staff")
+        (u) => (u.office === "BMO") & (u.role === "Staff")
       );
     },
     getITROS() {
       return this.users.filter(
-        (u) => (u.office == "ITRO") & (u.role == "Staff")
+        (u) => (u.office === "ITRO") & (u.role === "Staff")
       );
     },
   },

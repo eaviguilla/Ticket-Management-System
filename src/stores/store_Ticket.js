@@ -19,6 +19,7 @@ import {
 import { locsStore } from "./store_Loc";
 import { authStore } from "./store_Auth";
 import { userStore } from "./store_User";
+import { repStore } from "./store_Reports";
 
 const ticketsRef = collection(db, "tickets");
 
@@ -331,21 +332,22 @@ export const tickStore = defineStore("tickS", {
       onSnapshot(doc(db, "subscribed", uID), (response) => {
         this.subscribed = response.data().subscribed;
       });
-      if (authStore().userDetails.role === "Staff") {
-        onSnapshot(doc(db, "reports", uID), (response) => {
-          this.assist = response.data().assist;
-          this.assigned = response.data().assigned;
-          this.finished = response.data().finished;
-          this.all = [
-            ...new Set([
-              ...this.subscribed,
-              ...this.assist,
-              ...this.assigned,
-              ...this.finished,
-            ]),
-          ];
-        });
-      }
+      repStore().getReports();
+      // if (authStore().userDetails.role === "Staff") {
+      //   onSnapshot(doc(db, "reports", uID), (response) => {
+      //     this.assist = response.data().assist;
+      //     this.assigned = response.data().assigned;
+      //     this.finished = response.data().finished;
+      //     this.all = [
+      //       ...new Set([
+      //         ...this.subscribed,
+      //         ...this.assist,
+      //         ...this.assigned,
+      //         ...this.finished,
+      //       ]),
+      //     ];
+      //   });
+      // }
     },
 
     // subscribing/unsubscribing to a ticket
