@@ -93,7 +93,10 @@ export const tickStore = defineStore("tickS", {
     filterActiveUnassigned() {
       if (this.subscribed != undefined) {
         return this.tickets.filter(
-          (ticket) => ticket.assigned === "None" && ticket.status !== "Resolved"
+          (ticket) =>
+            ticket.assigned === "None" &&
+            ticket.status !== "Resolved" &&
+            ticket.office === authStore().userDetails.office
         );
       } else {
         return this.tickets;

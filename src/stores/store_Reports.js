@@ -18,7 +18,7 @@ export const repStore = defineStore("repS", {
   state: () => ({
     reports: [],
     categCounts: {},
-    countsArray: null,
+    countsArray: [],
   }),
   getters: {
     // bmo staff report counts

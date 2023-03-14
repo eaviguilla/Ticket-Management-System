@@ -117,7 +117,8 @@
           <q-card
             v-if="
               this.auth.userDetails.role === 'Admin' &&
-              this.auth.userDetails.office === this.ticketDetails.office
+              this.auth.userDetails.office === this.ticketDetails.office &&
+              this.tick.ticket.status !== 'Resolved'
             "
             v-ripple
             class="row justify-center q-ma-md bg-primary text-white"
@@ -164,7 +165,8 @@
               !isSubscribed &&
               this.tick.ticket.assigned !== this.auth.userDetails.userID &&
               this.tick.ticket.assigned !== 'None' &&
-              !isAssisting
+              !isAssisting &&
+              this.tick.ticket.status !== 'Resolved'
             "
             v-ripple
             class="row justify-center q-ma-md bg-indigo text-white"
@@ -187,7 +189,8 @@
               this.auth.userDetails.role === 'Staff' &&
               isSubscribed &&
               this.tick.ticket.assigned !== 'None' &&
-              isAssisting
+              isAssisting &&
+              this.tick.ticket.status !== 'Resolved'
             "
             v-ripple
             class="row justify-center q-ma-md bg-secondary text-white"
@@ -208,7 +211,8 @@
           <q-card
             v-if="
               !isSubscribed &&
-              this.tick.ticket.assigned !== this.auth.userDetails.userID
+              this.tick.ticket.assigned !== this.auth.userDetails.userID &&
+              this.tick.ticket.status !== 'Resolved'
             "
             v-ripple
             class="row justify-center q-ma-md bg-primary text-white"
@@ -224,7 +228,7 @@
 
           <!-- unsubscribe ticket -->
           <q-card
-            v-if="isSubscribed"
+            v-if="isSubscribed && this.tick.ticket.status !== 'Resolved'"
             v-ripple
             class="row justify-center q-ma-md bg-secondary text-white"
             clickable
