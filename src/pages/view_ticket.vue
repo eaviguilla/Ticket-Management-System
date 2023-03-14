@@ -142,7 +142,8 @@
             v-if="
               this.auth.userDetails.role === 'Staff' &&
               !isSubscribed &&
-              this.tick.ticket.assigned === 'None'
+              this.tick.ticket.assigned === 'None' &&
+              this.auth.userDetails.office === this.tick.ticket.office
             "
             v-ripple
             class="row justify-center q-ma-md bg-indigo text-white"
