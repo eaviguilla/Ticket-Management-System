@@ -3,16 +3,24 @@
     <q-header bordered class="bg-white text-white">
       <q-toolbar>
         <q-btn
+          v-if="this.tick.ticket.status !== 'Resolved'"
           flat
           rounded
           class="float-left"
           :to="
-            this.auth.userDetails.userID === this.tick.ticket.assigned
+            this.auth.userDetails.userID === this.tick.ticket.assigned ||
+            this.ticketDetails.assigned === undefined ||
+            this.ticketDetails.assigned === 'None' ||
+            isAssisting
               ? '/assignment_tickets'
               : '/view_tickets'
           "
           ><q-icon color="primary" name="mdi-arrow-left"></q-icon
         ></q-btn>
+        <q-btn v-else flat rounded class="float-left" to="/resolved_tickets"
+          ><q-icon color="primary" name="mdi-arrow-left"></q-icon
+        ></q-btn>
+
         <q-icon size="lg" name="img:src/assets/rams.png"></q-icon>
         <q-toolbar-title class="text-primary text-weight-bold"
           >RAMaintenance</q-toolbar-title
@@ -29,9 +37,14 @@
               <div class="col q-ma-md text-h6 text-bold text-primary">
                 Ticket Details
               </div>
+
+              <!-- criticality selection -->
               <q-select
                 v-if="
-                  this.auth.userDetails.userID === this.tick.ticket.assigned
+                  this.tick.ticket.assigned === this.auth.userDetails.userID ||
+                  (this.auth.userDetails.role === 'Admin' &&
+                    this.auth.userDetails.office === this.tick.ticket.office &&
+                    this.tick.ticket.status !== 'Submitted')
                 "
                 style="width: 50%"
                 class="q-pa-sm"
@@ -40,6 +53,8 @@
                 label="Criticality"
                 outlined
               />
+
+              <!-- criticality text -->
               <div v-else class="q-ma-md text-overline">
                 <div
                   v-if="this.ticketDetails.criticality === 'None'"
@@ -81,7 +96,12 @@
           </div>
           <!-- edit ticket -->
           <div
-            v-if="this.tick.ticket.assigned === this.auth.userDetails.userID"
+            v-if="
+              this.tick.ticket.assigned === this.auth.userDetails.userID ||
+              (this.auth.userDetails.role === 'Admin' &&
+                this.auth.userDetails.office === this.tick.ticket.office &&
+                this.tick.ticket.status !== 'Submitted')
+            "
             class="row q-ma-md"
           >
             <q-card
@@ -98,7 +118,6 @@
               </div>
             </q-card>
             <q-card
-              v-if="this.tick.ticket.assigned === this.auth.userDetails.userID"
               v-ripple
               @click="editStatus = true"
               class="col justify-center bg-secondary text-white q-ml-sm"
@@ -129,7 +148,10 @@
               <q-icon class="q-pr-sm" name="mdi-account-arrow-right-outline" />
 
               <div
-                v-if="this.ticketDetails.assigned === 'None'"
+                v-if="
+                  this.ticketDetails.assigned === 'None' ||
+                  this.ticketDetails.assigned === undefined
+                "
                 class="q-pl-sm text-overline"
               >
                 Assign
@@ -143,7 +165,8 @@
             v-if="
               this.auth.userDetails.role === 'Staff' &&
               !isSubscribed &&
-              this.tick.ticket.assigned === 'None' &&
+              (this.tick.ticket.assigned === 'None' ||
+                this.tick.ticket.assigned === undefined) &&
               this.auth.userDetails.office === this.tick.ticket.office
             "
             v-ripple
@@ -164,9 +187,10 @@
               this.auth.userDetails.role === 'Staff' &&
               !isSubscribed &&
               this.tick.ticket.assigned !== this.auth.userDetails.userID &&
-              this.tick.ticket.assigned !== 'None' &&
               !isAssisting &&
-              this.tick.ticket.status !== 'Resolved'
+              this.tick.ticket.status !== 'Resolved' &&
+              this.tick.ticket.assigned !== 'None' &&
+              this.tick.ticket.assigned !== undefined
             "
             v-ripple
             class="row justify-center q-ma-md bg-indigo text-white"
@@ -185,13 +209,7 @@
 
           <!-- unassist ticket -->
           <q-card
-            v-if="
-              this.auth.userDetails.role === 'Staff' &&
-              isSubscribed &&
-              this.tick.ticket.assigned !== 'None' &&
-              isAssisting &&
-              this.tick.ticket.status !== 'Resolved'
-            "
+            v-if="isAssisting"
             v-ripple
             class="row justify-center q-ma-md bg-secondary text-white"
             clickable
@@ -211,6 +229,7 @@
           <q-card
             v-if="
               !isSubscribed &&
+              !isAssisting &&
               this.tick.ticket.assigned !== this.auth.userDetails.userID &&
               this.tick.ticket.status !== 'Resolved'
             "
@@ -708,18 +727,10 @@ export default {
   },
   computed: {
     isSubscribed() {
-      if (this.tick.subscribe != undefined) {
-        return false;
-      } else {
-        return this.tick.subscribed.includes(this.tick.ticket.ticketID);
-      }
+      return this.tick.subscribed.includes(this.tick.ticket.ticketID);
     },
     isAssisting() {
-      if (this.tick.assist != undefined) {
-        return false;
-      } else {
-        return this.tick.assist.includes(this.tick.ticket.ticketID);
-      }
+      return this.tick.assist.includes(this.tick.ticket.ticketID);
     },
   },
 };

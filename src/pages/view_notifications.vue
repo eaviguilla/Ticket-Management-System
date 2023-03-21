@@ -1,7 +1,7 @@
 <template>
   <div class="column items-center">
-    <div class="q-pa-md full-width" style="max-width: 750px">
-      <h5 class="text-weight-bolder text-primary">Notification</h5>
+    <div class="q-pa-sm full-width" style="max-width: 750px">
+      <div class="text-weight-bolder text-primary text-h6">Notifications</div>
       <q-list>
         <!--template for unviewed notification-->
         <q-item

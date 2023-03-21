@@ -38,7 +38,7 @@
             <!-- edit floor button -->
             <div class="q-px-xs" style="width: 50%">
               <q-btn
-                v-if="auth.userDetails.admin"
+                v-if="auth.userDetails.role === 'Admin'"
                 @click="editDialog(floor)"
                 class="bg-secondary"
                 color="white"

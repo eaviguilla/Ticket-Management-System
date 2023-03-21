@@ -91,16 +91,13 @@ export const tickStore = defineStore("tickS", {
       }
     },
     filterActiveUnassigned() {
-      if (this.subscribed != undefined) {
-        return this.tickets.filter(
-          (ticket) =>
-            ticket.assigned === "None" &&
+      return this.tickets.filter(
+        (ticket) =>
+          ticket.assigned === "None" ||
+          (ticket.assigned === undefined &&
             ticket.status !== "Resolved" &&
-            ticket.office === authStore().userDetails.office
-        );
-      } else {
-        return this.tickets;
-      }
+            ticket.office === authStore().userDetails.office)
+      );
     },
     filterAssisting() {
       const assisting = this.tickets.filter((ticket) =>

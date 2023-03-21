@@ -52,6 +52,7 @@ export const repStore = defineStore("repS", {
     },
 
     categReports() {
+      this.categCounts = [];
       for (let i = 0; i < tickStore().tickets.length; i++) {
         const categID = tickStore().tickets[i].categID;
         if (this.categCounts[categID] === undefined) {

@@ -60,10 +60,34 @@
                   size="sm"
                   :color="ticket.office === 'BMO' ? 'pink' : 'blue-10'"
                 />
+                <span>
+                  Assigned to: {{ users.getStaffName(ticket.assigned) }}
+                </span>
               </div>
-
-              <div class="text-caption text-grey q-pt-sm">
-                ID: {{ ticket.ticketID }}
+              <!-- time here -->
+              <div
+                v-if="ticket.criticality === 'None'"
+                class="text-caption text-grey text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
+              <div
+                v-if="ticket.criticality === 'Low'"
+                class="text-caption text-primary text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
+              <div
+                v-if="ticket.criticality === 'Medium'"
+                class="text-caption text-orange text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
+              </div>
+              <div
+                v-if="ticket.criticality === 'High'"
+                class="text-caption text-secondary text-bold q-pt-sm"
+              >
+                {{ ticket.criticality }}
               </div>
             </q-item-label>
           </q-item-section>
@@ -80,14 +104,16 @@ import { defineComponent, ref } from "vue";
 import { tickStore } from "src/stores/store_Ticket";
 import { categStore } from "src/stores/store_Categ";
 import { locsStore } from "src/stores/store_Loc";
+import { userStore } from "src/stores/store_User";
 
 export default defineComponent({
   setup() {
     const tick = tickStore();
     const categs = categStore();
     const locs = locsStore();
+    const users = userStore();
 
-    return { tick, categs, locs };
+    return { tick, categs, locs, users };
   },
   data() {
     return {};
